@@ -3,7 +3,7 @@
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { InventoryTable } from "@/components/inventory/inventory-table"
-import { InventoryStats } from "@/components/inventory/inventory-stats"
+import { StatsCard } from "@/components/shared/stats-card"
 import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
+import { Package, AlertTriangle, DollarSign, TrendingUp } from "lucide-react"
 
 export default function InventoryPage() {
   const { getUserId, getClinicId } = useAuth()
@@ -225,6 +226,11 @@ export default function InventoryPage() {
     return <div className="p-8">Por favor selecciona un consultorio</div>
   }
 
+  const totalItems = inventory.length
+  const lowStockItems = inventory.filter((i) => i.stock <= (i.minStock || 10)).length
+  const totalValue = inventory.reduce((sum, item) => sum + (Number.parseFloat(item.price) || 0) * (item.stock || 0), 0)
+  const avgItemValue = totalItems > 0 ? totalValue / totalItems : 0
+
   return (
     <div className="p-8">
       <AlertContainer />
@@ -236,7 +242,41 @@ export default function InventoryPage() {
         </Button>
       </div>
 
-      <InventoryStats inventory={inventory} onFilterClick={handleFilterClick} activeFilter={activeFilter} />
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
+        <StatsCard
+          title="Total de Productos"
+          subtitle="Artículos en stock"
+          value={totalItems}
+          icon={Package}
+          trend={{ value: 0, isPositive: true }}
+          onClick={() => handleFilterClick(null)}
+          isActive={activeFilter === null}
+        />
+        <StatsCard
+          title="Stock Bajo"
+          subtitle="Requieren reabastecimiento"
+          value={lowStockItems}
+          icon={AlertTriangle}
+          trend={{ value: 0, isPositive: false }}
+          onClick={() => handleFilterClick("lowStock")}
+          isActive={activeFilter === "lowStock"}
+          variant="warning"
+        />
+        <StatsCard
+          title="Valor Total"
+          subtitle="Inventario valorizado"
+          value={`$${totalValue.toFixed(2)}`}
+          icon={DollarSign}
+          trend={{ value: 0, isPositive: true }}
+        />
+        <StatsCard
+          title="Valor Promedio"
+          subtitle="Por artículo"
+          value={`$${avgItemValue.toFixed(2)}`}
+          icon={TrendingUp}
+          trend={{ value: 0, isPositive: true }}
+        />
+      </div>
 
       <InventoryTable
         inventory={filteredInventory}

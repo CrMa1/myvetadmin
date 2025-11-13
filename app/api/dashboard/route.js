@@ -2,10 +2,12 @@ import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
 
 export async function GET(request) {
+
   try {
     const { searchParams } = new URL(request.url)
     const userId = searchParams.get("userId")
     const clinicId = searchParams.get("clinicId")
+
 
     if (!userId || !clinicId) {
       return NextResponse.json({ success: false, error: "userId y clinicId son requeridos" }, { status: 400 })
@@ -61,7 +63,7 @@ export async function GET(request) {
     )
 
     const appointments = await query(
-      `SELECT c.*, p.name as patient_name, p.owner_name, s.name as species_name
+      `SELECT c.*, p.name as patient_name, p.owner as owner_name, s.name as species_name
        FROM consultations c
        LEFT JOIN patients p ON c.patient_id = p.id
        LEFT JOIN species s ON p.species_id = s.id
@@ -74,7 +76,7 @@ export async function GET(request) {
     const totalRevenue = Number.parseFloat(revenueResult.total) || 0
     const totalExpenses = Number.parseFloat(expensesResult.total) || 0
 
-    return NextResponse.json({
+    const responseData = {
       success: true,
       data: {
         metrics: {
@@ -103,9 +105,18 @@ export async function GET(request) {
           status: apt.status,
         })),
       },
-    })
+    }
+
+    return NextResponse.json(responseData)
   } catch (error) {
-    console.error("Dashboard error:", error)
-    return NextResponse.json({ success: false, error: "Error al obtener datos del dashboard" }, { status: 500 })
+
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Error al obtener datos del dashboard",
+        details: process.env.NODE_ENV === "development" ? error.message : undefined,
+      },
+      { status: 500 },
+    )
   }
 }

@@ -200,7 +200,7 @@ export default function PatientsPage() {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
-  const handleFilterByType = (type) => {
+  const handleFilterClick = (type) => {
     setActiveFilter(type)
     if (type) {
       setFilteredPatients(patients.filter((p) => p.species === type))
@@ -238,7 +238,7 @@ export default function PatientsPage() {
         </Button>
       </div>
 
-      <PatientsStats patients={patients} onFilterClick={handleFilterByType} activeFilter={activeFilter} />
+      <PatientsStats patients={patients} onFilterClick={handleFilterClick} activeFilter={activeFilter} />
 
       <PatientsTable patients={filteredPatients} onEdit={handleEdit} onDelete={handleDelete} onSearch={handleSearch} />
 

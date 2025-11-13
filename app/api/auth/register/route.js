@@ -6,6 +6,12 @@ export async function POST(request) {
   try {
     const body = await request.json()
 
+    console.log("[v0] Register request received:", {
+      email: body.email,
+      phone: body.phone,
+      hasClinicData: !!body.clinicName,
+    })
+
     if (!body.clinicName || !body.clinicAddress || !body.clinicPhone) {
       return NextResponse.json(
         { success: false, error: "Todos los datos del consultorio son requeridos" },
@@ -13,11 +19,14 @@ export async function POST(request) {
       )
     }
 
-    // Verificar si el email ya existe
-    const existingUsers = await query("SELECT id FROM users WHERE email = ?", [body.email])
+    const existingEmail = await query("SELECT id FROM users WHERE email = ?", [body.email])
+    if (existingEmail.length > 0) {
+      return NextResponse.json({ success: false, error: "El correo electrónico ya está registrado" }, { status: 400 })
+    }
 
-    if (existingUsers.length > 0) {
-      return NextResponse.json({ success: false, error: "El correo ya está registrado" }, { status: 400 })
+    const existingPhone = await query("SELECT id FROM users WHERE phone = ?", [body.phone])
+    if (existingPhone.length > 0) {
+      return NextResponse.json({ success: false, error: "El número de teléfono ya está registrado" }, { status: 400 })
     }
 
     const hashedPassword = await bcrypt.hash(body.password, 10)
@@ -35,6 +44,7 @@ export async function POST(request) {
     )
 
     const userId = userResult.insertId
+    console.log("[v0] User created with ID:", userId)
 
     const clinicResult = await query(
       `INSERT INTO clinics (user_id, name, address, phone, email, city, state, postal_code) 
@@ -51,8 +61,9 @@ export async function POST(request) {
       ],
     )
 
-    const newUsers = await query("SELECT id, name, email, role, phone, created_at FROM users WHERE id = ?", [userId])
+    console.log("[v0] Clinic created with ID:", clinicResult.insertId)
 
+    const newUsers = await query("SELECT id, name, email, role, phone, created_at FROM users WHERE id = ?", [userId])
     const newClinics = await query("SELECT * FROM clinics WHERE id = ?", [clinicResult.insertId])
 
     return NextResponse.json({
@@ -64,7 +75,7 @@ export async function POST(request) {
       message: "Registro exitoso",
     })
   } catch (error) {
-    console.error("Register error:", error)
+    console.error("[v0] Register error:", error)
     return NextResponse.json({ success: false, error: "Error al registrar usuario" }, { status: 500 })
   }
 }

@@ -1,14 +1,14 @@
 "use client"
 
-import { Card } from "@/components/ui/card"
 import { Dog, Cat, Bird, Rabbit } from "lucide-react"
+import { StatsCard } from "@/components/shared/stats-card"
 
-export function PatientsStats({ patients, onFilterByType, activeFilter }) {
+export function PatientsStats({ patients, onFilterClick, activeFilter }) {
   const totalPatients = patients.length
-  const dogs = patients.filter((p) => p.animalType === "Perro").length
-  const cats = patients.filter((p) => p.animalType === "Gato").length
-  const birds = patients.filter((p) => p.animalType === "Ave").length
-  const others = patients.filter((p) => !["Perro", "Gato", "Ave"].includes(p.animalType)).length
+  const dogs = patients.filter((p) => p.species === "Perro").length
+  const cats = patients.filter((p) => p.species === "Gato").length
+  const birds = patients.filter((p) => p.species === "Ave").length
+  const others = patients.filter((p) => !["Perro", "Gato", "Ave"].includes(p.species)).length
 
   const stats = [
     {
@@ -17,6 +17,7 @@ export function PatientsStats({ patients, onFilterByType, activeFilter }) {
       icon: Dog,
       color: "text-primary",
       filter: null,
+      subtitle: "Registrados en el sistema",
     },
     {
       label: "Perros",
@@ -24,6 +25,7 @@ export function PatientsStats({ patients, onFilterByType, activeFilter }) {
       icon: Dog,
       color: "text-accent",
       filter: "Perro",
+      subtitle: "Pacientes caninos",
     },
     {
       label: "Gatos",
@@ -31,6 +33,7 @@ export function PatientsStats({ patients, onFilterByType, activeFilter }) {
       icon: Cat,
       color: "text-accent",
       filter: "Gato",
+      subtitle: "Pacientes felinos",
     },
     {
       label: "Aves",
@@ -38,6 +41,7 @@ export function PatientsStats({ patients, onFilterByType, activeFilter }) {
       icon: Bird,
       color: "text-accent",
       filter: "Ave",
+      subtitle: "Pacientes aviares",
     },
     {
       label: "Otros",
@@ -45,6 +49,7 @@ export function PatientsStats({ patients, onFilterByType, activeFilter }) {
       icon: Rabbit,
       color: "text-muted-foreground",
       filter: "Otros",
+      subtitle: "Otras especies",
     },
   ]
 
@@ -55,21 +60,16 @@ export function PatientsStats({ patients, onFilterByType, activeFilter }) {
         const isActive = activeFilter === stat.filter
 
         return (
-          <Card
+          <StatsCard
             key={stat.label}
-            className={`p-4 cursor-pointer transition-all hover:shadow-md ${
-              isActive ? "ring-2 ring-primary bg-primary/5" : ""
-            }`}
-            onClick={() => onFilterByType(stat.filter)}
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
-                <p className="text-2xl font-bold mt-1">{stat.value}</p>
-              </div>
-              <Icon className={`w-8 h-8 ${stat.color}`} />
-            </div>
-          </Card>
+            label={stat.label}
+            value={stat.value}
+            icon={Icon}
+            color={stat.color}
+            isActive={isActive}
+            onClick={() => onFilterClick(stat.filter)}
+            subtitle={stat.subtitle}
+          />
         )
       })}
     </div>

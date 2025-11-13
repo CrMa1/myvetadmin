@@ -94,8 +94,8 @@ export default function LoginPage() {
         <div className="mt-6 text-center">
           <p className="text-sm text-muted-foreground">
             ¿No tienes cuenta?{" "}
-            <Link href="/registro" className="text-primary hover:underline font-medium">
-              Regístrate aquí
+            <Link href="/comprar" className="text-primary hover:underline font-medium">
+              Adquiérela aquí
             </Link>
           </p>
         </div>

@@ -3,7 +3,7 @@
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { StaffTable } from "@/components/staff/staff-table"
-import { StaffStats } from "@/components/staff/staff-stats"
+import { StatsCard } from "@/components/shared/stats-card"
 import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
+import { Users, Stethoscope, UserCheck, DollarSign } from "lucide-react"
 
 export default function StaffPage() {
   const { user, selectedClinic, getUserId, getClinicId } = useAuth()
@@ -221,6 +222,11 @@ export default function StaffPage() {
     return <div className="p-8">Por favor selecciona un consultorio</div>
   }
 
+  const totalStaff = staff.length
+  const veterinarians = staff.filter((s) => s.position === "Veterinario").length
+  const activeStaff = staff.filter((s) => s.status === "Activo").length
+  const totalPayroll = staff.reduce((sum, s) => sum + (Number.parseFloat(s.salary) || 0), 0)
+
   return (
     <div className="p-8">
       <AlertContainer />
@@ -232,7 +238,40 @@ export default function StaffPage() {
         </Button>
       </div>
 
-      <StaffStats staff={staff} onFilterClick={handleFilterClick} activeFilter={activeFilter} />
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
+        <StatsCard
+          title="Total de Empleados"
+          subtitle="Personal registrado"
+          value={totalStaff}
+          icon={Users}
+          trend={{ value: 0, isPositive: true }}
+          onClick={() => handleFilterClick(null)}
+          isActive={activeFilter === null}
+        />
+        <StatsCard
+          title="Veterinarios"
+          subtitle="Personal médico"
+          value={veterinarians}
+          icon={Stethoscope}
+          trend={{ value: 0, isPositive: true }}
+          onClick={() => handleFilterClick("Veterinario")}
+          isActive={activeFilter === "Veterinario"}
+        />
+        <StatsCard
+          title="Personal Activo"
+          subtitle="Empleados activos"
+          value={activeStaff}
+          icon={UserCheck}
+          trend={{ value: 0, isPositive: true }}
+        />
+        <StatsCard
+          title="Nómina Total"
+          subtitle="Gasto mensual"
+          value={`$${totalPayroll.toFixed(2)}`}
+          icon={DollarSign}
+          trend={{ value: 0, isPositive: true }}
+        />
+      </div>
 
       <StaffTable staff={filteredStaff} onEdit={handleEdit} onDelete={handleDelete} onSearch={handleSearch} />
 

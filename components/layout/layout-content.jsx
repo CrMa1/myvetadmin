@@ -7,9 +7,21 @@ import { ProtectedRoute } from "@/components/auth/protected-route"
 
 export function LayoutContent({ children }) {
   const pathname = usePathname()
-  const isAuthPage = pathname === "/login" || pathname === "/registro"
 
-  if (isAuthPage) {
+  const publicRoutes = [
+    "/login",
+    "/registro",
+    "/inicio",
+    "/comprar",
+    "/contacto",
+    "/nosotros",
+    "/recuperar-contrasena",
+    "/restablecer-contrasena",
+  ]
+
+  const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route))
+
+  if (isPublicRoute) {
     return <>{children}</>
   }
 

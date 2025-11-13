@@ -14,6 +14,7 @@ import { Search, Edit, Trash2 } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
+import { ConsultationStats } from "@/components/consultations/consultation-stats"
 
 export default function ConsultasPage() {
   const { user, selectedClinic, getUserId, getClinicId } = useAuth()
@@ -27,11 +28,12 @@ export default function ConsultasPage() {
   const [editingConsultation, setEditingConsultation] = useState(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [loading, setLoading] = useState(true)
+  const [activeFilter, setActiveFilter] = useState(null)
   const [formData, setFormData] = useState({
     patientId: "",
     patientName: "",
     ownerName: "",
-    accompaniedBy: "",
+    status: "",
     date: "",
     reason: "",
     diagnosis: "",
@@ -52,6 +54,8 @@ export default function ConsultasPage() {
     medicalHistory: "",
     diseases: "",
   })
+
+  const statusOptions = ['Programada','En Proceso','Completada','Cancelada', 'Reprogramada'];
 
   useEffect(() => {
     if (user && selectedClinic) {
@@ -85,19 +89,29 @@ export default function ConsultasPage() {
 
   const fetchPatients = async () => {
     try {
+      console.log("[v0] Fetching patients...")
       const userId = getUserId()
       const clinicId = getClinicId()
-      if (!userId || !clinicId) return
+      if (!userId || !clinicId) {
+        console.log("[v0] Missing userId or clinicId")
+        return
+      }
 
+      console.log("[v0] Request params:", { userId, clinicId })
       const response = await fetch(`/api/patients?userId=${userId}&clinicId=${clinicId}`)
       const result = await response.json()
+      console.log("[v0] Patients API response:", result)
+
       if (result.success) {
+        console.log("[v0] Patients loaded successfully:", result.data.length)
         setPatients(result.data || [])
       } else {
+        console.log("[v0] API returned error:", result.error)
         showWarning("No se pudieron cargar los pacientes")
       }
     } catch (error) {
-      console.error("Error fetching patients:", error)
+      console.error("[v0] Error fetching patients:", error)
+      showWarning("Error al cargar los pacientes")
     }
   }
 
@@ -122,10 +136,14 @@ export default function ConsultasPage() {
 
   useEffect(() => {
     filterConsultations()
-  }, [consultations, searchQuery])
+  }, [consultations, searchQuery, activeFilter])
 
   const filterConsultations = () => {
     let filtered = [...consultations]
+
+    if (activeFilter) {
+      filtered = filtered.filter((c) => c.status === activeFilter)
+    }
 
     if (searchQuery) {
       filtered = filtered.filter(
@@ -140,10 +158,14 @@ export default function ConsultasPage() {
     setFilteredConsultations(filtered)
   }
 
+  const handleFilterClick = (status) => {
+    setActiveFilter(status)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!formData.patientName || !formData.ownerName || !formData.accompaniedBy || !formData.date || !formData.reason) {
+    if (!formData.patientName || !formData.ownerName || !formData.status || !formData.date || !formData.reason) {
       showWarning("Por favor completa todos los campos obligatorios")
       return
     }
@@ -198,7 +220,7 @@ export default function ConsultasPage() {
       patientId: consultation.patientId || "",
       patientName: consultation.patientName || "",
       ownerName: consultation.ownerName || "",
-      accompaniedBy: consultation.accompaniedBy || "",
+      status: consultation.status || "",
       date: consultation.date ? new Date(consultation.date).toISOString().split("T")[0] : "",
       reason: consultation.reason || "",
       diagnosis: consultation.diagnosis || "",
@@ -217,7 +239,7 @@ export default function ConsultasPage() {
       patientId: "",
       patientName: "",
       ownerName: "",
-      accompaniedBy: "",
+      status: "",
       date: "",
       reason: "",
       diagnosis: "",
@@ -229,14 +251,22 @@ export default function ConsultasPage() {
   }
 
   const handlePatientSelect = (patientId) => {
+    console.log("[v0] Patient selected:", patientId)
+    console.log("[v0] Available patients:", patients)
+
     const patient = patients.find((p) => p.id === Number.parseInt(patientId))
+    console.log("[v0] Found patient:", patient)
+
     if (patient) {
       setFormData({
         ...formData,
         patientId: patient.id,
         patientName: patient.name,
-        ownerName: patient.ownerName,
+        ownerName: patient.ownerName, // now matches the API response
       })
+      console.log("[v0] Form data updated with patient info")
+    } else {
+      console.log("[v0] Patient not found in list")
     }
   }
 
@@ -323,6 +353,8 @@ export default function ConsultasPage() {
         </Button>
       </div>
 
+      <ConsultationStats consultations={consultations} onFilterClick={handleFilterClick} activeFilter={activeFilter} />
+
       <Card className="p-6">
         <div className="flex items-center gap-4 mb-6">
           <div className="relative flex-1">
@@ -344,7 +376,7 @@ export default function ConsultasPage() {
                 <TableHead>Fecha</TableHead>
                 <TableHead>Paciente</TableHead>
                 <TableHead>Dueño</TableHead>
-                <TableHead>Acompañante</TableHead>
+                <TableHead>Estatus</TableHead>
                 <TableHead>Motivo</TableHead>
                 <TableHead>Diagnóstico</TableHead>
                 <TableHead>Veterinario</TableHead>
@@ -366,7 +398,7 @@ export default function ConsultasPage() {
                     <TableCell>{new Date(consultation.date).toLocaleDateString("es-MX")}</TableCell>
                     <TableCell>{consultation.patientName}</TableCell>
                     <TableCell>{consultation.ownerName}</TableCell>
-                    <TableCell>{consultation.accompaniedBy}</TableCell>
+                    <TableCell>{consultation.status}</TableCell>
                     <TableCell>{consultation.reason}</TableCell>
                     <TableCell>{consultation.diagnosis || "-"}</TableCell>
                     <TableCell>{consultation.veterinarian || "-"}</TableCell>
@@ -440,14 +472,22 @@ export default function ConsultasPage() {
               </div>
 
               <div>
-                <Label htmlFor="accompaniedBy">Acompañado por *</Label>
-                <Input
-                  id="accompaniedBy"
-                  name="accompaniedBy"
-                  value={formData.accompaniedBy}
-                  onChange={handleInputChange}
-                  required
-                />
+                <Label htmlFor="status">Estatus *</Label>
+                <Select
+                  value={formData.status}
+                  onValueChange={(value) => setFormData({ ...formData, status: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleccionar estatus" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {statusOptions.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        {status}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div>

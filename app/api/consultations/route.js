@@ -17,7 +17,6 @@ export async function GET(request) {
         patient_id as patientId, 
         patient_name as patientName, 
         owner_name as ownerName, 
-        accompanied_by as accompaniedBy,
         reason, 
         diagnosis, 
         treatment, 
@@ -49,22 +48,21 @@ export async function POST(request) {
 
     const result = await query(
       `INSERT INTO consultations 
-       (user_id, clinic_id, patient_id, patient_name, owner_name, accompanied_by, reason, diagnosis, treatment, notes, consultation_date, veterinarian, status, cost)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       (user_id, clinic_id, patient_id, patient_name, owner_name, reason, diagnosis, treatment, notes, consultation_date, veterinarian, status, cost)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         data.userId,
         data.clinicId,
         data.patientId || null,
         data.patientName,
         data.ownerName,
-        data.accompaniedBy,
         data.reason,
         data.diagnosis || null,
         data.treatment || null,
         data.notes || null,
         data.date || new Date().toISOString().split("T")[0],
         data.veterinarian || null,
-        "Completada",
+        data.status,
         data.cost || null,
       ],
     )
@@ -75,7 +73,6 @@ export async function POST(request) {
         patient_id as patientId, 
         patient_name as patientName, 
         owner_name as ownerName, 
-        accompanied_by as accompaniedBy,
         reason, 
         diagnosis, 
         treatment, 
@@ -106,19 +103,19 @@ export async function PUT(request) {
 
     await query(
       `UPDATE consultations 
-       SET patient_name = ?, owner_name = ?, accompanied_by = ?, reason = ?, diagnosis = ?, 
-           treatment = ?, notes = ?, consultation_date = ?, veterinarian = ?, cost = ?
+       SET patient_name = ?, owner_name = ?, reason = ?, diagnosis = ?, 
+           treatment = ?, notes = ?, consultation_date = ?, veterinarian = ?, status = ?, cost = ?
        WHERE id = ? AND user_id = ? AND clinic_id = ?`,
       [
         data.patientName,
         data.ownerName,
-        data.accompaniedBy,
         data.reason,
         data.diagnosis || null,
         data.treatment || null,
         data.notes || null,
         data.date,
         data.veterinarian || null,
+        data.status,
         data.cost || null,
         data.id,
         data.userId,
@@ -132,7 +129,6 @@ export async function PUT(request) {
         patient_id as patientId, 
         patient_name as patientName, 
         owner_name as ownerName, 
-        accompanied_by as accompaniedBy,
         reason, 
         diagnosis, 
         treatment, 

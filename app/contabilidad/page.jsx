@@ -3,7 +3,7 @@
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { AccountingTable } from "@/components/accounting/accounting-table"
-import { AccountingStats } from "@/components/accounting/accounting-stats"
+import { StatsCard } from "@/components/shared/stats-card"
 import { AccountingChart } from "@/components/accounting/accounting-chart"
 import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
+import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
 
 export default function AccountingPage() {
   const { getUserId, getClinicId } = useAuth()
@@ -213,6 +214,15 @@ export default function AccountingPage() {
     return <div className="p-8">Por favor selecciona un consultorio</div>
   }
 
+  const totalIncome = accounting
+    .filter((a) => a.type === "Ingreso")
+    .reduce((sum, a) => sum + Number.parseFloat(a.amount || 0), 0)
+  const totalExpenses = accounting
+    .filter((a) => a.type === "Egreso")
+    .reduce((sum, a) => sum + Number.parseFloat(a.amount || 0), 0)
+  const balance = totalIncome - totalExpenses
+  const totalTransactions = accounting.length
+
   return (
     <div className="p-8">
       <AlertContainer />
@@ -224,7 +234,45 @@ export default function AccountingPage() {
         </Button>
       </div>
 
-      <AccountingStats accounting={accounting} onFilterClick={handleFilterClick} activeFilter={activeFilter} />
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
+        <StatsCard
+          title="Ingresos Totales"
+          subtitle="Total de entradas"
+          value={`$${totalIncome.toFixed(2)}`}
+          icon={TrendingUp}
+          trend={{ value: 0, isPositive: true }}
+          onClick={() => handleFilterClick("Ingreso")}
+          isActive={activeFilter === "Ingreso"}
+          variant="success"
+        />
+        <StatsCard
+          title="Egresos Totales"
+          subtitle="Total de salidas"
+          value={`$${totalExpenses.toFixed(2)}`}
+          icon={TrendingDown}
+          trend={{ value: 0, isPositive: false }}
+          onClick={() => handleFilterClick("Egreso")}
+          isActive={activeFilter === "Egreso"}
+          variant="danger"
+        />
+        <StatsCard
+          title="Balance"
+          subtitle="Ganancia/Pérdida neta"
+          value={`$${balance.toFixed(2)}`}
+          icon={DollarSign}
+          trend={{ value: 0, isPositive: balance >= 0 }}
+          variant={balance >= 0 ? "success" : "danger"}
+        />
+        <StatsCard
+          title="Transacciones"
+          subtitle="Registros totales"
+          value={totalTransactions}
+          icon={Activity}
+          trend={{ value: 0, isPositive: true }}
+          onClick={() => handleFilterClick(null)}
+          isActive={activeFilter === null}
+        />
+      </div>
 
       <AccountingChart accounting={accounting} />
 
