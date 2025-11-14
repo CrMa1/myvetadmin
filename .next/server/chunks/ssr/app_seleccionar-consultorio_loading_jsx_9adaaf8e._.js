@@ -1,0 +1,3 @@
+module.exports=[18520,a=>{"use strict";var b=a.i(7997);function c(){return(0,b.jsx)("div",{className:"min-h-screen flex items-center justify-center",children:(0,b.jsxs)("div",{className:"text-center",children:[(0,b.jsx)("div",{className:"animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"}),(0,b.jsx)("p",{className:"text-muted-foreground",children:"Cargando consultorios..."})]})})}a.s(["default",()=>c])}];
+
+//# sourceMappingURL=app_seleccionar-consultorio_loading_jsx_9adaaf8e._.js.map

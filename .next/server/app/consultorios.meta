@@ -1,0 +1,14 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/consultorios/layout,_N_T_/consultorios/page,_N_T_/consultorios"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/consultorios/__PAGE__",
+    "/consultorios",
+    "/_index"
+  ]
+}

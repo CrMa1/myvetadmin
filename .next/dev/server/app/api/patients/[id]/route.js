@@ -1,0 +1,10 @@
+var R=require("../../../../chunks/[turbopack]_runtime.js")("server/app/api/patients/[id]/route.js")
+R.c("server/chunks/node_modules_next_c3adf343._.js")
+R.c("server/chunks/node_modules_mysql2_84e924d7._.js")
+R.c("server/chunks/node_modules_iconv-lite_a4444554._.js")
+R.c("server/chunks/node_modules_aws-ssl-profiles_lib_7ad223da._.js")
+R.c("server/chunks/node_modules_bec30ffe._.js")
+R.c("server/chunks/[root-of-the-server]__6df14d28._.js")
+R.c("server/chunks/_next-internal_server_app_api_patients_[id]_route_actions_f059dbb3.js")
+R.m("[project]/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/app/api/patients/[id]/route.js [app-route] (ecmascript)\" } [app-route] (ecmascript)")
+module.exports=R.m("[project]/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/app/api/patients/[id]/route.js [app-route] (ecmascript)\" } [app-route] (ecmascript)").exports

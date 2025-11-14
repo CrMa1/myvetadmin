@@ -1,0 +1,3 @@
+module.exports=[57353,a=>{"use strict";var b=a.i(7997);function c(){return(0,b.jsx)("div",{className:"p-8",children:(0,b.jsxs)("div",{className:"animate-pulse",children:[(0,b.jsx)("div",{className:"h-8 bg-muted rounded w-48 mb-6"}),(0,b.jsx)("div",{className:"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",children:[1,2,3].map(a=>(0,b.jsx)("div",{className:"h-48 bg-muted rounded"},a))})]})})}a.s(["default",()=>c])}];
+
+//# sourceMappingURL=app_consultorios_loading_jsx_1bcfd4d2._.js.map
