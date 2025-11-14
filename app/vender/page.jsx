@@ -6,10 +6,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Trash2, Plus, ShoppingCart, Receipt } from "lucide-react"
+import { Trash2, Plus, ShoppingCart, Receipt, Package } from 'lucide-react'
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
+import Link from "next/link"
 
 export default function VenderPage() {
   const { user, selectedClinic, getUserId, getClinicId } = useAuth()
@@ -191,6 +192,27 @@ export default function VenderPage() {
     return <div className="container-custom py-8">Por favor selecciona un consultorio</div>
   }
 
+  if (inventory.length === 0 && !loading) {
+    return (
+      <div className="container-custom py-8">
+        <AlertContainer />
+        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+          <Package className="w-24 h-24 text-muted-foreground mb-6" />
+          <h2 className="text-3xl font-bold mb-4">No hay productos en inventario</h2>
+          <p className="text-lg text-muted-foreground mb-8 max-w-md">
+            Para empezar a vender, necesitas agregar productos a tu inventario primero.
+          </p>
+          <Link href="/inventario">
+            <Button className="btn-primary">
+              <Plus className="w-5 h-5 mr-2" />
+              Agregar Primer Producto
+            </Button>
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
   if (showReceipt && lastSale) {
     return (
       <div className="container-custom py-8">
@@ -273,6 +295,7 @@ export default function VenderPage() {
 
   return (
     <div className="container-custom py-8">
+      <AlertContainer />
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold">Punto de Venta</h1>
       </div>

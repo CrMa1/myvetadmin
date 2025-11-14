@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server"
+import { Stripe } from "stripe"
 import { query } from "@/lib/db-landing"
 
 export async function GET() {
   try {
     console.log("[v0] Fetching subscription plans from database")
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    const prices = await stripe.prices.list();
+    console.log('Precios planes', prices)
 
     const plans = await query(
       `SELECT * FROM subscription_plans 

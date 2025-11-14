@@ -1,6 +1,6 @@
 "use client"
 
-import { Plus } from "lucide-react"
+import { Plus } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { InventoryTable } from "@/components/inventory/inventory-table"
 import { StatsCard } from "@/components/shared/stats-card"
@@ -13,7 +13,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
-import { Package, AlertTriangle, DollarSign, TrendingUp } from "lucide-react"
+import { Package, AlertTriangle, DollarSign, TrendingUp } from 'lucide-react'
+import { formatCurrency, parseCurrency } from "@/lib/currency"
 
 export default function InventoryPage() {
   const { getUserId, getClinicId } = useAuth()
@@ -215,6 +216,13 @@ export default function InventoryPage() {
     setFilteredInventory(filtered)
   }
 
+  const handleCurrencyChange = (value) => {
+    const cleanValue = parseCurrency(value)
+    if (cleanValue === "" || /^\d*\.?\d{0,2}$/.test(cleanValue)) {
+      handleInputChange("price", cleanValue)
+    }
+  }
+
   if (loading) {
     return <LoadingPage message="Cargando inventario..." />
   }
@@ -265,14 +273,14 @@ export default function InventoryPage() {
         <StatsCard
           title="Valor Total"
           subtitle="Inventario valorizado"
-          value={`$${totalValue.toFixed(2)}`}
+          value={formatCurrency(totalValue)}
           icon={DollarSign}
           trend={{ value: 0, isPositive: true }}
         />
         <StatsCard
           title="Valor Promedio"
           subtitle="Por artículo"
-          value={`$${avgItemValue.toFixed(2)}`}
+          value={formatCurrency(avgItemValue)}
           icon={TrendingUp}
           trend={{ value: 0, isPositive: true }}
         />
@@ -335,16 +343,19 @@ export default function InventoryPage() {
 
               <div>
                 <Label htmlFor="price">Precio</Label>
-                <Input
-                  id="price"
-                  type="number"
-                  step="0.01"
-                  value={formData.price}
-                  onChange={(e) => handleInputChange("price", e.target.value)}
-                  onKeyPress={(e) => {
-                    if (!/[0-9.]/.test(e.key)) e.preventDefault()
-                  }}
-                />
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+                  <Input
+                    id="price"
+                    value={formData.price}
+                    onChange={(e) => handleCurrencyChange(e.target.value)}
+                    placeholder="0.00"
+                    className="pl-7"
+                  />
+                </div>
+                {formData.price && (
+                  <p className="text-xs text-muted-foreground mt-1">{formatCurrency(formData.price)}</p>
+                )}
               </div>
 
               <div>

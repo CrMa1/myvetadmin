@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Plus } from "lucide-react"
+import { Plus } from 'lucide-react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,11 +10,12 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Search, Edit, Trash2 } from "lucide-react"
+import { Search, Edit, Trash2 } from 'lucide-react'
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
 import { ConsultationStats } from "@/components/consultations/consultation-stats"
+import { formatCurrency, parseCurrency, handleCurrencyInput } from "@/lib/currency"
 
 export default function ConsultasPage() {
   const { user, selectedClinic, getUserId, getClinicId } = useAuth()
@@ -33,7 +34,7 @@ export default function ConsultasPage() {
     patientId: "",
     patientName: "",
     ownerName: "",
-    status: "",
+    accompaniedBy: "",
     date: "",
     reason: "",
     diagnosis: "",
@@ -54,8 +55,6 @@ export default function ConsultasPage() {
     medicalHistory: "",
     diseases: "",
   })
-
-  const statusOptions = ['Programada','En Proceso','Completada','Cancelada', 'Reprogramada'];
 
   useEffect(() => {
     if (user && selectedClinic) {
@@ -165,7 +164,7 @@ export default function ConsultasPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!formData.patientName || !formData.ownerName || !formData.status || !formData.date || !formData.reason) {
+    if (!formData.patientName || !formData.ownerName || !formData.accompaniedBy || !formData.date || !formData.reason) {
       showWarning("Por favor completa todos los campos obligatorios")
       return
     }
@@ -220,7 +219,7 @@ export default function ConsultasPage() {
       patientId: consultation.patientId || "",
       patientName: consultation.patientName || "",
       ownerName: consultation.ownerName || "",
-      status: consultation.status || "",
+      accompaniedBy: consultation.accompaniedBy || "",
       date: consultation.date ? new Date(consultation.date).toISOString().split("T")[0] : "",
       reason: consultation.reason || "",
       diagnosis: consultation.diagnosis || "",
@@ -239,7 +238,7 @@ export default function ConsultasPage() {
       patientId: "",
       patientName: "",
       ownerName: "",
-      status: "",
+      accompaniedBy: "",
       date: "",
       reason: "",
       diagnosis: "",
@@ -327,6 +326,13 @@ export default function ConsultasPage() {
     setFormData({ ...formData, [name]: value })
   }
 
+  const handleCurrencyChange = (e) => {
+    const cleanValue = parseCurrency(e.target.value)
+    if (cleanValue === "" || /^\d*\.?\d{0,2}$/.test(cleanValue)) {
+      setFormData({ ...formData, cost: cleanValue })
+    }
+  }
+
   const handleNumberInput = (e) => {
     const { name, value } = e.target
     if (value === "" || /^\d*\.?\d*$/.test(value)) {
@@ -376,7 +382,7 @@ export default function ConsultasPage() {
                 <TableHead>Fecha</TableHead>
                 <TableHead>Paciente</TableHead>
                 <TableHead>Dueño</TableHead>
-                <TableHead>Estatus</TableHead>
+                <TableHead>Acompañante</TableHead>
                 <TableHead>Motivo</TableHead>
                 <TableHead>Diagnóstico</TableHead>
                 <TableHead>Veterinario</TableHead>
@@ -398,11 +404,11 @@ export default function ConsultasPage() {
                     <TableCell>{new Date(consultation.date).toLocaleDateString("es-MX")}</TableCell>
                     <TableCell>{consultation.patientName}</TableCell>
                     <TableCell>{consultation.ownerName}</TableCell>
-                    <TableCell>{consultation.status}</TableCell>
+                    <TableCell>{consultation.accompaniedBy}</TableCell>
                     <TableCell>{consultation.reason}</TableCell>
                     <TableCell>{consultation.diagnosis || "-"}</TableCell>
                     <TableCell>{consultation.veterinarian || "-"}</TableCell>
-                    <TableCell>${consultation.cost || 0}</TableCell>
+                    <TableCell>{formatCurrency(consultation.cost || 0)}</TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
                         <Button variant="ghost" size="sm" onClick={() => handleEdit(consultation)}>
@@ -472,22 +478,14 @@ export default function ConsultasPage() {
               </div>
 
               <div>
-                <Label htmlFor="status">Estatus *</Label>
-                <Select
-                  value={formData.status}
-                  onValueChange={(value) => setFormData({ ...formData, status: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar estatus" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {statusOptions.map((status) => (
-                      <SelectItem key={status} value={status}>
-                        {status}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Label htmlFor="accompaniedBy">Acompañado por *</Label>
+                <Input
+                  id="accompaniedBy"
+                  name="accompaniedBy"
+                  value={formData.accompaniedBy}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
 
               <div>
@@ -537,7 +535,20 @@ export default function ConsultasPage() {
 
               <div>
                 <Label htmlFor="cost">Costo</Label>
-                <Input id="cost" name="cost" value={formData.cost} onChange={handleNumberInput} />
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+                  <Input
+                    id="cost"
+                    name="cost"
+                    value={formData.cost}
+                    onChange={handleCurrencyChange}
+                    placeholder="0.00"
+                    className="pl-7"
+                  />
+                </div>
+                {formData.cost && (
+                  <p className="text-xs text-muted-foreground mt-1">{formatCurrency(formData.cost)}</p>
+                )}
               </div>
             </div>
 

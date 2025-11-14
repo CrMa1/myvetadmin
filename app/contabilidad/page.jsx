@@ -1,6 +1,6 @@
 "use client"
 
-import { Plus } from "lucide-react"
+import { Plus } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { AccountingTable } from "@/components/accounting/accounting-table"
 import { StatsCard } from "@/components/shared/stats-card"
@@ -14,7 +14,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
-import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+import { DollarSign, TrendingUp, TrendingDown, Activity } from 'lucide-react'
+import { formatCurrency, parseCurrency } from "@/lib/currency"
 
 export default function AccountingPage() {
   const { getUserId, getClinicId } = useAuth()
@@ -185,6 +186,13 @@ export default function AccountingPage() {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
+  const handleCurrencyChange = (value) => {
+    const cleanValue = parseCurrency(value)
+    if (cleanValue === "" || /^\d*\.?\d{0,2}$/.test(cleanValue)) {
+      handleInputChange("amount", cleanValue)
+    }
+  }
+
   const handleFilterClick = (type) => {
     setActiveFilter(type)
     if (type) {
@@ -238,7 +246,7 @@ export default function AccountingPage() {
         <StatsCard
           title="Ingresos Totales"
           subtitle="Total de entradas"
-          value={`$${totalIncome.toFixed(2)}`}
+          value={formatCurrency(totalIncome)}
           icon={TrendingUp}
           trend={{ value: 0, isPositive: true }}
           onClick={() => handleFilterClick("Ingreso")}
@@ -248,7 +256,7 @@ export default function AccountingPage() {
         <StatsCard
           title="Egresos Totales"
           subtitle="Total de salidas"
-          value={`$${totalExpenses.toFixed(2)}`}
+          value={formatCurrency(totalExpenses)}
           icon={TrendingDown}
           trend={{ value: 0, isPositive: false }}
           onClick={() => handleFilterClick("Egreso")}
@@ -258,7 +266,7 @@ export default function AccountingPage() {
         <StatsCard
           title="Balance"
           subtitle="Ganancia/Pérdida neta"
-          value={`$${balance.toFixed(2)}`}
+          value={formatCurrency(balance)}
           icon={DollarSign}
           trend={{ value: 0, isPositive: balance >= 0 }}
           variant={balance >= 0 ? "success" : "danger"}
@@ -275,7 +283,7 @@ export default function AccountingPage() {
       </div>
 
       <AccountingChart accounting={accounting} />
-
+      <br />
       <AccountingTable
         accounting={filteredAccounting}
         onEdit={handleEdit}
@@ -322,17 +330,20 @@ export default function AccountingPage() {
 
               <div>
                 <Label htmlFor="amount">Monto *</Label>
-                <Input
-                  id="amount"
-                  type="number"
-                  step="0.01"
-                  value={formData.amount}
-                  onChange={(e) => handleInputChange("amount", e.target.value)}
-                  onKeyPress={(e) => {
-                    if (!/[0-9.]/.test(e.key)) e.preventDefault()
-                  }}
-                  required
-                />
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+                  <Input
+                    id="amount"
+                    value={formData.amount}
+                    onChange={(e) => handleCurrencyChange(e.target.value)}
+                    placeholder="0.00"
+                    className="pl-7"
+                    required
+                  />
+                </div>
+                {formData.amount && (
+                  <p className="text-xs text-muted-foreground mt-1">{formatCurrency(formData.amount)}</p>
+                )}
               </div>
 
               <div>

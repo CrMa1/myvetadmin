@@ -1,18 +1,24 @@
 "use client"
 
 import { useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from 'next/navigation'
 import { useAuth } from "@/contexts/auth-context"
 
 export function ProtectedRoute({ children }) {
-  const { user, loading } = useAuth()
+  const { user, selectedClinic, loading } = useAuth()
   const router = useRouter()
+  const pathname = usePathname()
 
   useEffect(() => {
     if (!loading && !user) {
       router.push("/login")
+      return
     }
-  }, [user, loading, router])
+
+    if (!loading && user && !selectedClinic && pathname !== "/seleccionar-consultorio") {
+      router.push("/seleccionar-consultorio")
+    }
+  }, [user, selectedClinic, loading, router, pathname])
 
   if (loading) {
     return (
@@ -26,6 +32,10 @@ export function ProtectedRoute({ children }) {
   }
 
   if (!user) {
+    return null
+  }
+
+  if (!selectedClinic && pathname !== "/seleccionar-consultorio") {
     return null
   }
 

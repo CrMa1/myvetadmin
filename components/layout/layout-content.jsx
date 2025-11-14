@@ -1,6 +1,6 @@
 "use client"
 
-import { usePathname } from "next/navigation"
+import { usePathname } from 'next/navigation'
 import { Sidebar } from "@/components/layout/sidebar"
 import { Header } from "@/components/layout/header"
 import { ProtectedRoute } from "@/components/auth/protected-route"
@@ -23,6 +23,10 @@ export function LayoutContent({ children }) {
 
   if (isPublicRoute) {
     return <>{children}</>
+  }
+
+  if (pathname === "/seleccionar-consultorio") {
+    return <ProtectedRoute>{children}</ProtectedRoute>
   }
 
   return (

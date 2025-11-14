@@ -1,6 +1,6 @@
 "use client"
 
-import { Plus } from "lucide-react"
+import { Plus } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { StaffTable } from "@/components/staff/staff-table"
 import { StatsCard } from "@/components/shared/stats-card"
@@ -12,7 +12,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
-import { Users, Stethoscope, UserCheck, DollarSign } from "lucide-react"
+import { Users, Stethoscope, UserCheck, DollarSign } from 'lucide-react'
+import { formatCurrency, parseCurrency } from "@/lib/currency"
 
 export default function StaffPage() {
   const { user, selectedClinic, getUserId, getClinicId } = useAuth()
@@ -195,6 +196,13 @@ export default function StaffPage() {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
+  const handleCurrencyChange = (value) => {
+    const cleanValue = parseCurrency(value)
+    if (cleanValue === "" || /^\d*\.?\d{0,2}$/.test(cleanValue)) {
+      handleInputChange("salary", cleanValue)
+    }
+  }
+
   const handleFilterClick = (position) => {
     setActiveFilter(position)
     if (position) {
@@ -267,7 +275,7 @@ export default function StaffPage() {
         <StatsCard
           title="Nómina Total"
           subtitle="Gasto mensual"
-          value={`$${totalPayroll.toFixed(2)}`}
+          value={formatCurrency(totalPayroll)}
           icon={DollarSign}
           trend={{ value: 0, isPositive: true }}
         />
@@ -336,15 +344,19 @@ export default function StaffPage() {
 
               <div>
                 <Label htmlFor="salary">Salario</Label>
-                <Input
-                  id="salary"
-                  type="number"
-                  value={formData.salary}
-                  onChange={(e) => handleInputChange("salary", e.target.value)}
-                  onKeyPress={(e) => {
-                    if (!/[0-9]/.test(e.key)) e.preventDefault()
-                  }}
-                />
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+                  <Input
+                    id="salary"
+                    value={formData.salary}
+                    onChange={(e) => handleCurrencyChange(e.target.value)}
+                    placeholder="0.00"
+                    className="pl-7"
+                  />
+                </div>
+                {formData.salary && (
+                  <p className="text-xs text-muted-foreground mt-1">{formatCurrency(formData.salary)}</p>
+                )}
               </div>
 
               <div>

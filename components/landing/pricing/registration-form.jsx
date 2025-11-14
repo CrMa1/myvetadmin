@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -31,6 +31,13 @@ export function RegistrationForm({ plan, billingCycle, onSubmit, onBack, initial
   const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  useEffect(() => {
+    if (initialData) {
+      console.log("[v0] Loading initial data into registration form:", initialData)
+      setFormData(initialData)
+    }
+  }, [initialData])
+
   const handleChange = (e) => {
     const { name, value } = e.target
 
@@ -41,6 +48,7 @@ export function RegistrationForm({ plan, billingCycle, onSubmit, onBack, initial
 
       try {
         localStorage.setItem("vetsystem_registration_form_data", JSON.stringify(updatedData))
+        console.log("[v0] Form data auto-saved")
       } catch (error) {
         console.error("[v0] Error saving form data:", error)
       }
@@ -54,7 +62,6 @@ export function RegistrationForm({ plan, billingCycle, onSubmit, onBack, initial
     const updatedData = { ...formData, [name]: value }
     setFormData(updatedData)
 
-    // Save to localStorage on every change
     try {
       localStorage.setItem("vetsystem_registration_form_data", JSON.stringify(updatedData))
     } catch (error) {
@@ -68,6 +75,7 @@ export function RegistrationForm({ plan, billingCycle, onSubmit, onBack, initial
 
   const validateUnique = async () => {
     try {
+      console.log("[v0] Validating email and phone uniqueness...")
       const response = await fetch("/api/auth/validate", {
         method: "POST",
         headers: {
@@ -80,12 +88,17 @@ export function RegistrationForm({ plan, billingCycle, onSubmit, onBack, initial
       })
 
       const data = await response.json()
+      console.log("[v0] Validation response:", data)
 
-      if (!data.success && data.errors) {
+      if (!response.ok) {
         const newErrors = {}
-        data.errors.forEach((err) => {
-          newErrors[err.field] = err.message
-        })
+        if (data.field === "email") {
+          newErrors.email = data.error
+        } else if (data.field === "phone") {
+          newErrors.phone = data.error
+        } else {
+          newErrors.general = data.error
+        }
         setErrors((prev) => ({ ...prev, ...newErrors }))
         return false
       }
@@ -146,9 +159,11 @@ export function RegistrationForm({ plan, billingCycle, onSubmit, onBack, initial
         return
       }
 
+      console.log("[v0] Validation passed, proceeding to payment...")
       await onSubmit(formData)
     } catch (error) {
       console.error("[v0] Form submission error:", error)
+      setErrors((prev) => ({ ...prev, general: "Error al procesar el formulario" }))
     } finally {
       setIsSubmitting(false)
     }

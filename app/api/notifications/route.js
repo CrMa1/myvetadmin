@@ -1,0 +1,44 @@
+import { query } from "@/lib/db"
+
+export async function GET(request) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const userId = searchParams.get("userId")
+    const clinicId = searchParams.get("clinicId")
+
+    if (!userId || !clinicId) {
+      return Response.json({ success: false, error: "Missing required parameters" }, { status: 400 })
+    }
+
+    console.log("[v0] Fetching upcoming consultations for notifications:", { userId, clinicId })
+
+    const upcomingConsultations = await query(
+      `SELECT 
+        c.id,
+        c.consultation_date as date,
+        c.patient_name as patientName,
+        c.owner_name as ownerName,
+        c.reason,
+        c.status,
+        c.veterinarian
+      FROM consultations c
+      WHERE c.user_id = ? 
+        AND c.clinic_id = ?
+        AND c.consultation_date >= CURDATE()
+        AND c.status != 'Completada'
+      ORDER BY c.consultation_date ASC, c.id ASC
+      LIMIT 10`,
+      [userId, clinicId],
+    )
+
+    console.log("[v0] Found upcoming consultations:", upcomingConsultations.length)
+
+    return Response.json({
+      success: true,
+      data: upcomingConsultations || [],
+    })
+  } catch (error) {
+    console.error("[v0] Error fetching notifications:", error)
+    return Response.json({ success: false, error: error.message }, { status: 500 })
+  }
+}

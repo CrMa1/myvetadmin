@@ -213,10 +213,6 @@ export function InventoryTable({
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              <Button onClick={() => setIsAddDialogOpen(true)}>
-                <Plus className="h-4 w-4 mr-2" />
-                Nuevo
-              </Button>
             </div>
           </div>
         </CardHeader>

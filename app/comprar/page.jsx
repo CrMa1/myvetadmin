@@ -5,9 +5,10 @@ import { PricingCard } from "@/components/landing/pricing/pricing-card"
 import { RegistrationForm } from "@/components/landing/pricing/registration-form"
 import { CheckoutForm } from "@/components/landing/pricing/checkout-form"
 import { Button } from "@/components/ui/button"
-import { Check } from "lucide-react"
+import { Check } from 'lucide-react'
 import { LandingNavbar } from "@/components/landing/navbar"
 import { LandingFooter } from "@/components/landing/footer"
+import { SuccessView } from "@/components/landing/pricing/success-view"
 
 const FORM_DATA_KEY = "vetsystem_registration_form_data"
 
@@ -19,6 +20,8 @@ export default function ComprarPage() {
   const [selectedPlan, setSelectedPlan] = useState(null)
   const [userData, setUserData] = useState(null)
   const [savedFormData, setSavedFormData] = useState(null)
+  const [showSuccess, setShowSuccess] = useState(false)
+  const [registeredUserName, setRegisteredUserName] = useState("")
 
   useEffect(() => {
     const saved = localStorage.getItem(FORM_DATA_KEY)
@@ -26,7 +29,7 @@ export default function ComprarPage() {
       try {
         const parsedData = JSON.parse(saved)
         setSavedFormData(parsedData)
-        console.log("[v0] Loaded saved form data from localStorage")
+        console.log("[v0] Loaded saved form data from localStorage:", parsedData)
       } catch (error) {
         console.error("[v0] Error parsing saved form data:", error)
       }
@@ -55,47 +58,30 @@ export default function ComprarPage() {
   }
 
   const handleRegistrationSubmit = async (formData) => {
-    console.log("[v0] Submitting registration with data:", formData)
+    console.log("[v0] Saving registration data for payment:", formData)
 
-    try {
-      localStorage.setItem(FORM_DATA_KEY, JSON.stringify(formData))
-      console.log("[v0] Form data saved to localStorage")
-    } catch (error) {
-      console.error("[v0] Error saving form data:", error)
-    }
-
-    try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
-
-      const data = await response.json()
-      console.log("[v0] Registration response:", data)
-
-      if (!response.ok) {
-        alert(data.error || "Error al registrar usuario")
-        return
-      }
-
-      setUserData({
-        ...formData,
-        userId: data.data?.id,
-        clinicId: data.data?.clinic?.id,
-      })
-      setStep("checkout")
-
-      localStorage.removeItem(FORM_DATA_KEY)
-      setSavedFormData(null)
-    } catch (error) {
-      console.error("[v0] Registration error:", error)
-      alert("Error al procesar el registro. Por favor intenta de nuevo.")
-    }
+    // Save data for checkout step
+    setUserData(formData)
+    setStep("checkout")
   }
 
   const handleBackToRegister = () => {
+    const saved = localStorage.getItem(FORM_DATA_KEY)
+    if (saved) {
+      try {
+        const parsedData = JSON.parse(saved)
+        setSavedFormData(parsedData)
+        console.log("[v0] Reloaded form data when going back:", parsedData)
+      } catch (error) {
+        console.error("[v0] Error reloading form data:", error)
+      }
+    }
     setStep("register")
+  }
+
+  const handlePaymentSuccess = (userName) => {
+    setRegisteredUserName(userName)
+    setShowSuccess(true)
   }
 
   if (loading) {
@@ -112,79 +98,86 @@ export default function ComprarPage() {
     <>
       <LandingNavbar />
       <div className="container mx-auto px-4 py-12 md:py-20">
-        {step === "plans" && (
+        {showSuccess ? (
+          <SuccessView userName={registeredUserName} />
+        ) : (
           <>
-            <div className="mx-auto max-w-3xl text-center mb-12">
-              <h1 className="text-4xl font-bold text-balance text-foreground mb-4">Planes y Precios</h1>
-              <p className="text-lg text-muted-foreground text-pretty leading-relaxed">
-                Elige el plan que mejor se adapte a las necesidades de tu clínica veterinaria. Todos los planes incluyen
-                14 días de prueba gratuita.
-              </p>
-            </div>
+            {step === "plans" && (
+              <>
+                <div className="mx-auto max-w-3xl text-center mb-12">
+                  <h1 className="text-4xl font-bold text-balance text-foreground mb-4">Planes y Precios</h1>
+                  <p className="text-lg text-muted-foreground text-pretty leading-relaxed">
+                    Elige el plan que mejor se adapte a las necesidades de tu clínica veterinaria. Todos los planes incluyen
+                    14 días de prueba gratuita.
+                  </p>
+                </div>
 
-            <div className="flex items-center justify-center gap-4 mb-12">
-              <Button
-                variant={billingCycle === "monthly" ? "default" : "outline"}
-                onClick={() => setBillingCycle("monthly")}
-              >
-                Mensual
-              </Button>
-              <Button
-                variant={billingCycle === "yearly" ? "default" : "outline"}
-                onClick={() => setBillingCycle("yearly")}
-                className="relative"
-              >
-                Anual
-                <span className="absolute -top-3 -right-3 rounded-full bg-secondary px-2 py-0.5 text-xs text-secondary-foreground">
-                  Ahorra 17%
-                </span>
-              </Button>
-            </div>
+                <div className="flex items-center justify-center gap-4 mb-12">
+                  <Button
+                    variant={billingCycle === "monthly" ? "default" : "outline"}
+                    onClick={() => setBillingCycle("monthly")}
+                  >
+                    Mensual
+                  </Button>
+                  <Button
+                    variant={billingCycle === "yearly" ? "default" : "outline"}
+                    onClick={() => setBillingCycle("yearly")}
+                    className="relative"
+                  >
+                    Anual
+                    <span className="absolute -top-3 -right-3 rounded-full bg-secondary px-2 py-0.5 text-xs text-secondary-foreground">
+                      Ahorra 17%
+                    </span>
+                  </Button>
+                </div>
 
-            <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto mb-16">
-              {plans.map((plan) => (
-                <PricingCard key={plan.id} plan={plan} billingCycle={billingCycle} onSelectPlan={handleSelectPlan} />
-              ))}
-            </div>
+                <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto mb-16">
+                  {plans.map((plan) => (
+                    <PricingCard key={plan.stripe_id} plan={plan} billingCycle={billingCycle} onSelectPlan={handleSelectPlan} />
+                  ))}
+                </div>
 
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-2xl font-bold text-center mb-8">Lo que Incluyen Todos los Planes</h2>
-              <div className="grid gap-4 sm:grid-cols-2">
-                {[
-                  "Actualizaciones automáticas",
-                  "Soporte técnico",
-                  "Respaldo diario de información",
-                  "Seguridad SSL",
-                  "Acceso desde cualquier dispositivo",
-                  "Reportes y estadísticas",
-                ].map((feature, index) => (
-                  <div key={index} className="flex items-center gap-3 text-muted-foreground">
-                    <Check className="h-5 w-5 text-secondary shrink-0" />
-                    <span>{feature}</span>
+                <div className="max-w-4xl mx-auto">
+                  <h2 className="text-2xl font-bold text-center mb-8">Lo que Incluyen Todos los Planes</h2>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {[
+                      "Actualizaciones automáticas",
+                      "Soporte técnico",
+                      "Respaldo diario de información",
+                      "Seguridad SSL",
+                      "Acceso desde cualquier dispositivo",
+                      "Reportes y estadísticas",
+                    ].map((feature, index) => (
+                      <div key={index} className="flex items-center gap-3 text-muted-foreground">
+                        <Check className="h-5 w-5 text-secondary shrink-0" />
+                        <span>{feature}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
+              </>
+            )}
+
+            {step === "register" && selectedPlan && (
+              <RegistrationForm
+                plan={selectedPlan}
+                billingCycle={billingCycle}
+                onSubmit={handleRegistrationSubmit}
+                onBack={() => setStep("plans")}
+                initialData={savedFormData}
+              />
+            )}
+
+            {step === "checkout" && selectedPlan && userData && (
+              <CheckoutForm
+                plan={selectedPlan}
+                billingCycle={billingCycle}
+                userData={userData}
+                onBack={handleBackToRegister}
+                onSuccess={handlePaymentSuccess}
+              />
+            )}
           </>
-        )}
-
-        {step === "register" && selectedPlan && (
-          <RegistrationForm
-            plan={selectedPlan}
-            billingCycle={billingCycle}
-            onSubmit={handleRegistrationSubmit}
-            onBack={() => setStep("plans")}
-            initialData={savedFormData}
-          />
-        )}
-
-        {step === "checkout" && selectedPlan && userData && (
-          <CheckoutForm
-            plan={selectedPlan}
-            billingCycle={billingCycle}
-            userData={userData}
-            onBack={handleBackToRegister}
-          />
         )}
       </div>
       <LandingFooter />

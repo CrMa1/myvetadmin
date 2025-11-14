@@ -7,7 +7,8 @@ export async function POST(request) {
     const { productId, userData } = await request.json()
 
     console.log("[v0] Creating checkout session for product:", productId)
-    console.log("[v0] User data:", { email: userData.email, name: userData.name })
+    console.log("[v0] User data TODO:", userData)
+    console.log("[v0] User data:", { email: userData.email, name: userData.firstName })
 
     const product = getProductById(productId)
     if (!product) {
@@ -28,7 +29,7 @@ export async function POST(request) {
       console.log("[v0] New customer creating:", userData)
       customer = await stripe.customers.create({
         email: userData.email,
-        name: `${userData.name} ${userData.lastName}`,
+        name: `${userData.firstName} ${userData.lastName}`,
         phone: userData.phone,
         metadata: {
           userId: userData.userId || "pending",
