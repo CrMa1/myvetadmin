@@ -22,7 +22,10 @@ export async function GET(request) {
         p.name,
         p.client_id,
         CONCAT(c.first_name, ' ', c.last_name) as ownerName,
-        p.species as animalType,
+        c.phone as ownerPhone,
+        c.email as ownerEmail,
+        c.address as ownerAddress,
+        species.name as animalType,
         p.species_id,
         p.breed,
         p.age,
@@ -31,9 +34,10 @@ export async function GET(request) {
         p.color,
         p.medical_history as medicalHistory,
         p.allergies as diseases,
-        p.created_at as lastVisit
+        p.last_visit as lastVisit
        FROM patients p
-       LEFT JOIN clients c ON p.client_id = c.id
+       INNER JOIN clients c ON p.client_id = c.id
+       INNER JOIN species ON p.species_id = species.id
        WHERE p.user_id = ? AND p.clinic_id = ?`
 
     const params = [userId, clinicId]

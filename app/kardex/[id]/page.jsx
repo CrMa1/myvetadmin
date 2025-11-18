@@ -79,7 +79,7 @@ export default function KardexPage() {
         </Button>
       </div>
 
-      <h1 className="text-3xl font-bold mb-6">Kardex del Paciente</h1>
+      <h1 className="text-3xl font-bold mb-6">Kardex del Paciente {patient.name}</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <Card className="p-6">
@@ -91,7 +91,7 @@ export default function KardexPage() {
             </div>
             <div className="grid grid-cols-2 gap-2">
               <span className="font-semibold">Tipo:</span>
-              <span>{patient.animal_type}</span>
+              <span>{patient.animalType}</span>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <span className="font-semibold">Raza:</span>
@@ -113,6 +113,13 @@ export default function KardexPage() {
               <span className="font-semibold">Color:</span>
               <span>{patient.color}</span>
             </div>
+
+            {patient.lastVisit && (
+              <div className="grid grid-cols-2 gap-2">
+                <span className="font-semibold">Última Visita:</span>
+                <span>{new Date(patient.lastVisit).toLocaleDateString("es-MX")}</span>
+              </div>
+            )}
           </div>
         </Card>
 
@@ -121,45 +128,43 @@ export default function KardexPage() {
           <div className="space-y-3">
             <div className="grid grid-cols-2 gap-2">
               <span className="font-semibold">Nombre:</span>
-              <span>{patient.owner_name} {patient.owner_last_name}</span>
+              <span>{patient.ownerName} {patient.ownerLastName}</span>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <span className="font-semibold">Teléfono:</span>
-              <span>{patient.owner_phone}</span>
+              <span>{patient.ownerPhone}</span>
             </div>
-            {patient.owner_email && (
+            {patient.ownerEmail && (
               <div className="grid grid-cols-2 gap-2">
                 <span className="font-semibold">Email:</span>
-                <span>{patient.owner_email}</span>
+                <span>{patient.ownerEmail}</span>
               </div>
             )}
-            {patient.owner_address && (
+            {patient.ownerAddress && (
               <div className="grid grid-cols-2 gap-2">
                 <span className="font-semibold">Dirección:</span>
-                <span>{patient.owner_address}</span>
+                <span>{patient.ownerAddress}</span>
               </div>
             )}
-            {patient.last_visit && (
-              <div className="grid grid-cols-2 gap-2">
-                <span className="font-semibold">Última Visita:</span>
-                <span>{new Date(patient.last_visit).toLocaleDateString("es-MX")}</span>
+          </div>
+          <hr />
+          <div className="grid grid-cols-2 gap-2">
+            {patient.medicalHistory && (
+              <div>
+                <h3 className="font-semibold mb-2">Historial Médico:</h3>
+                <p className="text-sm text-muted-foreground">{patient.medicalHistory}</p>
+              </div>
+            )}
+
+            {patient.diseases && (
+              <div>
+                <h3 className="font-semibold mb-2">Enfermedades:</h3>
+                <p className="text-sm text-muted-foreground">{patient.diseases}</p>
               </div>
             )}
           </div>
 
-          {patient.medical_history && (
-            <div className="mt-4">
-              <h3 className="font-semibold mb-2">Historial Médico:</h3>
-              <p className="text-sm text-muted-foreground">{patient.medical_history}</p>
-            </div>
-          )}
 
-          {patient.diseases && (
-            <div className="mt-4">
-              <h3 className="font-semibold mb-2">Enfermedades:</h3>
-              <p className="text-sm text-muted-foreground">{patient.diseases}</p>
-            </div>
-          )}
         </Card>
       </div>
 

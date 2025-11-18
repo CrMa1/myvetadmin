@@ -194,7 +194,30 @@ async function GET(request, { params }) {
                 status: 400
             });
         }
-        const patients = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])("SELECT * FROM patients WHERE id = ? AND user_id = ? AND clinic_id = ?", [
+        const patients = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`
+      SELECT 
+      p.id,
+        p.name,
+        p.client_id,
+        CONCAT(c.first_name, ' ', c.last_name) as ownerName,
+        c.phone as ownerPhone,
+        c.email as ownerEmail,
+        c.address as ownerAddress,
+        species.name as animalType,
+        p.species_id,
+        p.breed,
+        p.age,
+        p.weight,
+        p.sex,
+        p.color,
+        p.medical_history as medicalHistory,
+        p.allergies as diseases,
+        p.last_visit as lastVisit
+      FROM patients p
+      INNER JOIN species ON p.species_id = species.id
+      INNER JOIN clients c ON p.client_id = c.id
+      WHERE p.id = ? AND p.user_id = ? AND p.clinic_id = ?
+      `, [
             id,
             userId,
             clinicId
