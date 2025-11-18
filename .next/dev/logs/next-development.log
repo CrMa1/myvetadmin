@@ -636,3 +636,875 @@ Import traces:
 [02:50:06.327] Server  ERROR   [v0] Error sqlState: "42S22"
 [02:50:06.362] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
 [02:50:06.392] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[02:55:06.010] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[02:55:06.389] Server  ERROR   [v0] Database query error - Full details:
+[02:55:06.390] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[02:55:06.390] Server  ERROR   [v0] Params: ["13","13"]
+[02:55:06.390] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[02:55:06.391] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[02:55:06.391] Server  ERROR   [v0] Error sqlState: "42S22"
+[02:55:06.417] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[02:55:06.456] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:00:06.015] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[03:00:06.346] Server  ERROR   [v0] Database query error - Full details:
+[03:00:06.347] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[03:00:06.347] Server  ERROR   [v0] Params: ["13","13"]
+[03:00:06.347] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[03:00:06.348] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[03:00:06.348] Server  ERROR   [v0] Error sqlState: "42S22"
+[03:00:06.378] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:00:06.418] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:05:06.007] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[03:05:06.343] Server  ERROR   [v0] Database query error - Full details:
+[03:05:06.343] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[03:05:06.344] Server  ERROR   [v0] Params: ["13","13"]
+[03:05:06.344] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[03:05:06.344] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[03:05:06.344] Server  ERROR   [v0] Error sqlState: "42S22"
+[03:05:06.383] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:05:06.413] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:10:06.005] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[03:10:06.510] Server  ERROR   [v0] Database query error - Full details:
+[03:10:06.510] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[03:10:06.511] Server  ERROR   [v0] Params: ["13","13"]
+[03:10:06.511] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[03:10:06.511] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[03:10:06.511] Server  ERROR   [v0] Error sqlState: "42S22"
+[03:10:06.556] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:10:06.586] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:15:05.999] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[03:15:06.493] Server  ERROR   [v0] Database query error - Full details:
+[03:15:06.494] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[03:15:06.494] Server  ERROR   [v0] Params: ["13","13"]
+[03:15:06.494] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[03:15:06.494] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[03:15:06.495] Server  ERROR   [v0] Error sqlState: "42S22"
+[03:15:06.524] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:15:06.554] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:20:05.997] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[03:20:06.355] Server  ERROR   [v0] Database query error - Full details:
+[03:20:06.356] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[03:20:06.356] Server  ERROR   [v0] Params: ["13","13"]
+[03:20:06.356] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[03:20:06.356] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[03:20:06.357] Server  ERROR   [v0] Error sqlState: "42S22"
+[03:20:06.387] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:20:06.414] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:25:05.995] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[03:25:06.451] Server  ERROR   [v0] Database query error - Full details:
+[03:25:06.452] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[03:25:06.452] Server  ERROR   [v0] Params: ["13","13"]
+[03:25:06.452] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[03:25:06.452] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[03:25:06.452] Server  ERROR   [v0] Error sqlState: "42S22"
+[03:25:06.480] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:25:06.519] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:30:05.996] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[03:30:06.450] Server  ERROR   [v0] Database query error - Full details:
+[03:30:06.451] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[03:30:06.451] Server  ERROR   [v0] Params: ["13","13"]
+[03:30:06.451] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[03:30:06.451] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[03:30:06.452] Server  ERROR   [v0] Error sqlState: "42S22"
+[03:30:06.484] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:30:06.513] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:35:06.003] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[03:35:06.363] Server  ERROR   [v0] Database query error - Full details:
+[03:35:06.364] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[03:35:06.364] Server  ERROR   [v0] Params: ["13","13"]
+[03:35:06.364] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[03:35:06.365] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[03:35:06.365] Server  ERROR   [v0] Error sqlState: "42S22"
+[03:35:06.402] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:35:06.434] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:40:06.010] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[03:40:06.362] Server  ERROR   [v0] Database query error - Full details:
+[03:40:06.362] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[03:40:06.363] Server  ERROR   [v0] Params: ["13","13"]
+[03:40:06.363] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[03:40:06.363] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[03:40:06.363] Server  ERROR   [v0] Error sqlState: "42S22"
+[03:40:06.394] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:40:06.428] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:45:06.002] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[03:45:06.395] Server  ERROR   [v0] Database query error - Full details:
+[03:45:06.396] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[03:45:06.396] Server  ERROR   [v0] Params: ["13","13"]
+[03:45:06.396] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[03:45:06.397] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[03:45:06.397] Server  ERROR   [v0] Error sqlState: "42S22"
+[03:45:06.430] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:45:06.459] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:50:06.009] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[03:50:06.431] Server  ERROR   [v0] Database query error - Full details:
+[03:50:06.432] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[03:50:06.432] Server  ERROR   [v0] Params: ["13","13"]
+[03:50:06.432] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[03:50:06.433] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[03:50:06.433] Server  ERROR   [v0] Error sqlState: "42S22"
+[03:50:06.472] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:50:06.505] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:55:06.016] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[03:55:06.391] Server  ERROR   [v0] Database query error - Full details:
+[03:55:06.392] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[03:55:06.392] Server  ERROR   [v0] Params: ["13","13"]
+[03:55:06.393] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[03:55:06.393] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[03:55:06.393] Server  ERROR   [v0] Error sqlState: "42S22"
+[03:55:06.427] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[03:55:06.463] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:00:06.010] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:00:06.337] Server  ERROR   [v0] Database query error - Full details:
+[04:00:06.337] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[04:00:06.338] Server  ERROR   [v0] Params: ["13","13"]
+[04:00:06.338] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[04:00:06.338] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[04:00:06.338] Server  ERROR   [v0] Error sqlState: "42S22"
+[04:00:06.379] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:00:06.429] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:05:06.001] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:05:06.345] Server  ERROR   [v0] Database query error - Full details:
+[04:05:06.345] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[04:05:06.346] Server  ERROR   [v0] Params: ["13","13"]
+[04:05:06.346] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[04:05:06.346] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[04:05:06.346] Server  ERROR   [v0] Error sqlState: "42S22"
+[04:05:06.386] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:05:06.428] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:10:06.003] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:10:06.324] Server  ERROR   [v0] Database query error - Full details:
+[04:10:06.325] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[04:10:06.325] Server  ERROR   [v0] Params: ["13","13"]
+[04:10:06.325] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[04:10:06.326] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[04:10:06.326] Server  ERROR   [v0] Error sqlState: "42S22"
+[04:10:06.376] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:10:06.416] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:15:05.995] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:15:06.470] Server  ERROR   [v0] Database query error - Full details:
+[04:15:06.470] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[04:15:06.471] Server  ERROR   [v0] Params: ["13","13"]
+[04:15:06.471] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[04:15:06.471] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[04:15:06.471] Server  ERROR   [v0] Error sqlState: "42S22"
+[04:15:06.503] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:15:06.533] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:20:05.999] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:20:06.360] Server  ERROR   [v0] Database query error - Full details:
+[04:20:06.361] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[04:20:06.361] Server  ERROR   [v0] Params: ["13","13"]
+[04:20:06.361] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[04:20:06.362] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[04:20:06.362] Server  ERROR   [v0] Error sqlState: "42S22"
+[04:20:06.404] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:20:06.442] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:25:06.000] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:25:06.341] Server  ERROR   [v0] Database query error - Full details:
+[04:25:06.342] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[04:25:06.342] Server  ERROR   [v0] Params: ["13","13"]
+[04:25:06.342] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[04:25:06.343] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[04:25:06.343] Server  ERROR   [v0] Error sqlState: "42S22"
+[04:25:06.386] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:25:06.443] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:30:06.010] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:30:06.336] Server  ERROR   [v0] Database query error - Full details:
+[04:30:06.336] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[04:30:06.337] Server  ERROR   [v0] Params: ["13","13"]
+[04:30:06.337] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[04:30:06.337] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[04:30:06.337] Server  ERROR   [v0] Error sqlState: "42S22"
+[04:30:06.374] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:30:06.416] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:35:06.005] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:35:06.323] Server  ERROR   [v0] Database query error - Full details:
+[04:35:06.323] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[04:35:06.324] Server  ERROR   [v0] Params: ["13","13"]
+[04:35:06.324] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[04:35:06.324] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[04:35:06.325] Server  ERROR   [v0] Error sqlState: "42S22"
+[04:35:06.367] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:35:06.407] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:40:06.012] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:40:06.369] Server  ERROR   [v0] Database query error - Full details:
+[04:40:06.370] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[04:40:06.370] Server  ERROR   [v0] Params: ["13","13"]
+[04:40:06.370] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[04:40:06.371] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[04:40:06.371] Server  ERROR   [v0] Error sqlState: "42S22"
+[04:40:06.412] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:40:06.453] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:45:05.999] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:45:06.377] Server  ERROR   [v0] Database query error - Full details:
+[04:45:06.378] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[04:45:06.378] Server  ERROR   [v0] Params: ["13","13"]
+[04:45:06.378] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[04:45:06.379] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[04:45:06.379] Server  ERROR   [v0] Error sqlState: "42S22"
+[04:45:06.422] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:45:06.465] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:50:06.005] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:50:06.342] Server  ERROR   [v0] Database query error - Full details:
+[04:50:06.343] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[04:50:06.343] Server  ERROR   [v0] Params: ["13","13"]
+[04:50:06.344] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[04:50:06.344] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[04:50:06.344] Server  ERROR   [v0] Error sqlState: "42S22"
+[04:50:06.386] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:50:06.429] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:55:06.011] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:55:06.327] Server  ERROR   [v0] Database query error - Full details:
+[04:55:06.327] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[04:55:06.328] Server  ERROR   [v0] Params: ["13","13"]
+[04:55:06.328] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[04:55:06.328] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[04:55:06.329] Server  ERROR   [v0] Error sqlState: "42S22"
+[04:55:06.367] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[04:55:06.412] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:00:05.995] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:00:06.318] Server  ERROR   [v0] Database query error - Full details:
+[05:00:06.318] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[05:00:06.319] Server  ERROR   [v0] Params: ["13","13"]
+[05:00:06.319] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[05:00:06.319] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[05:00:06.319] Server  ERROR   [v0] Error sqlState: "42S22"
+[05:00:06.349] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:00:06.385] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:05:05.996] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:05:06.332] Server  ERROR   [v0] Database query error - Full details:
+[05:05:06.332] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[05:05:06.333] Server  ERROR   [v0] Params: ["13","13"]
+[05:05:06.333] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[05:05:06.333] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[05:05:06.333] Server  ERROR   [v0] Error sqlState: "42S22"
+[05:05:06.379] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:05:06.421] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:10:06.001] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:10:06.324] Server  ERROR   [v0] Database query error - Full details:
+[05:10:06.324] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[05:10:06.324] Server  ERROR   [v0] Params: ["13","13"]
+[05:10:06.325] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[05:10:06.325] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[05:10:06.325] Server  ERROR   [v0] Error sqlState: "42S22"
+[05:10:06.366] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:10:06.395] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:15:06.006] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:15:06.323] Server  ERROR   [v0] Database query error - Full details:
+[05:15:06.323] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[05:15:06.323] Server  ERROR   [v0] Params: ["13","13"]
+[05:15:06.324] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[05:15:06.324] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[05:15:06.324] Server  ERROR   [v0] Error sqlState: "42S22"
+[05:15:06.368] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:15:06.401] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:20:06.000] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:20:06.326] Server  ERROR   [v0] Database query error - Full details:
+[05:20:06.326] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[05:20:06.326] Server  ERROR   [v0] Params: ["13","13"]
+[05:20:06.327] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[05:20:06.327] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[05:20:06.327] Server  ERROR   [v0] Error sqlState: "42S22"
+[05:20:06.354] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:20:06.381] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:25:06.000] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:25:06.314] Server  ERROR   [v0] Database query error - Full details:
+[05:25:06.314] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[05:25:06.314] Server  ERROR   [v0] Params: ["13","13"]
+[05:25:06.315] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[05:25:06.315] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[05:25:06.315] Server  ERROR   [v0] Error sqlState: "42S22"
+[05:25:06.342] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:25:06.395] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:30:06.005] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:30:06.332] Server  ERROR   [v0] Database query error - Full details:
+[05:30:06.332] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[05:30:06.333] Server  ERROR   [v0] Params: ["13","13"]
+[05:30:06.333] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[05:30:06.333] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[05:30:06.333] Server  ERROR   [v0] Error sqlState: "42S22"
+[05:30:06.360] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:30:06.413] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:35:06.000] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:35:06.326] Server  ERROR   [v0] Database query error - Full details:
+[05:35:06.327] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[05:35:06.327] Server  ERROR   [v0] Params: ["13","13"]
+[05:35:06.327] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[05:35:06.328] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[05:35:06.328] Server  ERROR   [v0] Error sqlState: "42S22"
+[05:35:06.357] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:35:06.389] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:40:06.006] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:40:06.323] Server  ERROR   [v0] Database query error - Full details:
+[05:40:06.323] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[05:40:06.323] Server  ERROR   [v0] Params: ["13","13"]
+[05:40:06.324] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[05:40:06.324] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[05:40:06.324] Server  ERROR   [v0] Error sqlState: "42S22"
+[05:40:06.350] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:40:06.391] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:45:05.989] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:45:06.309] Server  ERROR   [v0] Database query error - Full details:
+[05:45:06.309] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[05:45:06.309] Server  ERROR   [v0] Params: ["13","13"]
+[05:45:06.310] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[05:45:06.310] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[05:45:06.310] Server  ERROR   [v0] Error sqlState: "42S22"
+[05:45:06.341] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:45:06.377] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:50:05.999] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:50:06.315] Server  ERROR   [v0] Database query error - Full details:
+[05:50:06.315] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[05:50:06.316] Server  ERROR   [v0] Params: ["13","13"]
+[05:50:06.316] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[05:50:06.316] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[05:50:06.317] Server  ERROR   [v0] Error sqlState: "42S22"
+[05:50:06.353] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:50:06.395] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:55:06.001] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:55:06.321] Server  ERROR   [v0] Database query error - Full details:
+[05:55:06.322] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[05:55:06.322] Server  ERROR   [v0] Params: ["13","13"]
+[05:55:06.322] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[05:55:06.323] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[05:55:06.323] Server  ERROR   [v0] Error sqlState: "42S22"
+[05:55:06.368] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[05:55:06.407] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:00:06.003] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:00:06.333] Server  ERROR   [v0] Database query error - Full details:
+[06:00:06.334] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:00:06.334] Server  ERROR   [v0] Params: ["13","13"]
+[06:00:06.334] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[06:00:06.334] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:00:06.335] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:00:06.364] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:00:06.397] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:05:05.997] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:05:06.321] Server  ERROR   [v0] Database query error - Full details:
+[06:05:06.321] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:05:06.321] Server  ERROR   [v0] Params: ["13","13"]
+[06:05:06.322] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[06:05:06.322] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:05:06.322] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:05:06.349] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:05:06.375] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:10:06.004] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:10:06.314] Server  ERROR   [v0] Database query error - Full details:
+[06:10:06.314] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:10:06.315] Server  ERROR   [v0] Params: ["13","13"]
+[06:10:06.315] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[06:10:06.315] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:10:06.315] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:10:06.355] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:10:06.406] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:15:05.997] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:15:06.684] Server  ERROR   [v0] Database query error - Full details:
+[06:15:06.684] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:15:06.685] Server  ERROR   [v0] Params: ["13","13"]
+[06:15:06.685] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[06:15:06.685] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:15:06.685] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:15:06.712] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:15:06.747] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:20:05.993] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:20:06.385] Server  ERROR   [v0] Database query error - Full details:
+[06:20:06.386] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:20:06.386] Server  ERROR   [v0] Params: ["13","13"]
+[06:20:06.386] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[06:20:06.387] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:20:06.387] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:20:06.434] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:20:06.475] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:25:05.998] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:25:06.439] Server  ERROR   [v0] Database query error - Full details:
+[06:25:06.440] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:25:06.440] Server  ERROR   [v0] Params: ["13","13"]
+[06:25:06.441] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[06:25:06.441] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:25:06.441] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:25:06.469] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:25:06.513] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:30:06.003] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:30:06.335] Server  ERROR   [v0] Database query error - Full details:
+[06:30:06.336] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:30:06.336] Server  ERROR   [v0] Params: ["13","13"]
+[06:30:06.337] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[06:30:06.337] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:30:06.337] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:30:06.364] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:30:06.415] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:35:05.991] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:35:06.304] Server  ERROR   [v0] Database query error - Full details:
+[06:35:06.304] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:35:06.305] Server  ERROR   [v0] Params: ["13","13"]
+[06:35:06.305] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[06:35:06.305] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:35:06.305] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:35:06.334] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:35:06.360] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:40:05.999] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:40:06.319] Server  ERROR   [v0] Database query error - Full details:
+[06:40:06.320] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:40:06.320] Server  ERROR   [v0] Params: ["13","13"]
+[06:40:06.320] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[06:40:06.321] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:40:06.321] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:40:06.348] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:40:06.383] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:43:15.168] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:43:15.204] Server  LOG      ✓ Compiled in 104ms
+[06:43:15.479] Server  ERROR   [v0] Database query error - Full details:
+[06:43:15.480] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        patient_name as patientName, \n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:43:15.480] Server  ERROR   [v0] Params: ["13","13"]
+[06:43:15.480] Server  ERROR   [v0] Error message: "Unknown column 'patient_name' in 'SELECT'"
+[06:43:15.480] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:43:15.480] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:43:15.509] Server  ERROR   [v0] Error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:43:15.541] Server  ERROR   Get consultations error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:43:15.627] Server  LOG     [v0] Clients fetched: 1
+[06:43:21.738] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:43:21.743] Server  LOG     [v0] Fetching client status
+[06:43:21.816] Server  LOG     [v0] Clients fetched: 1
+[06:43:21.819] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/clientes color: rgb(120, 120, 120) color: inherit {"dp":"/clientes","o":"http://localhost:3000/clientes","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763503137486}
+[06:43:21.822] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:43:21.901] Server  LOG     [v0] Clients fetched: 1
+[06:43:21.919] Server  LOG     [v0] Client statuses fetched: 4
+[06:43:21.925] Server  LOG     [v0] Fetching client status
+[06:43:22.005] Server  LOG     [v0] Client statuses fetched: 4
+[06:43:22.760] Server  LOG     [v0] GET /api/patients - Request received
+[06:43:22.760] Server  LOG     [v0] Params: {}
+[06:43:22.770] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:43:22.825] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/pacientes color: rgb(120, 120, 120) color: inherit {"dp":"/pacientes","o":"http://localhost:3000/pacientes","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763503138491}
+[06:43:22.850] Server  LOG     [v0] Clients fetched: 1
+[06:43:22.860] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:43:23.059] Server  LOG     [v0] Clients fetched: 1
+[06:43:23.196] Server  LOG     [v0] Patients found: 3
+[06:43:23.202] Server  LOG     [v0] GET /api/patients - Request received
+[06:43:23.202] Server  LOG     [v0] Params: {}
+[06:43:23.287] Server  LOG     [v0] Patients found: 3
+[06:43:25.741] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:43:25.815] Server  ERROR   [v0] Database query error - Full details:
+[06:43:25.815] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        patient_name as patientName, \n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:43:25.816] Server  ERROR   [v0] Params: ["13","13"]
+[06:43:25.816] Server  ERROR   [v0] Error message: "Unknown column 'patient_name' in 'SELECT'"
+[06:43:25.816] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:43:25.816] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:43:25.847] Server  ERROR   [v0] Error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:43:25.874] Server  ERROR   Get consultations error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:43:25.875] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763503141483}
+[06:43:25.877] Server  LOG     [v0] Clients fetched: 1
+[06:43:25.890] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:43:25.968] Server  ERROR   [v0] Database query error - Full details:
+[06:43:25.969] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        patient_name as patientName, \n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:43:25.969] Server  ERROR   [v0] Params: ["13","13"]
+[06:43:25.969] Server  ERROR   [v0] Error message: "Unknown column 'patient_name' in 'SELECT'"
+[06:43:25.970] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:43:25.970] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:43:25.996] Server  ERROR   [v0] Error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:43:26.027] Server  ERROR   Get consultations error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:43:26.029] Server  LOG     [v0] Clients fetched: 1
+[06:43:27.878] Server  LOG     [v0] GET /api/patients - Request received
+[06:43:27.879] Server  LOG     [v0] Params: {}
+[06:43:27.888] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:43:27.941] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/pacientes color: rgb(120, 120, 120) color: inherit {"dp":"/pacientes","o":"http://localhost:3000/pacientes","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763503143608}
+[06:43:27.958] Server  LOG     [v0] Patients found: 3
+[06:43:27.964] Server  LOG     [v0] GET /api/patients - Request received
+[06:43:27.965] Server  LOG     [v0] Params: {}
+[06:43:27.966] Server  LOG     [v0] Clients fetched: 1
+[06:43:27.972] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:43:28.043] Server  LOG     [v0] Patients found: 3
+[06:43:28.049] Server  LOG     [v0] Clients fetched: 1
+[06:43:28.716] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:43:28.720] Server  LOG     [v0] Fetching client status
+[06:43:28.795] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/clientes color: rgb(120, 120, 120) color: inherit {"dp":"/clientes","o":"http://localhost:3000/clientes","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763503144464}
+[06:43:28.812] Server  LOG     [v0] Clients fetched: 1
+[06:43:28.818] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:43:28.906] Server  LOG     [v0] Client statuses fetched: 4
+[06:43:28.907] Server  LOG     [v0] Clients fetched: 1
+[06:43:28.913] Server  LOG     [v0] Fetching client status
+[06:43:28.990] Server  LOG     [v0] Client statuses fetched: 4
+[06:43:29.786] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:43:29.842] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763503145511}
+[06:43:29.866] Server  ERROR   [v0] Database query error - Full details:
+[06:43:29.866] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        patient_name as patientName, \n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:43:29.867] Server  ERROR   [v0] Params: ["13","13"]
+[06:43:29.867] Server  ERROR   [v0] Error message: "Unknown column 'patient_name' in 'SELECT'"
+[06:43:29.867] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:43:29.867] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:43:29.896] Server  ERROR   [v0] Error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:43:29.923] Server  ERROR   Get consultations error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:43:29.926] Server  LOG     [v0] Clients fetched: 1
+[06:43:29.943] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:43:30.018] Server  ERROR   [v0] Database query error - Full details:
+[06:43:30.019] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        patient_name as patientName, \n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:43:30.019] Server  ERROR   [v0] Params: ["13","13"]
+[06:43:30.019] Server  ERROR   [v0] Error message: "Unknown column 'patient_name' in 'SELECT'"
+[06:43:30.019] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:43:30.020] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:43:30.047] Server  ERROR   [v0] Error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:43:30.087] Server  ERROR   Get consultations error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:43:30.090] Server  LOG     [v0] Clients fetched: 1
+[06:43:41.462] Server  LOG      ✓ Compiled in 92ms
+[06:43:41.475] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:43:41.555] Server  LOG     [v0] Clients fetched: 1
+[06:43:41.566] Server  ERROR   [v0] Database query error - Full details:
+[06:43:41.566] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        patient_name as patientName, \n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:43:41.567] Server  ERROR   [v0] Params: ["13","13"]
+[06:43:41.567] Server  ERROR   [v0] Error message: "Unknown column 'patient_name' in 'SELECT'"
+[06:43:41.567] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:43:41.567] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:43:41.595] Server  ERROR   [v0] Error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:43:41.624] Server  ERROR   Get consultations error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:43:51.025] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:43:51.066] Server  LOG      ✓ Compiled in 85ms
+[06:43:51.103] Server  LOG     [v0] Clients fetched: 1
+[06:43:51.119] Server  ERROR   [v0] Database query error - Full details:
+[06:43:51.120] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        patient_name as patientName, \n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:43:51.120] Server  ERROR   [v0] Params: ["13","13"]
+[06:43:51.120] Server  ERROR   [v0] Error message: "Unknown column 'patient_name' in 'SELECT'"
+[06:43:51.120] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:43:51.120] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:43:51.167] Server  ERROR   [v0] Error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:43:51.196] Server  ERROR   Get consultations error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:44:14.695] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:44:14.758] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:44:14.768] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:44:14.837] Server  ERROR   [v0] Database query error - Full details:
+[06:44:14.838] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:44:14.838] Server  ERROR   [v0] Params: ["13","13"]
+[06:44:14.838] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[06:44:14.838] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:44:14.839] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:44:14.877] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:44:14.914] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:44:14.915] Server  ERROR   [v0] Database query error - Full details:
+[06:44:14.916] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        patient_name as patientName, \n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:44:14.916] Server  ERROR   [v0] Params: ["13","13"]
+[06:44:14.916] Server  ERROR   [v0] Error message: "Unknown column 'patient_name' in 'SELECT'"
+[06:44:14.916] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:44:14.917] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:44:14.964] Server  ERROR   [v0] Error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:44:14.999] Server  ERROR   Get consultations error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:44:15.000] Server  LOG     [v0] Clients fetched: 1
+[06:44:15.003] Browser ERROR   You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+[06:44:15.003] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[06:44:15.003] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[06:44:15.003] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763503190556}
+[06:44:15.020] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:44:15.027] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:44:15.105] Server  ERROR   [v0] Database query error - Full details:
+[06:44:15.105] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        c.patient_name as patientName,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:44:15.106] Server  ERROR   [v0] Params: ["13","13"]
+[06:44:15.106] Server  ERROR   [v0] Error message: "Unknown column 'c.patient_name' in 'SELECT'"
+[06:44:15.106] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:44:15.106] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:44:15.133] Server  ERROR   [v0] Error: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:44:15.163] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.patient_name' in 'SELECT'
+[06:44:15.164] Server  ERROR   [v0] Database query error - Full details:
+[06:44:15.165] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        patient_name as patientName, \n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:44:15.165] Server  ERROR   [v0] Params: ["13","13"]
+[06:44:15.165] Server  ERROR   [v0] Error message: "Unknown column 'patient_name' in 'SELECT'"
+[06:44:15.165] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:44:15.166] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:44:15.196] Server  ERROR   [v0] Error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:44:15.226] Server  ERROR   Get consultations error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:44:15.227] Server  LOG     [v0] Clients fetched: 1
+[06:45:14.003] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:45:14.054] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:45:14.129] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:45:14.156] Browser ERROR   You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+[06:45:14.156] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[06:45:14.156] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[06:45:14.156] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763503249825}
+[06:45:14.161] Server  ERROR   [v0] Database query error - Full details:
+[06:45:14.161] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        patient_name as patientName, \n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:45:14.162] Server  ERROR   [v0] Params: ["13","13"]
+[06:45:14.162] Server  ERROR   [v0] Error message: "Unknown column 'patient_name' in 'SELECT'"
+[06:45:14.162] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:45:14.162] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:45:14.208] Server  ERROR   [v0] Error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:45:14.253] Server  ERROR   Get consultations error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:45:14.259] Server  LOG     [v0] Clients fetched: 1
+[06:45:14.280] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:45:14.349] Server  ERROR   [v0] Database query error - Full details:
+[06:45:14.350] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        patient_name as patientName, \n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:45:14.350] Server  ERROR   [v0] Params: ["13","13"]
+[06:45:14.350] Server  ERROR   [v0] Error message: "Unknown column 'patient_name' in 'SELECT'"
+[06:45:14.350] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:45:14.351] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:45:14.384] Server  ERROR   [v0] Error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:45:14.413] Server  ERROR   Get consultations error: Error: Unknown column 'patient_name' in 'SELECT'
+[06:45:14.415] Server  LOG     [v0] Clients fetched: 1
+[06:45:14.497] Server  ERROR   [v0] Database query error - Full details:
+[06:45:14.498] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:45:14.498] Server  ERROR   [v0] Params: ["13","13"]
+[06:45:14.498] Server  ERROR   [v0] Error message: "Unknown column 'c.veterinarian' in 'SELECT'"
+[06:45:14.498] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:45:14.499] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:45:14.526] Server  ERROR   [v0] Error: Error: Unknown column 'c.veterinarian' in 'SELECT'
+[06:45:14.553] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.veterinarian' in 'SELECT'
+[06:45:14.561] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:45:14.647] Server  ERROR   [v0] Database query error - Full details:
+[06:45:14.647] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:45:14.647] Server  ERROR   [v0] Params: ["13","13"]
+[06:45:14.648] Server  ERROR   [v0] Error message: "Unknown column 'c.veterinarian' in 'SELECT'"
+[06:45:14.648] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:45:14.648] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:45:14.675] Server  ERROR   [v0] Error: Error: Unknown column 'c.veterinarian' in 'SELECT'
+[06:45:14.712] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.veterinarian' in 'SELECT'
+[06:45:59.626] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:45:59.667] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:45:59.674] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:45:59.759] Server  ERROR   [v0] Database query error - Full details:
+[06:45:59.760] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:45:59.760] Server  ERROR   [v0] Params: ["13","13"]
+[06:45:59.760] Server  ERROR   [v0] Error message: "Unknown column 'c.veterinarian' in 'SELECT'"
+[06:45:59.760] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:45:59.761] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:45:59.817] Server  ERROR   [v0] Error: Error: Unknown column 'c.veterinarian' in 'SELECT'
+[06:45:59.878] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.veterinarian' in 'SELECT'
+[06:45:59.881] Browser ERROR   You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+[06:45:59.881] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[06:45:59.881] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[06:45:59.881] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763503295444}
+[06:45:59.882] Server  LOG     [v0] Clients fetched: 1
+[06:45:59.895] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:45:59.899] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:45:59.975] Server  ERROR   [v0] Database query error - Full details:
+[06:45:59.975] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        c.veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:45:59.976] Server  ERROR   [v0] Params: ["13","13"]
+[06:45:59.976] Server  ERROR   [v0] Error message: "Unknown column 'c.veterinarian' in 'SELECT'"
+[06:45:59.976] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:45:59.976] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:46:00.006] Server  ERROR   [v0] Error: Error: Unknown column 'c.veterinarian' in 'SELECT'
+[06:46:00.039] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'c.veterinarian' in 'SELECT'
+[06:46:00.041] Server  LOG     [v0] Clients fetched: 1
+[06:46:00.125] Server  ERROR   [v0] Database query error - Full details:
+[06:46:00.126] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:46:00.126] Server  ERROR   [v0] Params: ["13","13"]
+[06:46:00.127] Server  ERROR   [v0] Error message: "Unknown column 'patients.owner' in 'SELECT'"
+[06:46:00.127] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:46:00.127] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:46:00.167] Server  ERROR   [v0] Error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:46:00.197] Server  ERROR   Get consultations error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:46:00.287] Server  ERROR   [v0] Database query error - Full details:
+[06:46:00.287] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:46:00.288] Server  ERROR   [v0] Params: ["13","13"]
+[06:46:00.288] Server  ERROR   [v0] Error message: "Unknown column 'patients.owner' in 'SELECT'"
+[06:46:00.288] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:46:00.288] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:46:00.317] Server  ERROR   [v0] Error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:46:00.356] Server  ERROR   Get consultations error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:47:13.575] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:47:13.630] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:47:13.697] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:47:13.716] Server  ERROR   [v0] Database query error - Full details:
+[06:47:13.717] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:47:13.717] Server  ERROR   [v0] Params: ["13","13"]
+[06:47:13.717] Server  ERROR   [v0] Error message: "Unknown column 'patients.owner' in 'SELECT'"
+[06:47:13.718] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:47:13.718] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:47:13.782] Server  ERROR   [v0] Error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:47:13.820] Server  ERROR   Get consultations error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:47:13.822] Server  LOG     [v0] Clients fetched: 1
+[06:47:13.824] Browser ERROR   You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+[06:47:13.824] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[06:47:13.824] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[06:47:13.824] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763503369397}
+[06:47:13.844] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:47:13.921] Server  ERROR   [v0] Database query error - Full details:
+[06:47:13.922] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:47:13.922] Server  ERROR   [v0] Params: ["13","13"]
+[06:47:13.922] Server  ERROR   [v0] Error message: "Unknown column 'patients.owner' in 'SELECT'"
+[06:47:13.923] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:47:13.923] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:47:13.953] Server  ERROR   [v0] Error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:47:13.987] Server  ERROR   Get consultations error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:47:13.990] Server  LOG     [v0] Clients fetched: 1
+[06:47:14.073] Server  ERROR   [v0] Database query error - Full details:
+[06:47:14.073] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        CONCAT(u.first_name, ' ', u.last_name) as veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      INNER JOIN users u ON c.user_id = u.veterinarian_id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:47:14.074] Server  ERROR   [v0] Params: ["13","13"]
+[06:47:14.074] Server  ERROR   [v0] Error message: "Unknown column 'u.first_name' in 'SELECT'"
+[06:47:14.074] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:47:14.074] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:47:14.102] Server  ERROR   [v0] Error: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:47:14.134] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:47:14.152] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:47:14.252] Server  ERROR   [v0] Database query error - Full details:
+[06:47:14.253] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        CONCAT(u.first_name, ' ', u.last_name) as veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      INNER JOIN users u ON c.user_id = u.veterinarian_id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:47:14.253] Server  ERROR   [v0] Params: ["13","13"]
+[06:47:14.253] Server  ERROR   [v0] Error message: "Unknown column 'u.first_name' in 'SELECT'"
+[06:47:14.254] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:47:14.254] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:47:14.282] Server  ERROR   [v0] Error: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:47:14.313] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:47:43.107] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:47:43.157] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:47:43.226] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:47:43.237] Server  ERROR   [v0] Database query error - Full details:
+[06:47:43.238] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:47:43.238] Server  ERROR   [v0] Params: ["13","13"]
+[06:47:43.238] Server  ERROR   [v0] Error message: "Unknown column 'patients.owner' in 'SELECT'"
+[06:47:43.239] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:47:43.239] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:47:43.283] Server  ERROR   [v0] Error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:47:43.316] Server  ERROR   Get consultations error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:47:43.319] Browser ERROR   You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+[06:47:43.319] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[06:47:43.319] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[06:47:43.319] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763503398924}
+[06:47:43.319] Server  LOG     [v0] Clients fetched: 1
+[06:47:43.339] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:47:43.422] Server  ERROR   [v0] Database query error - Full details:
+[06:47:43.423] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:47:43.423] Server  ERROR   [v0] Params: ["13","13"]
+[06:47:43.423] Server  ERROR   [v0] Error message: "Unknown column 'patients.owner' in 'SELECT'"
+[06:47:43.423] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:47:43.424] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:47:43.455] Server  ERROR   [v0] Error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:47:43.487] Server  ERROR   Get consultations error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:47:43.490] Server  LOG     [v0] Clients fetched: 1
+[06:47:43.601] Server  ERROR   [v0] Database query error - Full details:
+[06:47:43.602] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        CONCAT(u.first_name, ' ', u.last_name) as veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      INNER JOIN users u ON c.veterinarian_id = u.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:47:43.602] Server  ERROR   [v0] Params: ["13","13"]
+[06:47:43.602] Server  ERROR   [v0] Error message: "Unknown column 'u.first_name' in 'SELECT'"
+[06:47:43.603] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:47:43.603] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:47:43.637] Server  ERROR   [v0] Error: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:47:43.663] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:47:43.671] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:47:43.751] Server  ERROR   [v0] Database query error - Full details:
+[06:47:43.752] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        CONCAT(u.first_name, ' ', u.last_name) as veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      INNER JOIN users u ON c.veterinarian_id = u.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:47:43.752] Server  ERROR   [v0] Params: ["13","13"]
+[06:47:43.752] Server  ERROR   [v0] Error message: "Unknown column 'u.first_name' in 'SELECT'"
+[06:47:43.753] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:47:43.753] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:47:43.778] Server  ERROR   [v0] Error: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:47:43.813] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:47:48.350] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:47:48.390] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:47:48.401] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:47:48.489] Server  ERROR   [v0] Database query error - Full details:
+[06:47:48.490] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:47:48.490] Server  ERROR   [v0] Params: ["13","13"]
+[06:47:48.490] Server  ERROR   [v0] Error message: "Unknown column 'patients.owner' in 'SELECT'"
+[06:47:48.490] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:47:48.491] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:47:48.526] Server  ERROR   [v0] Error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:47:48.556] Server  ERROR   Get consultations error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:47:48.559] Server  LOG     [v0] Clients fetched: 1
+[06:47:48.561] Server  ERROR   [v0] Database query error - Full details:
+[06:47:48.561] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        CONCAT(u.first_name, ' ', u.last_name) as veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      INNER JOIN users u ON c.veterinarian_id = u.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:47:48.561] Server  ERROR   [v0] Params: ["13","13"]
+[06:47:48.562] Server  ERROR   [v0] Error message: "Unknown column 'u.first_name' in 'SELECT'"
+[06:47:48.562] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:47:48.562] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:47:48.594] Server  ERROR   [v0] Error: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:47:48.632] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:47:48.635] Browser ERROR   You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+[06:47:48.635] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[06:47:48.635] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[06:47:48.635] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763503404162}
+[06:47:48.655] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:47:48.658] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:47:48.735] Server  ERROR   [v0] Database query error - Full details:
+[06:47:48.736] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        clients.first_name as clientName,\n        patients.owner as ownerName,\n        patients.name as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:47:48.736] Server  ERROR   [v0] Params: ["13","13"]
+[06:47:48.736] Server  ERROR   [v0] Error message: "Unknown column 'patients.owner' in 'SELECT'"
+[06:47:48.736] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:47:48.737] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:47:48.773] Server  ERROR   [v0] Error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:47:48.806] Server  ERROR   Get consultations error: Error: Unknown column 'patients.owner' in 'SELECT'
+[06:47:48.808] Server  LOG     [v0] Clients fetched: 1
+[06:47:48.809] Server  ERROR   [v0] Database query error - Full details:
+[06:47:48.810] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        CONCAT(u.first_name, ' ', u.last_name) as veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      INNER JOIN users u ON c.veterinarian_id = u.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:47:48.810] Server  ERROR   [v0] Params: ["13","13"]
+[06:47:48.810] Server  ERROR   [v0] Error message: "Unknown column 'u.first_name' in 'SELECT'"
+[06:47:48.810] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:47:48.811] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:47:48.854] Server  ERROR   [v0] Error: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:47:48.881] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:48:40.596] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:48:40.640] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:48:40.648] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:48:40.733] Server  ERROR   [v0] Database query error - Full details:
+[06:48:40.733] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        CONCAT(u.first_name, ' ', u.last_name) as veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      INNER JOIN users u ON c.veterinarian_id = u.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:48:40.734] Server  ERROR   [v0] Params: ["13","13"]
+[06:48:40.734] Server  ERROR   [v0] Error message: "Unknown column 'u.first_name' in 'SELECT'"
+[06:48:40.734] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:48:40.734] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:48:40.795] Server  ERROR   [v0] Error: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:48:40.834] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:48:40.836] Server  LOG     [v0] Clients fetched: 1
+[06:48:40.838] Browser ERROR   You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+[06:48:40.838] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[06:48:40.838] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[06:48:40.838] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763503456412}
+[06:48:40.851] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:48:40.857] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:48:41.011] Server  LOG     [v0] Clients fetched: 1
+[06:48:41.016] Server  ERROR   [v0] Database query error - Full details:
+[06:48:41.017] Server  ERROR   [v0] Query: "SELECT \n        c.id,\n        c.consultation_date as date,\n        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,\n        p.name as patientName,\n        c.reason,\n        c.status,\n        CONCAT(u.first_name, ' ', u.last_name) as veterinarian\n      FROM consultations c\n      INNER JOIN patients p ON c.patient_id = p.id\n      INNER JOIN clients cl ON p.client_id = cl.id\n      INNER JOIN users u ON c.veterinarian_id = u.id\n      WHERE c.user_id = ? \n        AND c.clinic_id = ?\n        AND c.consultation_date >= CURDATE()\n        AND c.status != 'Completada'\n      ORDER BY c.consultation_date ASC, c.id ASC\n      LIMIT 10"
+[06:48:41.017] Server  ERROR   [v0] Params: ["13","13"]
+[06:48:41.018] Server  ERROR   [v0] Error message: "Unknown column 'u.first_name' in 'SELECT'"
+[06:48:41.018] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:48:41.018] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:48:41.061] Server  ERROR   [v0] Error: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:48:41.104] Server  ERROR   [v0] Error fetching notifications: Error: Unknown column 'u.first_name' in 'SELECT'
+[06:48:41.209] Server  ERROR   [v0] Database query error - Full details:
+[06:48:41.210] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        CONCAT(clients.first_name, ' ', clients.last_name) as clientName,\n        CONCAT(patients.name, ' ', patients.breed) as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:48:41.210] Server  ERROR   [v0] Params: ["13","13"]
+[06:48:41.210] Server  ERROR   [v0] Error message: "Unknown column 'veterinarian' in 'SELECT'"
+[06:48:41.210] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:48:41.211] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:48:41.240] Server  ERROR   [v0] Error: Error: Unknown column 'veterinarian' in 'SELECT'
+[06:48:41.270] Server  ERROR   Get consultations error: Error: Unknown column 'veterinarian' in 'SELECT'
+[06:48:41.366] Server  ERROR   [v0] Database query error - Full details:
+[06:48:41.366] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        CONCAT(clients.first_name, ' ', clients.last_name) as clientName,\n        CONCAT(patients.name, ' ', patients.breed) as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:48:41.367] Server  ERROR   [v0] Params: ["13","13"]
+[06:48:41.367] Server  ERROR   [v0] Error message: "Unknown column 'veterinarian' in 'SELECT'"
+[06:48:41.367] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:48:41.367] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:48:41.394] Server  ERROR   [v0] Error: Error: Unknown column 'veterinarian' in 'SELECT'
+[06:48:41.432] Server  ERROR   Get consultations error: Error: Unknown column 'veterinarian' in 'SELECT'
+[06:49:22.401] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:49:22.449] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:49:22.516] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:49:22.527] Server  ERROR   [v0] Database query error - Full details:
+[06:49:22.528] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        CONCAT(clients.first_name, ' ', clients.last_name) as clientName,\n        CONCAT(patients.name, ' ', patients.breed) as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:49:22.528] Server  ERROR   [v0] Params: ["13","13"]
+[06:49:22.528] Server  ERROR   [v0] Error message: "Unknown column 'veterinarian' in 'SELECT'"
+[06:49:22.529] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:49:22.529] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:49:22.576] Server  ERROR   [v0] Error: Error: Unknown column 'veterinarian' in 'SELECT'
+[06:49:22.608] Server  ERROR   Get consultations error: Error: Unknown column 'veterinarian' in 'SELECT'
+[06:49:22.610] Browser ERROR   You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+[06:49:22.610] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[06:49:22.610] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[06:49:22.610] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763503498219}
+[06:49:22.611] Server  LOG     [v0] Clients fetched: 1
+[06:49:22.629] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:49:22.702] Server  ERROR   [v0] Database query error - Full details:
+[06:49:22.703] Server  ERROR   [v0] Query: "SELECT \n        consultations.id, \n        consultations.patient_id as patientId,\n        consultations.client_id as clientId,\n        CONCAT(clients.first_name, ' ', clients.last_name) as clientName,\n        CONCAT(patients.name, ' ', patients.breed) as patientName,\n        reason, \n        diagnosis, \n        treatment, \n        notes, \n        consultation_date as date, \n        veterinarian, \n        status, \n        cost \n       FROM consultations \n       INNER JOIN patients ON consultations.patient_id = patients.id\n       INNER JOIN clients ON consultations.client_id = clients.id\n       WHERE consultations.user_id = ? AND consultations.clinic_id = ?\n       ORDER BY consultation_date DESC"
+[06:49:22.703] Server  ERROR   [v0] Params: ["13","13"]
+[06:49:22.703] Server  ERROR   [v0] Error message: "Unknown column 'veterinarian' in 'SELECT'"
+[06:49:22.703] Server  ERROR   [v0] Error code: "ER_BAD_FIELD_ERROR"
+[06:49:22.704] Server  ERROR   [v0] Error sqlState: "42S22"
+[06:49:22.735] Server  ERROR   [v0] Error: Error: Unknown column 'veterinarian' in 'SELECT'
+[06:49:22.769] Server  ERROR   Get consultations error: Error: Unknown column 'veterinarian' in 'SELECT'
+[06:49:22.771] Server  LOG     [v0] Clients fetched: 1
+[06:49:22.955] Server  LOG     [v0] Found upcoming consultations: 0
+[06:49:22.962] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:49:23.041] Server  LOG     [v0] Found upcoming consultations: 0
+[06:50:15.344] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[06:50:15.387] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:50:15.393] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:50:15.483] Server  LOG     [v0] Found upcoming consultations: 0
+[06:50:15.485] Server  LOG     [v0] Clients fetched: 1
+[06:50:15.492] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:50:15.499] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[06:50:15.500] Browser ERROR   You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+[06:50:15.500] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[06:50:15.500] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[06:50:15.500] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763503551163}
+[06:50:15.571] Server  LOG     [v0] Found upcoming consultations: 0
+[06:50:15.575] Server  LOG     [v0] Clients fetched: 1

@@ -15,13 +15,12 @@ import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
 import { ConsultationStats } from "@/components/consultations/consultation-stats"
-import { formatCurrency, parseCurrency, handleCurrencyInput } from "@/lib/currency"
+import { formatCurrency, parseCurrency } from "@/lib/currency"
 
 export default function ConsultasPage() {
   const { user, selectedClinic, getUserId, getClinicId } = useAuth()
   const { showSuccess, showError, showWarning, AlertContainer } = useAlertToast()
   const [consultations, setConsultations] = useState([])
-  const [patients, setPatients] = useState([])
   const [staff, setStaff] = useState([])
   const [filteredConsultations, setFilteredConsultations] = useState([])
   const [isDialogOpen, setIsDialogOpen] = useState(false)

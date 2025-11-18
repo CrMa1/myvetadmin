@@ -16,21 +16,20 @@ export async function GET(request) {
         consultations.id, 
         consultations.patient_id as patientId,
         consultations.client_id as clientId,
-        patient_name as patientName, 
-        clients.first_name as clientName,
-        patients.owner as ownerName,
-        patients.name as patientName,
+        CONCAT(clients.first_name, ' ', clients.last_name) as clientName,
+        CONCAT(patients.name, ' ', patients.breed) as patientName,
         reason, 
         diagnosis, 
         treatment, 
         notes, 
         consultation_date as date, 
-        veterinarian, 
         status, 
-        cost 
+        cost,
+        users.name as veterinarian
        FROM consultations 
        INNER JOIN patients ON consultations.patient_id = patients.id
        INNER JOIN clients ON consultations.client_id = clients.id
+       INNER JOIN users ON consultations.veterinarian_id = users.id
        WHERE consultations.user_id = ? AND consultations.clinic_id = ?
        ORDER BY consultation_date DESC`,
       [userId, clinicId],
@@ -78,7 +77,6 @@ export async function POST(request) {
         id, 
         patient_id as patientId,
         client_id as clientId,
-        patient_name as patientName, 
         accompanied_by as accompaniedBy,
         reason, 
         diagnosis, 
