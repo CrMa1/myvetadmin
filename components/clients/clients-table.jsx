@@ -1,19 +1,19 @@
 "use client"
 
-import { useState, useMemo } from "react"
-import { useRouter } from 'next/navigation'
+import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Search, Edit, Trash2, FileText } from 'lucide-react'
+import { Search, Edit, Trash2, Eye, Mail, Phone } from 'lucide-react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
+import { useRouter } from 'next/navigation'
 
-export function PatientsTable({ patients, onEdit, onDelete, onSearch }) {
-  const [searchQuery, setSearchQuery] = useState("")
+export function ClientsTable({ clients, onEdit, onDelete, onSearch }) {
   const router = useRouter()
+  const [searchQuery, setSearchQuery] = useState("")
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
-  const [selectedPatient, setSelectedPatient] = useState(null)
+  const [selectedClient, setSelectedClient] = useState(null)
 
   const handleSearchChange = (e) => {
     const value = e.target.value
@@ -21,17 +21,31 @@ export function PatientsTable({ patients, onEdit, onDelete, onSearch }) {
     onSearch(value)
   }
 
-  const handleDeleteClick = (patient) => {
-    setSelectedPatient(patient)
+  const handleDeleteClick = (client) => {
+    setSelectedClient(client)
     setIsDeleteDialogOpen(true)
   }
 
   const handleConfirmDelete = () => {
-    if (selectedPatient) {
-      onDelete(selectedPatient.id)
+    if (selectedClient) {
+      onDelete(selectedClient.id)
       setIsDeleteDialogOpen(false)
-      setSelectedPatient(null)
+      setSelectedClient(null)
     }
+  }
+
+  const handleViewDetail = (client) => {
+    router.push(`/clientes/${client.id}`)
+  }
+
+  const getStatusVariant = (status) => {
+    const variants = {
+      Nuevo: "default",
+      Frecuente: "secondary",
+      Especial: "default",
+      Inactivo: "secondary",
+    }
+    return variants[status] || "default"
   }
 
   return (
@@ -40,14 +54,14 @@ export function PatientsTable({ patients, onEdit, onDelete, onSearch }) {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>Lista de Pacientes</CardTitle>
-              <CardDescription>Todas las mascotas registradas en el sistema</CardDescription>
+              <CardTitle>Lista de Clientes</CardTitle>
+              <CardDescription>Todos los clientes registrados en el sistema</CardDescription>
             </div>
             <div className="relative w-64">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
-                placeholder="Buscar pacientes..."
+                placeholder="Buscar clientes..."
                 className="pl-10"
                 value={searchQuery}
                 onChange={handleSearchChange}
@@ -63,75 +77,78 @@ export function PatientsTable({ patients, onEdit, onDelete, onSearch }) {
                   <tr>
                     <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">ID</th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Nombre</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Tipo</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Raza</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Edad</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Peso</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Dueño</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Teléfono</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Última Visita</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Contacto</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Dirección</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Mascotas</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Estado</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Fecha Registro</th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Acciones</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
-                  {patients.length === 0 ? (
+                  {clients.length === 0 ? (
                     <tr>
-                      <td colSpan={10} className="text-center py-12">
-                        <p className="text-muted-foreground">No se encontraron pacientes</p>
+                      <td colSpan={8} className="text-center py-12">
+                        <p className="text-muted-foreground">No se encontraron clientes</p>
                       </td>
                     </tr>
                   ) : (
-                    patients.map((patient) => (
-                      <tr key={patient.id} className="hover:bg-muted/30 transition-colors">
-                        <td className="px-4 py-3 text-sm font-mono text-muted-foreground">{patient.id}</td>
+                    clients.map((client) => (
+                      <tr key={client.id} className="hover:bg-muted/30 transition-colors">
+                        <td className="px-4 py-3 text-sm font-mono text-muted-foreground">{client.id}</td>
                         <td className="px-4 py-3">
-                          <p className="font-medium">{patient.name}</p>
+                          <p className="font-medium">{`${client.first_name} ${client.last_name}`}</p>
                         </td>
                         <td className="px-4 py-3">
-                          <Badge variant="secondary">{patient.animalType}</Badge>
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-1 text-sm">
+                              <Phone className="h-3 w-3 text-muted-foreground" />
+                              <span className="text-xs">{client.phone}</span>
+                            </div>
+                            {client.email && (
+                              <div className="flex items-center gap-1 text-sm">
+                                <Mail className="h-3 w-3 text-muted-foreground" />
+                                <span className="text-xs">{client.email}</span>
+                              </div>
+                            )}
+                          </div>
                         </td>
                         <td className="px-4 py-3">
-                          <p className="text-sm">{patient.breed}</p>
+                          <p className="text-sm max-w-xs truncate">{client.address || "-"}</p>
                         </td>
                         <td className="px-4 py-3">
-                          <p className="text-sm">{patient.age} años</p>
+                          <p className="text-sm font-medium">{client.patient_count || 0}</p>
                         </td>
                         <td className="px-4 py-3">
-                          <p className="text-sm">{patient.weight} kg</p>
+                          <Badge variant={getStatusVariant(client.status_name)}>{client.status_name}</Badge>
                         </td>
                         <td className="px-4 py-3">
-                          <p className="text-sm">{patient.ownerName}</p>
-                        </td>
-                        <td className="px-4 py-3">
-                          <p className="text-sm">{patient.ownerPhone}</p>
-                        </td>
-                        <td className="px-4 py-3">
-                          <p className="text-sm">{new Date(patient.lastVisit).toLocaleDateString("es-MX")}</p>
+                          <p className="text-sm">{new Date(client.created_at).toLocaleDateString("es-MX")}</p>
                         </td>
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-2">
-                            <Button
-                              variant="ghost"
+                            <Button 
+                              variant="ghost" 
                               size="icon"
                               className="h-8 w-8"
-                              onClick={() => router.push(`/kardex/${patient.id}`)}
-                              title="Ver Kardex"
+                              onClick={() => handleViewDetail(client)}
+                              title="Ver Detalle"
                             >
-                              <FileText className="h-4 w-4" />
+                              <Eye className="h-4 w-4" />
                             </Button>
-                            <Button
-                              variant="ghost"
+                            <Button 
+                              variant="ghost" 
                               size="icon"
                               className="h-8 w-8"
-                              onClick={() => onEdit(patient)}
+                              onClick={() => onEdit(client)}
                             >
                               <Edit className="h-4 w-4" />
                             </Button>
-                            <Button
-                              variant="ghost"
+                            <Button 
+                              variant="ghost" 
                               size="icon"
                               className="h-8 w-8 text-destructive hover:text-destructive"
-                              onClick={() => handleDeleteClick(patient)}
+                              onClick={() => handleDeleteClick(client)}
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>
@@ -146,7 +163,7 @@ export function PatientsTable({ patients, onEdit, onDelete, onSearch }) {
           </div>
           <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
             <p>
-              Mostrando {patients.length} paciente(s)
+              Mostrando {clients.length} cliente(s)
             </p>
           </div>
         </CardContent>
@@ -157,8 +174,11 @@ export function PatientsTable({ patients, onEdit, onDelete, onSearch }) {
           <DialogHeader>
             <DialogTitle>Confirmar Eliminación</DialogTitle>
             <DialogDescription>
-              ¿Está seguro que desea eliminar al paciente <strong>{selectedPatient?.name}</strong>? Esta acción no se
-              puede deshacer.
+              ¿Está seguro que desea eliminar al cliente{" "}
+              <strong>
+                {selectedClient?.first_name} {selectedClient?.last_name}
+              </strong>
+              ? Esta acción no se puede deshacer.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

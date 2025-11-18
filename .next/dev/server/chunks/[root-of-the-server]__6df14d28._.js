@@ -147,12 +147,20 @@ async function getConnection() {
     return pool;
 }
 async function query(sql, params) {
+    //console.log("[v0] Query params:", params)
     const connection = await getConnection();
     try {
         const [results] = await connection.execute(sql, params);
+        //console.log("[v0] Query successful, rows returned:", Array.isArray(results) ? results.length : "single result")
         return results;
     } catch (error) {
-        console.error("Database query error:", error);
+        console.error("[v0] Database query error - Full details:");
+        console.error("[v0] Query:", sql);
+        console.error("[v0] Params:", params);
+        console.error("[v0] Error message:", error.message);
+        console.error("[v0] Error code:", error.code);
+        console.error("[v0] Error sqlState:", error.sqlState);
+        console.error("[v0] Error:", error);
         throw error;
     }
 }
@@ -174,7 +182,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$
 ;
 async function GET(request, { params }) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const { searchParams } = new URL(request.url);
         const userId = searchParams.get("userId");
         const clinicId = searchParams.get("clinicId");

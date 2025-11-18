@@ -1596,8 +1596,12 @@ function PatientsPage() {
     const [patients, setPatients] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [filteredPatients, setFilteredPatients] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [species, setSpecies] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [clients, setClients] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]) // Estado para clientes
+    ;
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [isDialogOpen, setIsDialogOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [isClientDialogOpen, setIsClientDialogOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false) // Dialog para nuevo cliente
+    ;
     const [editingPatient, setEditingPatient] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [activeFilter, setActiveFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [formData, setFormData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
@@ -1607,16 +1611,24 @@ function PatientsPage() {
         age: "",
         weight: "",
         sex: "",
-        owner: "",
+        clientId: "",
         color: "",
         medicalHistory: "",
         allergies: ""
+    });
+    const [newClientData, setNewClientData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
+        name: "",
+        lastName: "",
+        phone: "",
+        email: "",
+        address: ""
     });
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "PatientsPage.useEffect": ()=>{
             if (getUserId() && getClinicId()) {
                 fetchPatients();
                 fetchSpecies();
+                fetchClients(); // Obtener clientes
             }
         }
     }["PatientsPage.useEffect"], [
@@ -1654,6 +1666,19 @@ function PatientsPage() {
             console.error("Error fetching species:", error);
         }
     };
+    const fetchClients = async ()=>{
+        try {
+            const response = await fetch(`/api/clients?userId=${getUserId()}&clinicId=${getClinicId()}`);
+            const result = await response.json();
+            if (result.success) {
+                setClients(result.data);
+            } else {
+                showWarning("No se pudieron cargar los clientes");
+            }
+        } catch (error) {
+            console.error("Error fetching clients:", error);
+        }
+    };
     const handleAdd = ()=>{
         setEditingPatient(null);
         setFormData({
@@ -1663,7 +1688,7 @@ function PatientsPage() {
             age: "",
             weight: "",
             sex: "",
-            owner: "",
+            clientId: "",
             color: "",
             medicalHistory: "",
             allergies: ""
@@ -1674,12 +1699,12 @@ function PatientsPage() {
         setEditingPatient(patient);
         setFormData({
             name: patient.name || "",
-            species: patient.species_id.toString() || "",
+            species: patient.species_id?.toString() || "",
             breed: patient.breed || "",
             age: patient.age || "",
             weight: patient.weight || "",
             sex: patient.sex || "",
-            owner: patient.owner || "",
+            clientId: patient.client_id?.toString() || "",
             color: patient.color || "",
             medicalHistory: patient.medical_history || "",
             allergies: patient.allergies || ""
@@ -1706,8 +1731,8 @@ function PatientsPage() {
     };
     const handleSubmit = async (e)=>{
         e.preventDefault();
-        if (!formData.name || !formData.species || !formData.owner) {
-            showWarning("Por favor completa todos los campos requeridos");
+        if (!formData.name || !formData.species || !formData.clientId) {
+            showWarning("Por favor completa todos los campos requeridos, incluyendo el cliente");
             return;
         }
         try {
@@ -1720,7 +1745,7 @@ function PatientsPage() {
                 age: formData.age,
                 weight: formData.weight,
                 sex: formData.sex,
-                owner: formData.owner,
+                clientId: formData.clientId,
                 color: formData.color,
                 medicalHistory: formData.medicalHistory,
                 allergies: formData.allergies,
@@ -1734,7 +1759,7 @@ function PatientsPage() {
                 age: formData.age,
                 weight: formData.weight,
                 sex: formData.sex,
-                owner: formData.owner,
+                clientId: formData.clientId,
                 color: formData.color,
                 medicalHistory: formData.medicalHistory,
                 allergies: formData.allergies,
@@ -1761,6 +1786,53 @@ function PatientsPage() {
             showError("Error al guardar el paciente");
         }
     };
+    const handleSaveNewClient = async (e)=>{
+        e.preventDefault();
+        if (!newClientData.name || !newClientData.lastName || !newClientData.phone) {
+            showWarning("Por favor completa los campos requeridos del cliente");
+            return;
+        }
+        // Validar teléfono de 10 dígitos
+        if (newClientData.phone.length !== 10) {
+            showWarning("El teléfono debe tener 10 dígitos");
+            return;
+        }
+        try {
+            const response = await fetch("/api/clients", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    ...newClientData,
+                    userId: getUserId(),
+                    clinicId: getClinicId()
+                })
+            });
+            const result = await response.json();
+            if (result.success) {
+                showSuccess("Cliente agregado exitosamente");
+                await fetchClients();
+                setFormData({
+                    ...formData,
+                    clientId: result.data.id.toString()
+                });
+                setIsClientDialogOpen(false);
+                setNewClientData({
+                    name: "",
+                    lastName: "",
+                    phone: "",
+                    email: "",
+                    address: ""
+                });
+            } else {
+                showError(result.error || "Error al guardar el cliente");
+            }
+        } catch (error) {
+            console.error("Error saving client:", error);
+            showError("Error al guardar el cliente");
+        }
+    };
     const handleInputChange = (field, value)=>{
         setFormData((prev)=>({
                 ...prev,
@@ -1784,7 +1856,7 @@ function PatientsPage() {
             message: "Cargando pacientes..."
         }, void 0, false, {
             fileName: "[project]/app/pacientes/page.jsx",
-            lineNumber: 223,
+            lineNumber: 295,
             columnNumber: 12
         }, this);
     }
@@ -1794,7 +1866,7 @@ function PatientsPage() {
             children: "Por favor selecciona un consultorio"
         }, void 0, false, {
             fileName: "[project]/app/pacientes/page.jsx",
-            lineNumber: 227,
+            lineNumber: 299,
             columnNumber: 12
         }, this);
     }
@@ -1803,7 +1875,7 @@ function PatientsPage() {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(AlertContainer, {}, void 0, false, {
                 fileName: "[project]/app/pacientes/page.jsx",
-                lineNumber: 232,
+                lineNumber: 304,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1814,7 +1886,7 @@ function PatientsPage() {
                         children: "Pacientes"
                     }, void 0, false, {
                         fileName: "[project]/app/pacientes/page.jsx",
-                        lineNumber: 234,
+                        lineNumber: 306,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1825,20 +1897,20 @@ function PatientsPage() {
                                 className: "w-4 h-4 mr-2"
                             }, void 0, false, {
                                 fileName: "[project]/app/pacientes/page.jsx",
-                                lineNumber: 236,
+                                lineNumber: 308,
                                 columnNumber: 11
                             }, this),
                             "Agregar Paciente"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/pacientes/page.jsx",
-                        lineNumber: 235,
+                        lineNumber: 307,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/pacientes/page.jsx",
-                lineNumber: 233,
+                lineNumber: 305,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$patients$2f$patients$2d$stats$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PatientsStats"], {
@@ -1847,7 +1919,7 @@ function PatientsPage() {
                 activeFilter: activeFilter
             }, void 0, false, {
                 fileName: "[project]/app/pacientes/page.jsx",
-                lineNumber: 241,
+                lineNumber: 313,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$patients$2f$patients$2d$table$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PatientsTable"], {
@@ -1857,7 +1929,7 @@ function PatientsPage() {
                 onSearch: handleSearch
             }, void 0, false, {
                 fileName: "[project]/app/pacientes/page.jsx",
-                lineNumber: 243,
+                lineNumber: 315,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Dialog"], {
@@ -1871,18 +1943,106 @@ function PatientsPage() {
                                 children: editingPatient ? "Editar Paciente" : "Agregar Nuevo Paciente"
                             }, void 0, false, {
                                 fileName: "[project]/app/pacientes/page.jsx",
-                                lineNumber: 248,
+                                lineNumber: 320,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/pacientes/page.jsx",
-                            lineNumber: 247,
+                            lineNumber: 319,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
                             onSubmit: handleSubmit,
                             className: "grid gap-4",
                             children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "col-span-2",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                            htmlFor: "clientId",
+                                            children: "Dueño (Cliente) *"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/pacientes/page.jsx",
+                                            lineNumber: 325,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex gap-2",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
+                                                    value: formData.clientId,
+                                                    onValueChange: (value)=>handleInputChange("clientId", value),
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
+                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {
+                                                                placeholder: "Seleccionar cliente"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/app/pacientes/page.jsx",
+                                                                lineNumber: 329,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/pacientes/page.jsx",
+                                                            lineNumber: 328,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                                            children: clients.map((client)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                    value: client.id.toString(),
+                                                                    children: [
+                                                                        client.name,
+                                                                        " ",
+                                                                        client.last_name,
+                                                                        " - ",
+                                                                        client.phone
+                                                                    ]
+                                                                }, client.id, true, {
+                                                                    fileName: "[project]/app/pacientes/page.jsx",
+                                                                    lineNumber: 333,
+                                                                    columnNumber: 23
+                                                                }, this))
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/pacientes/page.jsx",
+                                                            lineNumber: 331,
+                                                            columnNumber: 19
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/app/pacientes/page.jsx",
+                                                    lineNumber: 327,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                    type: "button",
+                                                    variant: "outline",
+                                                    onClick: ()=>setIsClientDialogOpen(true),
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
+                                                            className: "w-4 h-4 mr-1"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/pacientes/page.jsx",
+                                                            lineNumber: 340,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        "Nuevo"
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/app/pacientes/page.jsx",
+                                                    lineNumber: 339,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/app/pacientes/page.jsx",
+                                            lineNumber: 326,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/pacientes/page.jsx",
+                                    lineNumber: 324,
+                                    columnNumber: 13
+                                }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "grid grid-cols-2 gap-4",
                                     children: [
@@ -1893,7 +2053,7 @@ function PatientsPage() {
                                                     children: "Nombre *"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 254,
+                                                    lineNumber: 348,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1903,13 +2063,13 @@ function PatientsPage() {
                                                     required: true
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 255,
+                                                    lineNumber: 349,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/pacientes/page.jsx",
-                                            lineNumber: 253,
+                                            lineNumber: 347,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1919,7 +2079,7 @@ function PatientsPage() {
                                                     children: "Especie *"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 264,
+                                                    lineNumber: 358,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -1931,12 +2091,12 @@ function PatientsPage() {
                                                                 placeholder: "Seleccionar"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/pacientes/page.jsx",
-                                                                lineNumber: 267,
+                                                                lineNumber: 361,
                                                                 columnNumber: 21
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/pacientes/page.jsx",
-                                                            lineNumber: 266,
+                                                            lineNumber: 360,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1945,24 +2105,24 @@ function PatientsPage() {
                                                                     children: sp.name
                                                                 }, sp.id, false, {
                                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                                    lineNumber: 271,
+                                                                    lineNumber: 365,
                                                                     columnNumber: 23
                                                                 }, this))
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/pacientes/page.jsx",
-                                                            lineNumber: 269,
+                                                            lineNumber: 363,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 265,
+                                                    lineNumber: 359,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/pacientes/page.jsx",
-                                            lineNumber: 263,
+                                            lineNumber: 357,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1972,7 +2132,7 @@ function PatientsPage() {
                                                     children: "Raza"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 280,
+                                                    lineNumber: 374,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1981,13 +2141,13 @@ function PatientsPage() {
                                                     onChange: (e)=>handleInputChange("breed", e.target.value)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 281,
+                                                    lineNumber: 375,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/pacientes/page.jsx",
-                                            lineNumber: 279,
+                                            lineNumber: 373,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1997,7 +2157,7 @@ function PatientsPage() {
                                                     children: "Edad (años)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 285,
+                                                    lineNumber: 379,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2010,13 +2170,13 @@ function PatientsPage() {
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 286,
+                                                    lineNumber: 380,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/pacientes/page.jsx",
-                                            lineNumber: 284,
+                                            lineNumber: 378,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2026,7 +2186,7 @@ function PatientsPage() {
                                                     children: "Peso (kg)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 298,
+                                                    lineNumber: 392,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2040,13 +2200,13 @@ function PatientsPage() {
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 299,
+                                                    lineNumber: 393,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/pacientes/page.jsx",
-                                            lineNumber: 297,
+                                            lineNumber: 391,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2056,7 +2216,7 @@ function PatientsPage() {
                                                     children: "Sexo"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 312,
+                                                    lineNumber: 406,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -2068,12 +2228,12 @@ function PatientsPage() {
                                                                 placeholder: "Seleccionar"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/app/pacientes/page.jsx",
-                                                                lineNumber: 315,
+                                                                lineNumber: 409,
                                                                 columnNumber: 21
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/pacientes/page.jsx",
-                                                            lineNumber: 314,
+                                                            lineNumber: 408,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -2083,7 +2243,7 @@ function PatientsPage() {
                                                                     children: "Macho"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                                    lineNumber: 318,
+                                                                    lineNumber: 412,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -2091,51 +2251,25 @@ function PatientsPage() {
                                                                     children: "Hembra"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                                    lineNumber: 319,
+                                                                    lineNumber: 413,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/pacientes/page.jsx",
-                                                            lineNumber: 317,
+                                                            lineNumber: 411,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 313,
+                                                    lineNumber: 407,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/pacientes/page.jsx",
-                                            lineNumber: 311,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                    htmlFor: "owner",
-                                                    children: "Nombre del Dueño *"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 325,
-                                                    columnNumber: 17
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                    id: "owner",
-                                                    value: formData.owner,
-                                                    onChange: (e)=>handleInputChange("owner", e.target.value),
-                                                    required: true
-                                                }, void 0, false, {
-                                                    fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 326,
-                                                    columnNumber: 17
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "[project]/app/pacientes/page.jsx",
-                                            lineNumber: 324,
+                                            lineNumber: 405,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2145,7 +2279,7 @@ function PatientsPage() {
                                                     children: "Color"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 335,
+                                                    lineNumber: 419,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2154,19 +2288,19 @@ function PatientsPage() {
                                                     onChange: (e)=>handleInputChange("color", e.target.value)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/pacientes/page.jsx",
-                                                    lineNumber: 336,
+                                                    lineNumber: 420,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/pacientes/page.jsx",
-                                            lineNumber: 334,
+                                            lineNumber: 418,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/pacientes/page.jsx",
-                                    lineNumber: 252,
+                                    lineNumber: 346,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2176,7 +2310,7 @@ function PatientsPage() {
                                             children: "Historial Médico"
                                         }, void 0, false, {
                                             fileName: "[project]/app/pacientes/page.jsx",
-                                            lineNumber: 341,
+                                            lineNumber: 425,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -2186,13 +2320,13 @@ function PatientsPage() {
                                             rows: 3
                                         }, void 0, false, {
                                             fileName: "[project]/app/pacientes/page.jsx",
-                                            lineNumber: 342,
+                                            lineNumber: 426,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/pacientes/page.jsx",
-                                    lineNumber: 340,
+                                    lineNumber: 424,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2202,7 +2336,7 @@ function PatientsPage() {
                                             children: "Alergias"
                                         }, void 0, false, {
                                             fileName: "[project]/app/pacientes/page.jsx",
-                                            lineNumber: 351,
+                                            lineNumber: 435,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -2212,13 +2346,13 @@ function PatientsPage() {
                                             rows: 2
                                         }, void 0, false, {
                                             fileName: "[project]/app/pacientes/page.jsx",
-                                            lineNumber: 352,
+                                            lineNumber: 436,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/pacientes/page.jsx",
-                                    lineNumber: 350,
+                                    lineNumber: 434,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DialogFooter"], {
@@ -2230,7 +2364,7 @@ function PatientsPage() {
                                             children: "Cancelar"
                                         }, void 0, false, {
                                             fileName: "[project]/app/pacientes/page.jsx",
-                                            lineNumber: 361,
+                                            lineNumber: 445,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2239,40 +2373,268 @@ function PatientsPage() {
                                             children: editingPatient ? "Actualizar" : "Guardar"
                                         }, void 0, false, {
                                             fileName: "[project]/app/pacientes/page.jsx",
-                                            lineNumber: 364,
+                                            lineNumber: 448,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/pacientes/page.jsx",
-                                    lineNumber: 360,
+                                    lineNumber: 444,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/pacientes/page.jsx",
-                            lineNumber: 251,
+                            lineNumber: 323,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/pacientes/page.jsx",
-                    lineNumber: 246,
+                    lineNumber: 318,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/pacientes/page.jsx",
-                lineNumber: 245,
+                lineNumber: 317,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Dialog"], {
+                open: isClientDialogOpen,
+                onOpenChange: setIsClientDialogOpen,
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DialogContent"], {
+                    className: "max-w-md",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DialogHeader"], {
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DialogTitle"], {
+                                children: "Agregar Nuevo Cliente"
+                            }, void 0, false, {
+                                fileName: "[project]/app/pacientes/page.jsx",
+                                lineNumber: 459,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/app/pacientes/page.jsx",
+                            lineNumber: 458,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                            onSubmit: handleSaveNewClient,
+                            className: "grid gap-4",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                            htmlFor: "clientName",
+                                            children: "Nombre *"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/pacientes/page.jsx",
+                                            lineNumber: 464,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                            id: "clientName",
+                                            value: newClientData.name,
+                                            onChange: (e)=>setNewClientData({
+                                                    ...newClientData,
+                                                    name: e.target.value
+                                                }),
+                                            required: true
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/pacientes/page.jsx",
+                                            lineNumber: 465,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/pacientes/page.jsx",
+                                    lineNumber: 463,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                            htmlFor: "clientLastName",
+                                            children: "Apellidos *"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/pacientes/page.jsx",
+                                            lineNumber: 474,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                            id: "clientLastName",
+                                            value: newClientData.lastName,
+                                            onChange: (e)=>setNewClientData({
+                                                    ...newClientData,
+                                                    lastName: e.target.value
+                                                }),
+                                            required: true
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/pacientes/page.jsx",
+                                            lineNumber: 475,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/pacientes/page.jsx",
+                                    lineNumber: 473,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                            htmlFor: "clientPhone",
+                                            children: "Teléfono *"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/pacientes/page.jsx",
+                                            lineNumber: 484,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                            id: "clientPhone",
+                                            value: newClientData.phone,
+                                            onChange: (e)=>{
+                                                const value = e.target.value.replace(/\D/g, "");
+                                                if (value.length <= 10) {
+                                                    setNewClientData({
+                                                        ...newClientData,
+                                                        phone: value
+                                                    });
+                                                }
+                                            },
+                                            placeholder: "10 dígitos",
+                                            maxLength: 10,
+                                            required: true
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/pacientes/page.jsx",
+                                            lineNumber: 485,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/pacientes/page.jsx",
+                                    lineNumber: 483,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                            htmlFor: "clientEmail",
+                                            children: "Email"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/pacientes/page.jsx",
+                                            lineNumber: 501,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                            id: "clientEmail",
+                                            type: "email",
+                                            value: newClientData.email,
+                                            onChange: (e)=>setNewClientData({
+                                                    ...newClientData,
+                                                    email: e.target.value
+                                                })
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/pacientes/page.jsx",
+                                            lineNumber: 502,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/pacientes/page.jsx",
+                                    lineNumber: 500,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                            htmlFor: "clientAddress",
+                                            children: "Dirección"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/pacientes/page.jsx",
+                                            lineNumber: 511,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
+                                            id: "clientAddress",
+                                            value: newClientData.address,
+                                            onChange: (e)=>setNewClientData({
+                                                    ...newClientData,
+                                                    address: e.target.value
+                                                }),
+                                            rows: 2
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/pacientes/page.jsx",
+                                            lineNumber: 512,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/pacientes/page.jsx",
+                                    lineNumber: 510,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DialogFooter"], {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                            type: "button",
+                                            variant: "outline",
+                                            onClick: ()=>{
+                                                setIsClientDialogOpen(false);
+                                                setNewClientData({
+                                                    name: "",
+                                                    lastName: "",
+                                                    phone: "",
+                                                    email: "",
+                                                    address: ""
+                                                });
+                                            },
+                                            children: "Cancelar"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/pacientes/page.jsx",
+                                            lineNumber: 521,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                            type: "submit",
+                                            className: "btn-primary",
+                                            children: "Guardar Cliente"
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/pacientes/page.jsx",
+                                            lineNumber: 531,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/app/pacientes/page.jsx",
+                                    lineNumber: 520,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/app/pacientes/page.jsx",
+                            lineNumber: 462,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/app/pacientes/page.jsx",
+                    lineNumber: 457,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/app/pacientes/page.jsx",
+                lineNumber: 456,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/pacientes/page.jsx",
-        lineNumber: 231,
+        lineNumber: 303,
         columnNumber: 5
     }, this);
 }
-_s(PatientsPage, "2ZmCJ6TKuAnngoPBQq690Kkl9IQ=", false, function() {
+_s(PatientsPage, "2hJE+9MpHZDbTrbRPLtk7Onw1Ns=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$contexts$2f$auth$2d$context$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"],
         __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$alert$2d$toast$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAlertToast"]

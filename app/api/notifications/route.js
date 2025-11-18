@@ -17,11 +17,14 @@ export async function GET(request) {
         c.id,
         c.consultation_date as date,
         c.patient_name as patientName,
-        c.owner_name as ownerName,
+        CONCAT(cl.first_name, ' ', cl.last_name) as ownerName,
+        p.name as patientName,
         c.reason,
         c.status,
         c.veterinarian
       FROM consultations c
+      INNER JOIN patients p ON c.patient_id = p.id
+      INNER JOIN clients cl ON p.client_id = cl.id
       WHERE c.user_id = ? 
         AND c.clinic_id = ?
         AND c.consultation_date >= CURDATE()

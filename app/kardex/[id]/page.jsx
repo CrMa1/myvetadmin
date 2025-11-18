@@ -1,10 +1,10 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { useParams, useRouter } from 'next/navigation'
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Plus } from "lucide-react"
+import { ArrowLeft, Plus } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useAuth } from "@/contexts/auth-context"
 
@@ -121,7 +121,7 @@ export default function KardexPage() {
           <div className="space-y-3">
             <div className="grid grid-cols-2 gap-2">
               <span className="font-semibold">Nombre:</span>
-              <span>{patient.owner_name}</span>
+              <span>{patient.owner_name} {patient.owner_last_name}</span>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <span className="font-semibold">Teléfono:</span>

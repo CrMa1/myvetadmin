@@ -3,13 +3,13 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Plus } from 'lucide-react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Card } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Search, Edit, Trash2 } from 'lucide-react'
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
@@ -26,6 +26,8 @@ export default function ConsultasPage() {
   const [filteredConsultations, setFilteredConsultations] = useState([])
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isPatientDialogOpen, setIsPatientDialogOpen] = useState(false)
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [selectedConsultation, setSelectedConsultation] = useState(null)
   const [editingConsultation, setEditingConsultation] = useState(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [loading, setLoading] = useState(true)
@@ -35,6 +37,7 @@ export default function ConsultasPage() {
     patientName: "",
     ownerName: "",
     accompaniedBy: "",
+    clientId: "",
     date: "",
     reason: "",
     diagnosis: "",
@@ -42,6 +45,7 @@ export default function ConsultasPage() {
     notes: "",
     veterinarian: "",
     cost: "",
+    status: "Programada",
   })
   const [newPatientData, setNewPatientData] = useState({
     name: "",
@@ -54,13 +58,20 @@ export default function ConsultasPage() {
     ownerPhone: "",
     medicalHistory: "",
     diseases: "",
+    clientId: "",
   })
+  const [clients, setClients] = useState([])
+  const [clientPatients, setClientPatients] = useState([])
+  const [species, setSpecies] = useState([])
+  const [formErrors, setFormErrors] = useState({})
+  const [patientFormErrors, setPatientFormErrors] = useState({})
 
   useEffect(() => {
     if (user && selectedClinic) {
       fetchConsultations()
-      fetchPatients()
+      fetchClients()
       fetchStaff()
+      fetchSpecies()
     }
   }, [user, selectedClinic])
 
@@ -133,6 +144,58 @@ export default function ConsultasPage() {
     }
   }
 
+  const fetchClients = async () => {
+    try {
+      const userId = getUserId()
+      const clinicId = getClinicId()
+      if (!userId || !clinicId) return
+
+      const response = await fetch(`/api/clients?userId=${userId}&clinicId=${clinicId}`)
+      const result = await response.json()
+      if (result.success) {
+        setClients(result.data || [])
+      } else {
+        showWarning("No se pudieron cargar los clientes")
+      }
+    } catch (error) {
+      console.error("Error fetching clients:", error)
+    }
+  }
+
+  const fetchSpecies = async () => {
+    try {
+      const response = await fetch("/api/species")
+      const result = await response.json()
+      if (result.success) {
+        setSpecies(result.data)
+      } else {
+        showWarning("No se pudieron cargar las especies")
+      }
+    } catch (error) {
+      console.error("Error fetching species:", error)
+    }
+  }
+
+  const fetchClientPatients = async (clientId) => {
+    try {
+      const userId = getUserId()
+      const clinicId = getClinicId()
+      if (!userId || !clinicId) return
+
+      const response = await fetch(`/api/patients?userId=${userId}&clinicId=${clinicId}&clientId=${clientId}`)
+      const result = await response.json()
+      if (result.success) {
+        setClientPatients(result.data || [])
+      } else {
+        showWarning("No se pudieron cargar los pacientes de este cliente")
+        setClientPatients([])
+      }
+    } catch (error) {
+      console.error("Error fetching client patients:", error)
+      setClientPatients([])
+    }
+  }
+
   useEffect(() => {
     filterConsultations()
   }, [consultations, searchQuery, activeFilter])
@@ -161,10 +224,23 @@ export default function ConsultasPage() {
     setActiveFilter(status)
   }
 
+  const validateForm = () => {
+    const errors = {}
+    if (!formData.patientName.trim()) errors.patientName = "El nombre del paciente es requerido"
+    if (!formData.ownerName.trim()) errors.ownerName = "El nombre del dueño es requerido"
+    if (!formData.accompaniedBy.trim()) errors.accompaniedBy = "Este campo es requerido"
+    if (!formData.date) errors.date = "La fecha es requerida"
+    if (!formData.reason.trim()) errors.reason = "El motivo de la consulta es requerido"
+    if (!formData.status) errors.status = "El estatus es requerido"
+    
+    setFormErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!formData.patientName || !formData.ownerName || !formData.accompaniedBy || !formData.date || !formData.reason) {
+    if (!validateForm()) {
       showWarning("Por favor completa todos los campos obligatorios")
       return
     }
@@ -193,22 +269,29 @@ export default function ConsultasPage() {
     }
   }
 
-  const handleDelete = async (id) => {
-    if (confirm("¿Estás seguro de eliminar esta consulta?")) {
-      const userId = getUserId()
-      const clinicId = getClinicId()
+  const handleDeleteClick = (consultation) => {
+    setSelectedConsultation(consultation)
+    setIsDeleteDialogOpen(true)
+  }
 
-      const response = await fetch(`/api/consultations?id=${id}&userId=${userId}&clinicId=${clinicId}`, {
-        method: "DELETE",
-      })
-      const result = await response.json()
+  const handleConfirmDelete = async () => {
+    if (!selectedConsultation) return
 
-      if (result.success) {
-        showSuccess("Consulta eliminada exitosamente")
-        fetchConsultations()
-      } else {
-        showError("Error al eliminar la consulta")
-      }
+    const userId = getUserId()
+    const clinicId = getClinicId()
+
+    const response = await fetch(`/api/consultations?id=${selectedConsultation.id}&userId=${userId}&clinicId=${clinicId}`, {
+      method: "DELETE",
+    })
+    const result = await response.json()
+
+    if (result.success) {
+      showSuccess("Consulta eliminada exitosamente")
+      fetchConsultations()
+      setIsDeleteDialogOpen(false)
+      setSelectedConsultation(null)
+    } else {
+      showError("Error al eliminar la consulta")
     }
   }
 
@@ -220,6 +303,7 @@ export default function ConsultasPage() {
       patientName: consultation.patientName || "",
       ownerName: consultation.ownerName || "",
       accompaniedBy: consultation.accompaniedBy || "",
+      clientId: consultation.clientId || "",
       date: consultation.date ? new Date(consultation.date).toISOString().split("T")[0] : "",
       reason: consultation.reason || "",
       diagnosis: consultation.diagnosis || "",
@@ -227,7 +311,9 @@ export default function ConsultasPage() {
       notes: consultation.notes || "",
       veterinarian: consultation.veterinarian || "",
       cost: consultation.cost || "",
+      status: consultation.status || "Programada",
     })
+    setFormErrors({})
     setIsDialogOpen(true)
   }
 
@@ -239,6 +325,7 @@ export default function ConsultasPage() {
       patientName: "",
       ownerName: "",
       accompaniedBy: "",
+      clientId: "",
       date: "",
       reason: "",
       diagnosis: "",
@@ -246,33 +333,51 @@ export default function ConsultasPage() {
       notes: "",
       veterinarian: "",
       cost: "",
+      status: "Programada",
     })
+    setFormErrors({})
+  }
+
+  const handleClientSelect = (clientId) => {
+    const client = clients.find((c) => c.id === Number.parseInt(clientId))
+    if (client) {
+      setFormData({
+        ...formData,
+        clientId: clientId,
+        ownerName: `${client.first_name} ${client.last_name}`,
+        patientId: "",
+        patientName: "",
+      })
+      fetchClientPatients(clientId)
+    }
   }
 
   const handlePatientSelect = (patientId) => {
-    console.log("[v0] Patient selected:", patientId)
-    console.log("[v0] Available patients:", patients)
-
-    const patient = patients.find((p) => p.id === Number.parseInt(patientId))
-    console.log("[v0] Found patient:", patient)
+    const patient = clientPatients.find((p) => p.id === Number.parseInt(patientId))
 
     if (patient) {
       setFormData({
         ...formData,
         patientId: patient.id,
         patientName: patient.name,
-        ownerName: patient.ownerName, // now matches the API response
       })
-      console.log("[v0] Form data updated with patient info")
-    } else {
-      console.log("[v0] Patient not found in list")
     }
+  }
+
+  const validatePatientForm = () => {
+    const errors = {}
+    if (!newPatientData.name.trim()) errors.name = "El nombre es requerido"
+    if (!newPatientData.animalType) errors.animalType = "El tipo de animal es requerido"
+    if (!newPatientData.clientId) errors.clientId = "El cliente es requerido"
+    
+    setPatientFormErrors(errors)
+    return Object.keys(errors).length === 0
   }
 
   const handleNewPatient = async (e) => {
     e.preventDefault()
 
-    if (!newPatientData.name || !newPatientData.animalType || !newPatientData.ownerName) {
+    if (!validatePatientForm()) {
       showWarning("Por favor completa los campos obligatorios del paciente")
       return
     }
@@ -284,8 +389,15 @@ export default function ConsultasPage() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        ...newPatientData,
-        lastVisit: new Date().toISOString().split("T")[0],
+        name: newPatientData.name,
+        speciesId: newPatientData.animalType,
+        breed: newPatientData.breed,
+        age: newPatientData.age,
+        weight: newPatientData.weight,
+        sex: newPatientData.sex,
+        clientId: newPatientData.clientId,
+        medicalHistory: newPatientData.medicalHistory,
+        allergies: newPatientData.diseases,
         userId,
         clinicId,
       }),
@@ -294,13 +406,12 @@ export default function ConsultasPage() {
     const result = await response.json()
     if (result.success) {
       showSuccess("Paciente registrado exitosamente")
-      await fetchPatients()
+      await fetchClients()
 
       setFormData({
         ...formData,
         patientId: result.data.id,
         patientName: result.data.name,
-        ownerName: result.data.ownerName,
       })
 
       setIsPatientDialogOpen(false)
@@ -311,11 +422,11 @@ export default function ConsultasPage() {
         age: "",
         weight: "",
         sex: "",
-        ownerName: "",
-        ownerPhone: "",
+        clientId: "",
         medicalHistory: "",
         diseases: "",
       })
+      setPatientFormErrors({})
     } else {
       showError(result.error || "Error al registrar el paciente")
     }
@@ -324,6 +435,9 @@ export default function ConsultasPage() {
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
+    if (formErrors[name]) {
+      setFormErrors({ ...formErrors, [name]: "" })
+    }
   }
 
   const handleCurrencyChange = (e) => {
@@ -338,6 +452,16 @@ export default function ConsultasPage() {
     if (value === "" || /^\d*\.?\d*$/.test(value)) {
       setFormData({ ...formData, [name]: value })
     }
+  }
+
+  const getStatusColor = (status) => {
+    const colors = {
+      "Programada": "default",
+      "En Proceso": "secondary",
+      "Completada": "outline",
+      "Cancelada": "destructive",
+    }
+    return colors[status] || "default"
   }
 
   if (loading) {
@@ -361,70 +485,113 @@ export default function ConsultasPage() {
 
       <ConsultationStats consultations={consultations} onFilterClick={handleFilterClick} activeFilter={activeFilter} />
 
-      <Card className="p-6">
-        <div className="flex items-center gap-4 mb-6">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-            <Input
-              placeholder="Buscar por paciente, dueño, motivo o veterinario..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>Lista de Consultas</CardTitle>
+              <CardDescription>Todas las consultas registradas en el sistema</CardDescription>
+            </div>
+            <div className="relative w-64">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Buscar consultas..."
+                className="pl-10"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
           </div>
-        </div>
-
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead>Fecha</TableHead>
-                <TableHead>Paciente</TableHead>
-                <TableHead>Dueño</TableHead>
-                <TableHead>Acompañante</TableHead>
-                <TableHead>Motivo</TableHead>
-                <TableHead>Diagnóstico</TableHead>
-                <TableHead>Veterinario</TableHead>
-                <TableHead>Costo</TableHead>
-                <TableHead className="text-right">Acciones</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredConsultations.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={10} className="text-center text-muted-foreground">
-                    No se encontraron consultas
-                  </TableCell>
-                </TableRow>
-              ) : (
-                filteredConsultations.map((consultation) => (
-                  <TableRow key={consultation.id}>
-                    <TableCell className="font-medium">{consultation.id}</TableCell>
-                    <TableCell>{new Date(consultation.date).toLocaleDateString("es-MX")}</TableCell>
-                    <TableCell>{consultation.patientName}</TableCell>
-                    <TableCell>{consultation.ownerName}</TableCell>
-                    <TableCell>{consultation.accompaniedBy}</TableCell>
-                    <TableCell>{consultation.reason}</TableCell>
-                    <TableCell>{consultation.diagnosis || "-"}</TableCell>
-                    <TableCell>{consultation.veterinarian || "-"}</TableCell>
-                    <TableCell>{formatCurrency(consultation.cost || 0)}</TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button variant="ghost" size="sm" onClick={() => handleEdit(consultation)}>
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                        <Button variant="ghost" size="sm" onClick={() => handleDelete(consultation.id)}>
-                          <Trash2 className="w-4 h-4 text-destructive" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </div>
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-lg border border-border overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-muted/50">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">ID</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Fecha</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Paciente</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Dueño</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Motivo</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Diagnóstico</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Veterinario</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Estatus</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Costo</th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {filteredConsultations.length === 0 ? (
+                    <tr>
+                      <td colSpan={10} className="text-center py-12">
+                        <p className="text-muted-foreground">No se encontraron consultas</p>
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredConsultations.map((consultation) => (
+                      <tr key={consultation.id} className="hover:bg-muted/30 transition-colors">
+                        <td className="px-4 py-3 text-sm font-mono text-muted-foreground">{consultation.id}</td>
+                        <td className="px-4 py-3">
+                          <p className="text-sm">{new Date(consultation.date).toLocaleDateString("es-MX")}</p>
+                        </td>
+                        <td className="px-4 py-3">
+                          <p className="font-medium">{consultation.patientName}</p>
+                        </td>
+                        <td className="px-4 py-3">
+                          <p className="text-sm">{consultation.ownerName}</p>
+                        </td>
+                        <td className="px-4 py-3">
+                          <p className="text-sm">{consultation.reason}</p>
+                        </td>
+                        <td className="px-4 py-3">
+                          <p className="text-sm">{consultation.diagnosis || "-"}</p>
+                        </td>
+                        <td className="px-4 py-3">
+                          <p className="text-sm">{consultation.veterinarian || "-"}</p>
+                        </td>
+                        <td className="px-4 py-3">
+                          <Badge variant={getStatusColor(consultation.status)}>
+                            {consultation.status || "Programada"}
+                          </Badge>
+                        </td>
+                        <td className="px-4 py-3">
+                          <p className="text-sm font-medium">{formatCurrency(consultation.cost || 0)}</p>
+                        </td>
+                        <td className="px-4 py-3">
+                          <div className="flex items-center gap-2">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8"
+                              onClick={() => handleEdit(consultation)}
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 text-destructive hover:text-destructive"
+                              onClick={() => handleDeleteClick(consultation)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
+            <p>
+              Mostrando {filteredConsultations.length} consulta(s)
+            </p>
+          </div>
+        </CardContent>
       </Card>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -435,16 +602,36 @@ export default function ConsultasPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2">
+                <Label>Cliente (Dueño) *</Label>
+                <Select value={formData.clientId} onValueChange={handleClientSelect}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleccionar cliente primero" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {clients.map((client) => (
+                      <SelectItem key={client.id} value={client.id.toString()}>
+                        {client.first_name} {client.last_name} - {client.phone}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="col-span-2">
                 <Label>Paciente *</Label>
                 <div className="flex gap-2">
-                  <Select value={formData.patientId} onValueChange={handlePatientSelect}>
+                  <Select 
+                    value={formData.patientId} 
+                    onValueChange={handlePatientSelect}
+                    disabled={clientPatients.length === 0}
+                  >
                     <SelectTrigger>
-                      <SelectValue placeholder="Seleccionar paciente" />
+                      <SelectValue placeholder={clientPatients.length === 0 ? "Selecciona un cliente primero" : "Seleccionar paciente"} />
                     </SelectTrigger>
                     <SelectContent>
-                      {patients.map((patient) => (
+                      {clientPatients.map((patient) => (
                         <SelectItem key={patient.id} value={patient.id.toString()}>
-                          {patient.name} - {patient.ownerName}
+                          {patient.name} - {patient.species}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -456,46 +643,105 @@ export default function ConsultasPage() {
               </div>
 
               <div>
-                <Label htmlFor="patientName">Nombre del Paciente *</Label>
+                <Label htmlFor="patientName">
+                  Nombre del Paciente * 
+                  {formErrors.patientName && <span className="text-xs text-destructive ml-2">{formErrors.patientName}</span>}
+                </Label>
                 <Input
                   id="patientName"
                   name="patientName"
                   value={formData.patientName}
                   onChange={handleInputChange}
+                  className={formErrors.patientName ? "border-destructive" : ""}
                   required
                 />
               </div>
 
               <div>
-                <Label htmlFor="ownerName">Nombre del Dueño *</Label>
+                <Label htmlFor="ownerName">
+                  Nombre del Dueño *
+                  {formErrors.ownerName && <span className="text-xs text-destructive ml-2">{formErrors.ownerName}</span>}
+                </Label>
                 <Input
                   id="ownerName"
                   name="ownerName"
                   value={formData.ownerName}
                   onChange={handleInputChange}
+                  className={formErrors.ownerName ? "border-destructive" : ""}
                   required
                 />
               </div>
 
               <div>
-                <Label htmlFor="accompaniedBy">Acompañado por *</Label>
+                <Label htmlFor="accompaniedBy">
+                  Acompañado por *
+                  {formErrors.accompaniedBy && <span className="text-xs text-destructive ml-2">{formErrors.accompaniedBy}</span>}
+                </Label>
                 <Input
                   id="accompaniedBy"
                   name="accompaniedBy"
                   value={formData.accompaniedBy}
                   onChange={handleInputChange}
+                  className={formErrors.accompaniedBy ? "border-destructive" : ""}
                   required
                 />
               </div>
 
               <div>
-                <Label htmlFor="date">Fecha *</Label>
-                <Input id="date" name="date" type="date" value={formData.date} onChange={handleInputChange} required />
+                <Label htmlFor="date">
+                  Fecha *
+                  {formErrors.date && <span className="text-xs text-destructive ml-2">{formErrors.date}</span>}
+                </Label>
+                <Input 
+                  id="date" 
+                  name="date" 
+                  type="date" 
+                  value={formData.date} 
+                  onChange={handleInputChange}
+                  className={formErrors.date ? "border-destructive" : ""}
+                  required 
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="status">
+                  Estatus *
+                  {formErrors.status && <span className="text-xs text-destructive ml-2">{formErrors.status}</span>}
+                </Label>
+                <Select
+                  value={formData.status}
+                  onValueChange={(value) => {
+                    setFormData({ ...formData, status: value })
+                    if (formErrors.status) {
+                      setFormErrors({ ...formErrors, status: "" })
+                    }
+                  }}
+                >
+                  <SelectTrigger className={formErrors.status ? "border-destructive" : ""}>
+                    <SelectValue placeholder="Seleccionar estatus" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Programada">Programada</SelectItem>
+                    <SelectItem value="En Proceso">En Proceso</SelectItem>
+                    <SelectItem value="Completada">Completada</SelectItem>
+                    <SelectItem value="Cancelada">Cancelada</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="col-span-2">
-                <Label htmlFor="reason">Motivo de la Consulta *</Label>
-                <Textarea id="reason" name="reason" value={formData.reason} onChange={handleInputChange} required />
+                <Label htmlFor="reason">
+                  Motivo de la Consulta *
+                  {formErrors.reason && <span className="text-xs text-destructive ml-2">{formErrors.reason}</span>}
+                </Label>
+                <Textarea 
+                  id="reason" 
+                  name="reason" 
+                  value={formData.reason} 
+                  onChange={handleInputChange}
+                  className={formErrors.reason ? "border-destructive" : ""}
+                  required 
+                />
               </div>
 
               <div className="col-span-2">
@@ -569,32 +815,75 @@ export default function ConsultasPage() {
           </DialogHeader>
           <form onSubmit={handleNewPatient} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
+              <div className="col-span-2">
+                <Label htmlFor="clientId">
+                  Cliente (Dueño) *
+                  {patientFormErrors.clientId && <span className="text-xs text-destructive ml-2">{patientFormErrors.clientId}</span>}
+                </Label>
+                <Select
+                  value={newPatientData.clientId}
+                  onValueChange={(value) => {
+                    setNewPatientData({ ...newPatientData, clientId: value })
+                    if (patientFormErrors.clientId) {
+                      setPatientFormErrors({ ...patientFormErrors, clientId: "" })
+                    }
+                  }}
+                >
+                  <SelectTrigger className={patientFormErrors.clientId ? "border-destructive" : ""}>
+                    <SelectValue placeholder="Seleccionar cliente" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {clients.map((client) => (
+                      <SelectItem key={client.id} value={client.id.toString()}>
+                        {client.first_name} {client.last_name} - {client.phone}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
               <div>
-                <Label htmlFor="name">Nombre *</Label>
+                <Label htmlFor="name">
+                  Nombre *
+                  {patientFormErrors.name && <span className="text-xs text-destructive ml-2">{patientFormErrors.name}</span>}
+                </Label>
                 <Input
                   id="name"
                   value={newPatientData.name}
-                  onChange={(e) => setNewPatientData({ ...newPatientData, name: e.target.value })}
+                  onChange={(e) => {
+                    setNewPatientData({ ...newPatientData, name: e.target.value })
+                    if (patientFormErrors.name) {
+                      setPatientFormErrors({ ...patientFormErrors, name: "" })
+                    }
+                  }}
+                  className={patientFormErrors.name ? "border-destructive" : ""}
                   required
                 />
               </div>
 
               <div>
-                <Label htmlFor="animalType">Tipo de Animal *</Label>
+                <Label htmlFor="animalType">
+                  Tipo de Animal *
+                  {patientFormErrors.animalType && <span className="text-xs text-destructive ml-2">{patientFormErrors.animalType}</span>}
+                </Label>
                 <Select
                   value={newPatientData.animalType}
-                  onValueChange={(value) => setNewPatientData({ ...newPatientData, animalType: value })}
+                  onValueChange={(value) => {
+                    setNewPatientData({ ...newPatientData, animalType: value })
+                    if (patientFormErrors.animalType) {
+                      setPatientFormErrors({ ...patientFormErrors, animalType: "" })
+                    }
+                  }}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className={patientFormErrors.animalType ? "border-destructive" : ""}>
                     <SelectValue placeholder="Seleccionar" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Perro">Perro</SelectItem>
-                    <SelectItem value="Gato">Gato</SelectItem>
-                    <SelectItem value="Ave">Ave</SelectItem>
-                    <SelectItem value="Conejo">Conejo</SelectItem>
-                    <SelectItem value="Hamster">Hámster</SelectItem>
-                    <SelectItem value="Reptil">Reptil</SelectItem>
+                    {species.map((sp) => (
+                      <SelectItem key={sp.id} value={sp.id.toString()}>
+                        {sp.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -650,25 +939,6 @@ export default function ConsultasPage() {
                 </Select>
               </div>
 
-              <div>
-                <Label htmlFor="ownerName">Nombre del Dueño *</Label>
-                <Input
-                  id="ownerName"
-                  value={newPatientData.ownerName}
-                  onChange={(e) => setNewPatientData({ ...newPatientData, ownerName: e.target.value })}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="ownerPhone">Teléfono del Dueño</Label>
-                <Input
-                  id="ownerPhone"
-                  value={newPatientData.ownerPhone}
-                  onChange={(e) => setNewPatientData({ ...newPatientData, ownerPhone: e.target.value })}
-                />
-              </div>
-
               <div className="col-span-2">
                 <Label htmlFor="medicalHistory">Historial Médico</Label>
                 <Textarea
@@ -679,7 +949,7 @@ export default function ConsultasPage() {
               </div>
 
               <div className="col-span-2">
-                <Label htmlFor="diseases">Enfermedades</Label>
+                <Label htmlFor="diseases">Enfermedades/Alergias</Label>
                 <Textarea
                   id="diseases"
                   value={newPatientData.diseases}
@@ -689,12 +959,39 @@ export default function ConsultasPage() {
             </div>
 
             <div className="flex justify-end gap-2">
-              <Button type="button" variant="outline" onClick={() => setIsPatientDialogOpen(false)}>
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => {
+                  setIsPatientDialogOpen(false)
+                  setPatientFormErrors({})
+                }}
+              >
                 Cancelar
               </Button>
               <Button type="submit">Guardar Paciente</Button>
             </div>
           </form>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirmar Eliminación</DialogTitle>
+            <DialogDescription>
+              ¿Está seguro que desea eliminar la consulta del paciente{" "}
+              <strong>{selectedConsultation?.patientName}</strong>? Esta acción no se puede deshacer.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+              Cancelar
+            </Button>
+            <Button variant="destructive" onClick={handleConfirmDelete}>
+              Eliminar
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

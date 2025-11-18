@@ -154,13 +154,13 @@ async function query(sql, params) {
         //console.log("[v0] Query successful, rows returned:", Array.isArray(results) ? results.length : "single result")
         return results;
     } catch (error) {
-        //console.error("[v0] Database query error - Full details:")
-        //console.error("[v0] Query:", sql)
-        //console.error("[v0] Params:", params)
-        //console.error("[v0] Error message:", error.message)
-        //console.error("[v0] Error code:", error.code)
-        //console.error("[v0] Error sqlState:", error.sqlState)
-        //console.error("[v0] Error:", error)
+        console.error("[v0] Database query error - Full details:");
+        console.error("[v0] Query:", sql);
+        console.error("[v0] Params:", params);
+        console.error("[v0] Error message:", error.message);
+        console.error("[v0] Error code:", error.code);
+        console.error("[v0] Error sqlState:", error.sqlState);
+        console.error("[v0] Error:", error);
         throw error;
     }
 }
@@ -200,10 +200,13 @@ async function GET(request) {
             });
         }
         const consultations = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
-        id, 
-        patient_id as patientId, 
+        consultations.id, 
+        consultations.patient_id as patientId,
+        consultations.client_id as clientId,
         patient_name as patientName, 
-        owner_name as ownerName, 
+        clients.first_name as clientName,
+        patients.owner as ownerName,
+        patients.name as patientName,
         reason, 
         diagnosis, 
         treatment, 
@@ -213,7 +216,9 @@ async function GET(request) {
         status, 
         cost 
        FROM consultations 
-       WHERE user_id = ? AND clinic_id = ?
+       INNER JOIN patients ON consultations.patient_id = patients.id
+       INNER JOIN clients ON consultations.client_id = clients.id
+       WHERE consultations.user_id = ? AND consultations.clinic_id = ?
        ORDER BY consultation_date DESC`, [
             userId,
             clinicId
@@ -244,27 +249,29 @@ async function POST(request) {
             });
         }
         const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`INSERT INTO consultations 
-       (user_id, clinic_id, patient_id, patient_name, owner_name, reason, diagnosis, treatment, notes, consultation_date, veterinarian, status, cost)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
+       (user_id, clinic_id, patient_id, client_id, patient_name, accompanied_by, reason, diagnosis, treatment, notes, consultation_date, veterinarian, status, cost)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
             data.userId,
             data.clinicId,
             data.patientId || null,
+            data.clientId || null,
             data.patientName,
-            data.ownerName,
+            data.accompaniedBy || null,
             data.reason,
             data.diagnosis || null,
             data.treatment || null,
             data.notes || null,
             data.date || new Date().toISOString().split("T")[0],
             data.veterinarian || null,
-            data.status,
+            data.status || "Programada",
             data.cost || null
         ]);
         const newConsultation = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
         id, 
-        patient_id as patientId, 
+        patient_id as patientId,
+        client_id as clientId,
         patient_name as patientName, 
-        owner_name as ownerName, 
+        accompanied_by as accompaniedBy,
         reason, 
         diagnosis, 
         treatment, 
@@ -303,28 +310,32 @@ async function PUT(request) {
             });
         }
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`UPDATE consultations 
-       SET patient_name = ?, owner_name = ?, reason = ?, diagnosis = ?, 
-           treatment = ?, notes = ?, consultation_date = ?, veterinarian = ?, status = ?, cost = ?
+       SET patient_name = ?, owner_name = ?, accompanied_by = ?, reason = ?, diagnosis = ?, 
+           treatment = ?, notes = ?, consultation_date = ?, veterinarian = ?, status = ?, cost = ?, client_id = ?
        WHERE id = ? AND user_id = ? AND clinic_id = ?`, [
             data.patientName,
             data.ownerName,
+            data.accompaniedBy || null,
             data.reason,
             data.diagnosis || null,
             data.treatment || null,
             data.notes || null,
             data.date,
             data.veterinarian || null,
-            data.status,
+            data.status || "Programada",
             data.cost || null,
+            data.clientId || null,
             data.id,
             data.userId,
             data.clinicId
         ]);
         const updated = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
         id, 
-        patient_id as patientId, 
+        patient_id as patientId,
+        client_id as clientId,
         patient_name as patientName, 
-        owner_name as ownerName, 
+        owner_name as ownerName,
+        accompanied_by as accompaniedBy,
         reason, 
         diagnosis, 
         treatment, 

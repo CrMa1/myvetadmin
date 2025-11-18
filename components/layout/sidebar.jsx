@@ -1,28 +1,17 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname } from 'next/navigation'
 import { cn } from "@/lib/utils"
 import { clinicConfig } from "@/lib/config"
-import {
-  LayoutDashboard,
-  Users,
-  Stethoscope,
-  Calculator,
-  Package,
-  Menu,
-  X,
-  ClipboardList,
-  UserCircle,
-  ShoppingCart,
-  Building2,
-} from "lucide-react"
+import { LayoutDashboard, Dog, Stethoscope, Calculator, Package, Menu, X, ClipboardList, UserCircle, ShoppingCart, Building2, UserCheck } from 'lucide-react'
 import { useState } from "react"
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Vender", href: "/vender", icon: ShoppingCart },
-  { name: "Pacientes", href: "/pacientes", icon: Users },
+  { name: "Clientes", href: "/clientes", icon: UserCheck },
+  { name: "Pacientes", href: "/pacientes", icon: Dog },
   { name: "Consultas", href: "/consultas", icon: ClipboardList },
   { name: "Personal", href: "/personal", icon: Stethoscope },
   { name: "Contabilidad", href: "/contabilidad", icon: Calculator },

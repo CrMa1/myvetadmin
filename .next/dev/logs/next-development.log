@@ -1,20 +1,77 @@
-[00:00:01.195] Server  LOG      ✓ Ready in 803ms
-[00:00:07.349] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:07.859] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
-[00:00:07.941] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:07.941] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:00:07.941] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763106656370}
-[00:00:08.231] Server  LOG     [v0] Found upcoming consultations: 0
-[00:00:08.244] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
-[00:00:08.318] Server  LOG     [v0] Found upcoming consultations: 0
-[00:05:07.956] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
-[00:05:08.335] Server  LOG     [v0] Found upcoming consultations: 0
-[00:10:07.952] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
-[00:10:08.330] Server  LOG     [v0] Found upcoming consultations: 0
-[00:15:07.953] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
-[00:15:08.345] Server  LOG     [v0] Found upcoming consultations: 0
-[00:20:07.950] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
-[00:20:08.329] Server  LOG     [v0] Found upcoming consultations: 0
-[00:23:44.698] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/vender color: rgb(120, 120, 120) color: inherit {"dp":"/vender","o":"http://localhost:3000/vender","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763108073443}
-[00:23:45.792] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763108074529}
-[00:23:50.553] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/inventario color: rgb(120, 120, 120) color: inherit {"dp":"/inventario","o":"http://localhost:3000/inventario","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763108079264}
+[00:00:01.583] Server  LOG      ✓ Ready in 1108ms
+[00:00:05.169] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:05.405] Browser ERROR   You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+[00:00:05.405] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:05.405] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[00:00:05.405] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763478941065}
+[00:00:05.572] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[00:00:05.618] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[00:00:05.977] Server  LOG     [v0] Clients fetched: 1
+[00:00:05.989] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[00:00:06.012] Server  LOG     [v0] Found upcoming consultations: 0
+[00:00:06.022] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[00:00:06.068] Server  LOG     [v0] Clients fetched: 1
+[00:00:06.100] Server  LOG     [v0] Found upcoming consultations: 0
+[00:00:30.158] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[00:00:30.220] Server  LOG     [v0] Fetching client status
+[00:00:30.237] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/clientes color: rgb(120, 120, 120) color: inherit {"dp":"/clientes","o":"http://localhost:3000/clientes","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763478965900}
+[00:00:30.317] Server  LOG     [v0] Clients fetched: 1
+[00:00:30.323] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[00:00:30.377] Server  LOG     [v0] Client statuses fetched: 4
+[00:00:30.383] Server  LOG     [v0] Fetching client status
+[00:00:30.401] Server  LOG     [v0] Clients fetched: 1
+[00:00:30.460] Server  LOG     [v0] Client statuses fetched: 4
+[00:00:37.261] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:00:37.261] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:00:46.300] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[00:00:46.381] Server  LOG     [v0] GET /api/patients - Request received
+[00:00:46.381] Server  LOG     [v0] Params: {}
+[00:00:46.382] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/pacientes color: rgb(120, 120, 120) color: inherit {"dp":"/pacientes","o":"http://localhost:3000/pacientes","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763478982020}
+[00:00:46.383] Server  LOG     [v0] Clients fetched: 1
+[00:00:46.393] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[00:00:46.545] Server  LOG     [v0] Patients found: 3
+[00:00:46.549] Server  LOG     [v0] Clients fetched: 1
+[00:00:46.554] Server  LOG     [v0] GET /api/patients - Request received
+[00:00:46.554] Server  LOG     [v0] Params: {}
+[00:00:46.710] Server  LOG     [v0] Patients found: 3
+[00:00:49.555] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/kardex/6 color: rgb(120, 120, 120) color: inherit {"dp":"/kardex/[id]","o":"http://localhost:3000/kardex/6","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763478985206}
+[00:01:06.080] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[00:01:06.135] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas?patientId=6 color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas?patientId=6","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763479001801}
+[00:01:06.162] Server  LOG     [v0] Clients fetched: 1
+[00:01:06.170] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[00:01:06.251] Server  LOG     [v0] Clients fetched: 1
+[00:01:09.067] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:01:09.068] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:01:10.728] Server  LOG     [v0] GET /api/patients - Request received
+[00:01:10.729] Server  LOG     [v0] Params: {}
+[00:01:10.887] Server  LOG     [v0] Patients found: 3
+[00:01:20.672] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:01:20.672] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:01:29.697] Server  LOG     [v0] GET /api/patients - Request received
+[00:01:29.697] Server  LOG     [v0] Params: {}
+[00:01:29.706] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[00:01:29.775] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/pacientes color: rgb(120, 120, 120) color: inherit {"dp":"/pacientes","o":"http://localhost:3000/pacientes","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763479025440}
+[00:01:29.776] Server  LOG     [v0] Patients found: 3
+[00:01:29.788] Server  LOG     [v0] GET /api/patients - Request received
+[00:01:29.788] Server  LOG     [v0] Params: {}
+[00:01:29.789] Server  LOG     [v0] Clients fetched: 1
+[00:01:29.798] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[00:01:29.868] Server  LOG     [v0] Patients found: 3
+[00:01:29.874] Server  LOG     [v0] Clients fetched: 1
+[00:01:30.740] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:01:30.740] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:02:18.108] Server  LOG     [v0] POST /api/patients - Request received
+[00:02:18.110] Server  LOG     [v0] Request body: {}
+[00:02:18.276] Server  LOG     [v0] Insert result: {}
+[00:02:18.436] Server  LOG     [v0] New patient created: {}
+[00:02:18.444] Server  LOG     [v0] GET /api/patients - Request received
+[00:02:18.444] Server  LOG     [v0] Params: {}
+[00:02:18.526] Server  LOG     [v0] Patients found: 4
+[00:02:26.438] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:02:26.438] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:02:33.291] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/kardex/7 color: rgb(120, 120, 120) color: inherit {"dp":"/kardex/[id]","o":"http://localhost:3000/kardex/7","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763479088956}
+[00:02:43.302] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:43.509] Browser ERROR   You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+[00:02:43.509] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:02:43.509] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/pacientes","route":"/pacientes"}
+[00:02:43.509] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/pacientes color: rgb(120, 120, 120) color: inherit {"dp":"/pacientes","o":"http://localhost:3000/pacientes","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1763479099167}

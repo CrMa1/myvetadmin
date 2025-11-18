@@ -1795,7 +1795,7 @@ ${colorConfig.map(([key, itemConfig])=>{
     }, ("TURBOPACK compile-time value", void 0));
 };
 const ChartTooltip = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Tooltip$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Tooltip"];
-function ChartTooltipContent({ active, payload, className, indicator = 'dot', hideLabel = false, hideIndicator = false, label, labelFormatter, labelClassName, formatter, color, nameKey, labelKey }) {
+function ChartTooltipContent({ active, payload, className, indicator = 'dot', hideLabel = false, hideIndicator = false, label, labelFormatter, labelClassName, formatter, color, nameKey, labelKey, ...props }) {
     const { config } = useChart();
     const tooltipLabel = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useMemo"](()=>{
         if (hideLabel || !payload?.length) {
@@ -1811,7 +1811,7 @@ function ChartTooltipContent({ active, payload, className, indicator = 'dot', hi
                 children: labelFormatter(value, payload)
             }, void 0, false, {
                 fileName: "[project]/components/ui/chart.tsx",
-                lineNumber: 146,
+                lineNumber: 150,
                 columnNumber: 9
             }, this);
         }
@@ -1823,7 +1823,7 @@ function ChartTooltipContent({ active, payload, className, indicator = 'dot', hi
             children: value
         }, void 0, false, {
             fileName: "[project]/components/ui/chart.tsx",
-            lineNumber: 156,
+            lineNumber: 160,
             columnNumber: 12
         }, this);
     }, [
@@ -1855,7 +1855,7 @@ function ChartTooltipContent({ active, payload, className, indicator = 'dot', hi
                             children: [
                                 itemConfig?.icon ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(itemConfig.icon, {}, void 0, false, {
                                     fileName: "[project]/components/ui/chart.tsx",
-                                    lineNumber: 200,
+                                    lineNumber: 204,
                                     columnNumber: 21
                                 }, this) : !hideIndicator && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])('shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)', {
@@ -1870,7 +1870,7 @@ function ChartTooltipContent({ active, payload, className, indicator = 'dot', hi
                                     }
                                 }, void 0, false, {
                                     fileName: "[project]/components/ui/chart.tsx",
-                                    lineNumber: 203,
+                                    lineNumber: 207,
                                     columnNumber: 23
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1885,13 +1885,13 @@ function ChartTooltipContent({ active, payload, className, indicator = 'dot', hi
                                                     children: itemConfig?.label || item.name
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/ui/chart.tsx",
-                                                    lineNumber: 231,
+                                                    lineNumber: 235,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/components/ui/chart.tsx",
-                                            lineNumber: 229,
+                                            lineNumber: 233,
                                             columnNumber: 21
                                         }, this),
                                         item.value && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1899,32 +1899,32 @@ function ChartTooltipContent({ active, payload, className, indicator = 'dot', hi
                                             children: item.value.toLocaleString()
                                         }, void 0, false, {
                                             fileName: "[project]/components/ui/chart.tsx",
-                                            lineNumber: 236,
+                                            lineNumber: 240,
                                             columnNumber: 23
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/ui/chart.tsx",
-                                    lineNumber: 223,
+                                    lineNumber: 227,
                                     columnNumber: 19
                                 }, this)
                             ]
                         }, void 0, true)
                     }, item.dataKey, false, {
                         fileName: "[project]/components/ui/chart.tsx",
-                        lineNumber: 188,
+                        lineNumber: 192,
                         columnNumber: 13
                     }, this);
                 })
             }, void 0, false, {
                 fileName: "[project]/components/ui/chart.tsx",
-                lineNumber: 181,
+                lineNumber: 185,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/ui/chart.tsx",
-        lineNumber: 174,
+        lineNumber: 178,
         columnNumber: 5
     }, this);
 }
@@ -1944,7 +1944,7 @@ function ChartLegendContent({ className, hideIcon = false, payload, verticalAlig
                 children: [
                     itemConfig?.icon && !hideIcon ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(itemConfig.icon, {}, void 0, false, {
                         fileName: "[project]/components/ui/chart.tsx",
-                        lineNumber: 290,
+                        lineNumber: 295,
                         columnNumber: 15
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "h-2 w-2 shrink-0 rounded-[2px]",
@@ -1953,20 +1953,20 @@ function ChartLegendContent({ className, hideIcon = false, payload, verticalAlig
                         }
                     }, void 0, false, {
                         fileName: "[project]/components/ui/chart.tsx",
-                        lineNumber: 292,
+                        lineNumber: 297,
                         columnNumber: 15
                     }, this),
                     itemConfig?.label
                 ]
             }, item.value, true, {
                 fileName: "[project]/components/ui/chart.tsx",
-                lineNumber: 283,
+                lineNumber: 288,
                 columnNumber: 11
             }, this);
         })
     }, void 0, false, {
         fileName: "[project]/components/ui/chart.tsx",
-        lineNumber: 271,
+        lineNumber: 276,
         columnNumber: 5
     }, this);
 }

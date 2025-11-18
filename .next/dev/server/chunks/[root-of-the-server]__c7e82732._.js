@@ -154,13 +154,13 @@ async function query(sql, params) {
         //console.log("[v0] Query successful, rows returned:", Array.isArray(results) ? results.length : "single result")
         return results;
     } catch (error) {
-        //console.error("[v0] Database query error - Full details:")
-        //console.error("[v0] Query:", sql)
-        //console.error("[v0] Params:", params)
-        //console.error("[v0] Error message:", error.message)
-        //console.error("[v0] Error code:", error.code)
-        //console.error("[v0] Error sqlState:", error.sqlState)
-        //console.error("[v0] Error:", error)
+        console.error("[v0] Database query error - Full details:");
+        console.error("[v0] Query:", sql);
+        console.error("[v0] Params:", params);
+        console.error("[v0] Error message:", error.message);
+        console.error("[v0] Error code:", error.code);
+        console.error("[v0] Error sqlState:", error.sqlState);
+        console.error("[v0] Error:", error);
         throw error;
     }
 }
@@ -192,9 +192,12 @@ async function GET(request) {
         const { searchParams } = new URL(request.url);
         const userId = searchParams.get("userId");
         const clinicId = searchParams.get("clinicId");
+        const clientId = searchParams.get("clientId") // Agregar filtro por clientId
+        ;
         console.log("[v0] Params:", {
             userId,
-            clinicId
+            clinicId,
+            clientId
         });
         if (!userId || !clinicId) {
             console.log("[v0] Missing userId or clinicId");
@@ -205,11 +208,14 @@ async function GET(request) {
                 status: 400
             });
         }
-        const patients = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
+        let sqlQuery = `
+      SELECT 
         p.id,
         p.name,
-        p.owner as ownerName,
+        p.client_id,
+        CONCAT(c.first_name, ' ', c.last_name) as ownerName,
         p.species as animalType,
+        p.species_id,
         p.breed,
         p.age,
         p.weight,
@@ -219,13 +225,19 @@ async function GET(request) {
         p.allergies as diseases,
         p.created_at as lastVisit
        FROM patients p
-       WHERE p.user_id = ? AND p.clinic_id = ? 
-       ORDER BY p.created_at DESC`, [
+       LEFT JOIN clients c ON p.client_id = c.id
+       WHERE p.user_id = ? AND p.clinic_id = ?`;
+        const params = [
             userId,
             clinicId
-        ]);
+        ];
+        if (clientId) {
+            sqlQuery += ` AND p.client_id = ?`;
+            params.push(clientId);
+        }
+        sqlQuery += ` ORDER BY p.created_at DESC`;
+        const patients = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(sqlQuery, params);
         console.log("[v0] Patients found:", patients.length);
-        console.log("[v0] First patient:", patients[0]);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: true,
             data: patients
@@ -245,46 +257,48 @@ async function POST(request) {
         console.log("[v0] POST /api/patients - Request received");
         const body = await request.json();
         console.log("[v0] Request body:", body);
-        if (!body.userId || !body.clinicId) {
-            console.log("[v0] Missing userId or clinicId");
+        if (!body.userId || !body.clinicId || !body.clientId) {
+            console.log("[v0] Missing required fields");
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 success: false,
-                error: "userId y clinicId son requeridos"
+                error: "userId, clinicId y clientId son requeridos"
             }, {
                 status: 400
             });
         }
-        const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`INSERT INTO patients (user_id, clinic_id, name, owner, species, breed, age, weight, sex, color, medical_history, allergies)
+        const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`INSERT INTO patients (user_id, clinic_id, client_id, name, species_id, breed, age, weight, sex, color, medical_history, allergies)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
             body.userId,
             body.clinicId,
+            body.clientId,
             body.name,
-            body.ownerName,
-            body.animalType,
+            body.speciesId,
             body.breed || null,
             body.age || null,
             body.weight || null,
             body.sex || null,
             body.color || null,
             body.medicalHistory || null,
-            body.diseases || null
+            body.allergies || null
         ]);
         console.log("[v0] Insert result:", result);
         const newPatient = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
-        id,
-        name,
-        owner as ownerName,
-        species as animalType,
-        breed,
-        age,
-        weight,
-        sex,
-        color,
-        medical_history as medicalHistory,
-        allergies as diseases,
-        created_at as lastVisit
-       FROM patients
-       WHERE id = ?`, [
+        p.id,
+        p.name,
+        p.client_id,
+        CONCAT(c.first_name, ' ', c.last_name) as ownerName,
+        p.species_id,
+        p.breed,
+        p.age,
+        p.weight,
+        p.sex,
+        p.color,
+        p.medical_history as medicalHistory,
+        p.allergies as diseases,
+        p.created_at as lastVisit
+       FROM patients p
+       LEFT JOIN clients c ON p.client_id = c.id
+       WHERE p.id = ?`, [
             result.insertId
         ]);
         console.log("[v0] New patient created:", newPatient[0]);
@@ -306,55 +320,54 @@ async function PUT(request) {
     try {
         console.log("[v0] PUT /api/patients - Request received");
         const body = await request.json();
-        console.log("[v0] Request body:", body);
-        if (!body.userId || !body.clinicId) {
-            console.log("[v0] Missing userId or clinicId");
+        if (!body.userId || !body.clinicId || !body.clientId) {
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 success: false,
-                error: "userId y clinicId son requeridos"
+                error: "userId, clinicId y clientId son requeridos"
             }, {
                 status: 400
             });
         }
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`UPDATE patients 
-       SET name = ?, owner = ?, species = ?, breed = ?, age = ?, 
+       SET name = ?, client_id = ?, species_id = ?, breed = ?, age = ?, 
            weight = ?, sex = ?, color = ?, medical_history = ?, allergies = ?
        WHERE id = ? AND user_id = ? AND clinic_id = ?`, [
             body.name,
-            body.ownerName,
-            body.animalType,
+            body.clientId,
+            body.speciesId,
             body.breed || null,
             body.age || null,
             body.weight || null,
             body.sex || null,
             body.color || null,
             body.medicalHistory || null,
-            body.diseases || null,
+            body.allergies || null,
             body.id,
             body.userId,
             body.clinicId
         ]);
         const updatedPatient = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
-        id,
-        name,
-        owner as ownerName,
-        species as animalType,
-        breed,
-        age,
-        weight,
-        sex,
-        color,
-        medical_history as medicalHistory,
-        allergies as diseases,
-        created_at as lastVisit
-       FROM patients
-       WHERE id = ? AND user_id = ? AND clinic_id = ?`, [
+        p.id,
+        p.name,
+        p.client_id,
+        CONCAT(c.first_name, ' ', c.last_name) as ownerName,
+        p.species_id,
+        p.breed,
+        p.age,
+        p.weight,
+        p.sex,
+        p.color,
+        p.medical_history as medicalHistory,
+        p.allergies as diseases,
+        p.created_at as lastVisit
+       FROM patients p
+       LEFT JOIN clients c ON p.client_id = c.id
+       WHERE p.id = ? AND p.user_id = ? AND p.clinic_id = ?`, [
             body.id,
             body.userId,
             body.clinicId
         ]);
         if (updatedPatient.length === 0) {
-            console.log("[v0] Patient not found after update");
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 success: false,
                 error: "Paciente no encontrado"
@@ -362,7 +375,6 @@ async function PUT(request) {
                 status: 404
             });
         }
-        console.log("[v0] Patient updated:", updatedPatient[0]);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: true,
             data: updatedPatient[0]

@@ -7,20 +7,23 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url)
     const userId = searchParams.get("userId")
     const clinicId = searchParams.get("clinicId")
+    const clientId = searchParams.get("clientId") // Agregar filtro por clientId
 
-    console.log("[v0] Params:", { userId, clinicId })
+    console.log("[v0] Params:", { userId, clinicId, clientId })
 
     if (!userId || !clinicId) {
       console.log("[v0] Missing userId or clinicId")
       return NextResponse.json({ success: false, error: "userId y clinicId son requeridos" }, { status: 400 })
     }
 
-    const patients = await query(
-      `SELECT 
+    let sqlQuery = `
+      SELECT 
         p.id,
         p.name,
-        p.owner as ownerName,
+        p.client_id,
+        CONCAT(c.first_name, ' ', c.last_name) as ownerName,
         p.species as animalType,
+        p.species_id,
         p.breed,
         p.age,
         p.weight,
@@ -30,13 +33,21 @@ export async function GET(request) {
         p.allergies as diseases,
         p.created_at as lastVisit
        FROM patients p
-       WHERE p.user_id = ? AND p.clinic_id = ? 
-       ORDER BY p.created_at DESC`,
-      [userId, clinicId],
-    )
+       LEFT JOIN clients c ON p.client_id = c.id
+       WHERE p.user_id = ? AND p.clinic_id = ?`
+
+    const params = [userId, clinicId]
+
+    if (clientId) {
+      sqlQuery += ` AND p.client_id = ?`
+      params.push(clientId)
+    }
+
+    sqlQuery += ` ORDER BY p.created_at DESC`
+
+    const patients = await query(sqlQuery, params)
 
     console.log("[v0] Patients found:", patients.length)
-    console.log("[v0] First patient:", patients[0])
 
     return NextResponse.json({
       success: true,
@@ -54,27 +65,30 @@ export async function POST(request) {
     const body = await request.json()
     console.log("[v0] Request body:", body)
 
-    if (!body.userId || !body.clinicId) {
-      console.log("[v0] Missing userId or clinicId")
-      return NextResponse.json({ success: false, error: "userId y clinicId son requeridos" }, { status: 400 })
+    if (!body.userId || !body.clinicId || !body.clientId) {
+      console.log("[v0] Missing required fields")
+      return NextResponse.json(
+        { success: false, error: "userId, clinicId y clientId son requeridos" },
+        { status: 400 },
+      )
     }
 
     const result = await query(
-      `INSERT INTO patients (user_id, clinic_id, name, owner, species, breed, age, weight, sex, color, medical_history, allergies)
+      `INSERT INTO patients (user_id, clinic_id, client_id, name, species_id, breed, age, weight, sex, color, medical_history, allergies)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         body.userId,
         body.clinicId,
+        body.clientId,
         body.name,
-        body.ownerName, // frontend sends ownerName, db expects owner
-        body.animalType, // frontend sends animalType, db expects species
+        body.speciesId,
         body.breed || null,
         body.age || null,
         body.weight || null,
         body.sex || null,
         body.color || null,
         body.medicalHistory || null,
-        body.diseases || null, // frontend sends diseases, db expects allergies
+        body.allergies || null,
       ],
     )
 
@@ -82,20 +96,22 @@ export async function POST(request) {
 
     const newPatient = await query(
       `SELECT 
-        id,
-        name,
-        owner as ownerName,
-        species as animalType,
-        breed,
-        age,
-        weight,
-        sex,
-        color,
-        medical_history as medicalHistory,
-        allergies as diseases,
-        created_at as lastVisit
-       FROM patients
-       WHERE id = ?`,
+        p.id,
+        p.name,
+        p.client_id,
+        CONCAT(c.first_name, ' ', c.last_name) as ownerName,
+        p.species_id,
+        p.breed,
+        p.age,
+        p.weight,
+        p.sex,
+        p.color,
+        p.medical_history as medicalHistory,
+        p.allergies as diseases,
+        p.created_at as lastVisit
+       FROM patients p
+       LEFT JOIN clients c ON p.client_id = c.id
+       WHERE p.id = ?`,
       [result.insertId],
     )
 
@@ -115,29 +131,30 @@ export async function PUT(request) {
   try {
     console.log("[v0] PUT /api/patients - Request received")
     const body = await request.json()
-    console.log("[v0] Request body:", body)
 
-    if (!body.userId || !body.clinicId) {
-      console.log("[v0] Missing userId or clinicId")
-      return NextResponse.json({ success: false, error: "userId y clinicId son requeridos" }, { status: 400 })
+    if (!body.userId || !body.clinicId || !body.clientId) {
+      return NextResponse.json(
+        { success: false, error: "userId, clinicId y clientId son requeridos" },
+        { status: 400 },
+      )
     }
 
     await query(
       `UPDATE patients 
-       SET name = ?, owner = ?, species = ?, breed = ?, age = ?, 
+       SET name = ?, client_id = ?, species_id = ?, breed = ?, age = ?, 
            weight = ?, sex = ?, color = ?, medical_history = ?, allergies = ?
        WHERE id = ? AND user_id = ? AND clinic_id = ?`,
       [
         body.name,
-        body.ownerName, // frontend sends ownerName, db expects owner
-        body.animalType, // frontend sends animalType, db expects species
+        body.clientId,
+        body.speciesId,
         body.breed || null,
         body.age || null,
         body.weight || null,
         body.sex || null,
         body.color || null,
         body.medicalHistory || null,
-        body.diseases || null, // frontend sends diseases, db expects allergies
+        body.allergies || null,
         body.id,
         body.userId,
         body.clinicId,
@@ -146,29 +163,28 @@ export async function PUT(request) {
 
     const updatedPatient = await query(
       `SELECT 
-        id,
-        name,
-        owner as ownerName,
-        species as animalType,
-        breed,
-        age,
-        weight,
-        sex,
-        color,
-        medical_history as medicalHistory,
-        allergies as diseases,
-        created_at as lastVisit
-       FROM patients
-       WHERE id = ? AND user_id = ? AND clinic_id = ?`,
+        p.id,
+        p.name,
+        p.client_id,
+        CONCAT(c.first_name, ' ', c.last_name) as ownerName,
+        p.species_id,
+        p.breed,
+        p.age,
+        p.weight,
+        p.sex,
+        p.color,
+        p.medical_history as medicalHistory,
+        p.allergies as diseases,
+        p.created_at as lastVisit
+       FROM patients p
+       LEFT JOIN clients c ON p.client_id = c.id
+       WHERE p.id = ? AND p.user_id = ? AND p.clinic_id = ?`,
       [body.id, body.userId, body.clinicId],
     )
 
     if (updatedPatient.length === 0) {
-      console.log("[v0] Patient not found after update")
       return NextResponse.json({ success: false, error: "Paciente no encontrado" }, { status: 404 })
     }
-
-    console.log("[v0] Patient updated:", updatedPatient[0])
 
     return NextResponse.json({
       success: true,
