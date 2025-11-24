@@ -1477,9 +1477,9 @@ function DashboardPage() {
     }
     const metrics = dashboardData?.metrics || {};
     const totalRevenue = metrics.totalRevenue || 0;
-    const totalPatients = metrics.totalPatients || 0;
-    const totalAppointments = metrics.totalAppointments || 0;
-    const revenue = metrics.revenue || 0;
+    const totalPatients = metrics.activePatients || 0;
+    const totalAppointments = metrics.scheduledAppointments || 0;
+    const revenue = metrics.netIncome || 0;
     const revenueChange = metrics.revenueChange || 0;
     const patientsChange = metrics.patientsChange || 0;
     const appointmentsChange = metrics.appointmentsChange || 0;
@@ -1514,7 +1514,7 @@ function DashboardPage() {
                 className: "grid gap-6 md:grid-cols-2 lg:grid-cols-4",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$shared$2f$stats$2d$card$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["StatsCard"], {
-                        title: "Ingresos Totales",
+                        label: "Ingresos Totales",
                         subtitle: "Total acumulado",
                         value: `$${totalRevenue.toFixed(2)}`,
                         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$dollar$2d$sign$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__DollarSign$3e$__["DollarSign"],
@@ -1528,7 +1528,7 @@ function DashboardPage() {
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$shared$2f$stats$2d$card$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["StatsCard"], {
-                        title: "Total de Pacientes",
+                        label: "Total de Pacientes",
                         subtitle: "Pacientes registrados",
                         value: totalPatients,
                         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Users$3e$__["Users"],
@@ -1542,7 +1542,7 @@ function DashboardPage() {
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$shared$2f$stats$2d$card$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["StatsCard"], {
-                        title: "Citas Totales",
+                        label: "Citas Totales",
                         subtitle: "Consultas realizadas",
                         value: totalAppointments,
                         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$calendar$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Calendar$3e$__["Calendar"],
@@ -1556,13 +1556,13 @@ function DashboardPage() {
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$shared$2f$stats$2d$card$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["StatsCard"], {
-                        title: "Ingresos del Mes",
+                        label: "Ingresos del Mes",
                         subtitle: "Este mes",
                         value: `$${revenue.toFixed(2)}`,
                         icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trending$2d$up$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__TrendingUp$3e$__["TrendingUp"],
                         trend: {
-                            value: revenueChange,
-                            isPositive: revenueChange >= 0
+                            value: revenue,
+                            isPositive: revenue >= 0
                         }
                     }, void 0, false, {
                         fileName: "[project]/app/page.jsx",

@@ -1,6 +1,6 @@
 "use client"
 
-import { Plus } from 'lucide-react'
+import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { AccountingTable } from "@/components/accounting/accounting-table"
 import { StatsCard } from "@/components/shared/stats-card"
@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
-import { DollarSign, TrendingUp, TrendingDown, Activity } from 'lucide-react'
+import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
 import { formatCurrency, parseCurrency } from "@/lib/currency"
 
 export default function AccountingPage() {
@@ -244,7 +244,7 @@ export default function AccountingPage() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
         <StatsCard
-          title="Ingresos Totales"
+          label="Ingresos Totales"
           subtitle="Total de entradas"
           value={formatCurrency(totalIncome)}
           icon={TrendingUp}
@@ -254,7 +254,7 @@ export default function AccountingPage() {
           variant="success"
         />
         <StatsCard
-          title="Egresos Totales"
+          label="Egresos Totales"
           subtitle="Total de salidas"
           value={formatCurrency(totalExpenses)}
           icon={TrendingDown}
@@ -264,7 +264,7 @@ export default function AccountingPage() {
           variant="danger"
         />
         <StatsCard
-          title="Balance"
+          label="Balance"
           subtitle="Ganancia/Pérdida neta"
           value={formatCurrency(balance)}
           icon={DollarSign}
@@ -272,7 +272,7 @@ export default function AccountingPage() {
           variant={balance >= 0 ? "success" : "danger"}
         />
         <StatsCard
-          title="Transacciones"
+          label="Transacciones"
           subtitle="Registros totales"
           value={totalTransactions}
           icon={Activity}

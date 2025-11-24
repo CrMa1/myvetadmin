@@ -1,15 +1,11 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Plus } from 'lucide-react'
+import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ClientsStats } from "@/components/clients/clients-stats"
 import { ClientsTable } from "@/components/clients/clients-table"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
+import { ClientModal } from "@/components/clients/client-modal"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
@@ -24,14 +20,7 @@ export default function ClientsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingClient, setEditingClient] = useState(null)
   const [activeFilter, setActiveFilter] = useState(null)
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-    address: "",
-    statusId: "1",
-  })
+  const [apiError, setApiError] = useState(null)
 
   useEffect(() => {
     if (getUserId() && getClinicId()) {
@@ -74,33 +63,17 @@ export default function ClientsPage() {
 
   const handleAdd = () => {
     setEditingClient(null)
-    setFormData({
-      firstName: "",
-      lastName: "",
-      phone: "",
-      email: "",
-      address: "",
-      statusId: "1",
-    })
     setIsDialogOpen(true)
+    setApiError(null)
   }
 
   const handleEdit = (client) => {
     setEditingClient(client)
-    setFormData({
-      firstName: client.first_name || "",
-      lastName: client.last_name || "",
-      phone: client.phone || "",
-      email: client.email || "",
-      address: client.address || "",
-      statusId: client.status_id?.toString() || "1",
-    })
     setIsDialogOpen(true)
+    setApiError(null)
   }
 
   const handleDelete = async (id) => {
-    if (!confirm("¿Estás seguro de eliminar este cliente?")) return
-
     try {
       const response = await fetch(`/api/clients?id=${id}&userId=${getUserId()}&clinicId=${getClinicId()}`, {
         method: "DELETE",
@@ -119,26 +92,7 @@ export default function ClientsPage() {
     }
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    if (!formData.firstName || !formData.lastName || !formData.phone) {
-      showWarning("Por favor completa todos los campos requeridos")
-      return
-    }
-
-    // Validar formato de teléfono (solo números, 10 dígitos)
-    if (!/^\d{10}$/.test(formData.phone)) {
-      showWarning("El teléfono debe tener 10 dígitos")
-      return
-    }
-
-    // Validar formato de email si se proporciona
-    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      showWarning("Por favor ingresa un email válido")
-      return
-    }
-
+  const handleSubmit = async (formData, editingClient) => {
     try {
       const url = "/api/clients"
       const method = editingClient ? "PUT" : "POST"
@@ -148,7 +102,7 @@ export default function ClientsPage() {
         phone: formData.phone,
         email: formData.email,
         address: formData.address,
-        statusId: parseInt(formData.statusId),
+        statusId: Number.parseInt(formData.statusId),
         userId: getUserId(),
         clinicId: getClinicId(),
         ...(editingClient && { id: editingClient.id }),
@@ -167,16 +121,12 @@ export default function ClientsPage() {
         setIsDialogOpen(false)
         await fetchClients()
       } else {
-        showError(result.error || "Error al guardar el cliente")
+        setApiError(result.error || "Error al guardar el cliente")
       }
     } catch (error) {
       console.error("Error saving client:", error)
-      showError("Error al guardar el cliente")
+      setApiError("Error al guardar el cliente")
     }
-  }
-
-  const handleInputChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
   const handleFilterClick = (statusName) => {
@@ -222,99 +172,14 @@ export default function ClientsPage() {
 
       <ClientsTable clients={filteredClients} onEdit={handleEdit} onDelete={handleDelete} onSearch={handleSearch} />
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>{editingClient ? "Editar Cliente" : "Agregar Nuevo Cliente"}</DialogTitle>
-          </DialogHeader>
-
-          <form onSubmit={handleSubmit} className="grid gap-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="firstName">Nombre *</Label>
-                <Input
-                  id="firstName"
-                  value={formData.firstName}
-                  onChange={(e) => handleInputChange("firstName", e.target.value)}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="lastName">Apellidos *</Label>
-                <Input
-                  id="lastName"
-                  value={formData.lastName}
-                  onChange={(e) => handleInputChange("lastName", e.target.value)}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="phone">Teléfono *</Label>
-                <Input
-                  id="phone"
-                  value={formData.phone}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/\D/g, "").slice(0, 10)
-                    handleInputChange("phone", value)
-                  }}
-                  maxLength={10}
-                  placeholder="10 dígitos"
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  placeholder="opcional"
-                />
-              </div>
-
-              <div className="col-span-2">
-                <Label htmlFor="address">Dirección</Label>
-                <Textarea
-                  id="address"
-                  value={formData.address}
-                  onChange={(e) => handleInputChange("address", e.target.value)}
-                  rows={2}
-                  placeholder="opcional"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="statusId">Estado</Label>
-                <Select value={formData.statusId} onValueChange={(value) => handleInputChange("statusId", value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {clientStatuses.map((status) => (
-                      <SelectItem key={status.id} value={status.id.toString()}>
-                        {status.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
-                Cancelar
-              </Button>
-              <Button type="submit" className="btn-primary">
-                {editingClient ? "Actualizar" : "Guardar"}
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <ClientModal
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        onSubmit={handleSubmit}
+        editingClient={editingClient}
+        clientStatuses={clientStatuses}
+        apiError={apiError}
+      />
     </div>
   )
 }

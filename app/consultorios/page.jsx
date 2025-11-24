@@ -19,6 +19,8 @@ export default function ClinicsPage() {
   const [loading, setLoading] = useState(true)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingClinic, setEditingClinic] = useState(null)
+  const [apiError, setApiError] = useState("")
+  const [formErrors, setFormErrors] = useState({})
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -69,6 +71,8 @@ export default function ClinicsPage() {
       postalCode: "",
       description: "",
     })
+    setFormErrors({})
+    setApiError("")
     setIsDialogOpen(true)
   }
 
@@ -84,6 +88,8 @@ export default function ClinicsPage() {
       postalCode: clinic.postal_code || "",
       description: clinic.description || "",
     })
+    setFormErrors({})
+    setApiError("")
     setIsDialogOpen(true)
   }
 
@@ -113,11 +119,20 @@ export default function ClinicsPage() {
     }
   }
 
+  const validateForm = () => {
+    const errors = {}
+    if (!formData.name.trim()) errors.name = "Campo requerido"
+    if (!formData.address.trim()) errors.address = "Campo requerido"
+    if (!formData.phone.trim()) errors.phone = "Campo requerido"
+
+    setFormErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!formData.name || !formData.address || !formData.phone) {
-      showWarning("Por favor completa todos los campos requeridos")
+    if (!validateForm()) {
       return
     }
 
@@ -140,11 +155,11 @@ export default function ClinicsPage() {
         setIsDialogOpen(false)
         await fetchClinics()
       } else {
-        showError(result.error || "Error al guardar el consultorio")
+        setApiError(result.error || "Error al guardar el consultorio")
       }
     } catch (error) {
       console.error("Error saving clinic:", error)
-      showError("Error al guardar el consultorio")
+      setApiError("Error al guardar el consultorio")
     }
   }
 
@@ -155,6 +170,10 @@ export default function ClinicsPage() {
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+    if (formErrors[field]) {
+      setFormErrors((prev) => ({ ...prev, [field]: "" }))
+    }
+    if (apiError) setApiError("")
   }
 
   if (loading) {
@@ -255,28 +274,40 @@ export default function ClinicsPage() {
             <DialogTitle>{editingClinic ? "Editar Consultorio" : "Agregar Nuevo Consultorio"}</DialogTitle>
           </DialogHeader>
 
+          {apiError && (
+            <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded">
+              <p className="text-sm font-medium">{apiError}</p>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="grid gap-4">
             <div>
-              <Label htmlFor="name">Nombre del Consultorio *</Label>
+              <Label htmlFor="name">
+                Nombre del Consultorio <span className="text-red-500">*</span>
+              </Label>
               <Input
                 id="name"
                 value={formData.name}
                 onChange={(e) => handleInputChange("name", e.target.value)}
-                required
                 placeholder="Ej: Clínica Veterinaria San Francisco"
+                className={formErrors.name ? "border-red-500" : ""}
               />
+              {formErrors.name && <p className="text-red-500 text-sm mt-1">{formErrors.name}</p>}
             </div>
 
             <div>
-              <Label htmlFor="address">Dirección Completa *</Label>
+              <Label htmlFor="address">
+                Dirección Completa <span className="text-red-500">*</span>
+              </Label>
               <Textarea
                 id="address"
                 value={formData.address}
                 onChange={(e) => handleInputChange("address", e.target.value)}
-                required
                 placeholder="Calle, número, colonia"
                 rows={2}
+                className={formErrors.address ? "border-red-500" : ""}
               />
+              {formErrors.address && <p className="text-red-500 text-sm mt-1">{formErrors.address}</p>}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -316,14 +347,17 @@ export default function ClinicsPage() {
               </div>
 
               <div>
-                <Label htmlFor="phone">Teléfono *</Label>
+                <Label htmlFor="phone">
+                  Teléfono <span className="text-red-500">*</span>
+                </Label>
                 <Input
                   id="phone"
                   value={formData.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
-                  required
                   placeholder="(555) 123-4567"
+                  className={formErrors.phone ? "border-red-500" : ""}
                 />
+                {formErrors.phone && <p className="text-red-500 text-sm mt-1">{formErrors.phone}</p>}
               </div>
             </div>
 

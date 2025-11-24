@@ -1,11 +1,10 @@
 "use client"
 
-import { Bell, Search, User, LogOut } from 'lucide-react'
+import { Bell, Search, User, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useAuth } from "@/contexts/auth-context"
 import { useState, useEffect } from "react"
-import { formatCurrency } from "@/lib/currency"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,12 +15,13 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, Clock, Stethoscope } from 'lucide-react'
+import { Calendar, Stethoscope } from "lucide-react"
 
 export function Header() {
   const { user, logout, getUserId, getClinicId } = useAuth()
   const [notifications, setNotifications] = useState([])
   const [loading, setLoading] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
     if (user) {
@@ -36,7 +36,7 @@ export function Header() {
       setLoading(true)
       const userId = getUserId()
       const clinicId = getClinicId()
-      
+
       if (!userId || !clinicId) return
 
       const response = await fetch(`/api/notifications?userId=${userId}&clinicId=${clinicId}`)
@@ -74,7 +74,13 @@ export function Header() {
         <div className="flex-1 max-w-md">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input type="search" placeholder="Buscar pacientes, citas..." className="pl-10" />
+            <Input
+              type="search"
+              placeholder="Buscar pacientes, citas..."
+              className="pl-10"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
         </div>
 

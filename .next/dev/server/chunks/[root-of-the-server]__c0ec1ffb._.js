@@ -201,7 +201,7 @@ async function GET(request) {
         }
         const staff = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
         s.id, 
-        s.name, 
+        s.name as firstName, 
         s.last_name as lastName, 
         s.position_id as positionId,
         p.name as position, 
@@ -242,6 +242,34 @@ async function POST(request) {
             }, {
                 status: 400
             });
+        }
+        // Verificar si el teléfono ya existe en este consultorio
+        const existingPhone = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])("SELECT id FROM staff WHERE phone = ? AND clinic_id = ?", [
+            body.phone,
+            body.clinicId
+        ]);
+        if (existingPhone.length > 0) {
+            return Response.json({
+                success: false,
+                error: "El teléfono ya está registrado"
+            }, {
+                status: 400
+            });
+        }
+        // Si se proporciona email, verificar que no exista
+        if (body.email) {
+            const existingEmail = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])("SELECT id FROM staff WHERE email = ? AND clinic_id = ?", [
+                body.email,
+                body.clinicId
+            ]);
+            if (existingEmail.length > 0) {
+                return Response.json({
+                    success: false,
+                    error: "El email ya está registrado"
+                }, {
+                    status: 400
+                });
+            }
         }
         const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`INSERT INTO staff (user_id, clinic_id, name, last_name, position_id, email, phone, salary, license, hire_date)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [

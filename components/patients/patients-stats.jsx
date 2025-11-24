@@ -15,7 +15,6 @@ export function PatientsStats({ patients, onFilterClick, activeFilter }) {
       label: "Total Pacientes",
       value: totalPatients,
       icon: Dog,
-      color: "text-primary",
       filter: null,
       subtitle: "Registrados en el sistema",
     },
@@ -23,7 +22,6 @@ export function PatientsStats({ patients, onFilterClick, activeFilter }) {
       label: "Perros",
       value: dogs,
       icon: Dog,
-      color: "text-accent",
       filter: "Perro",
       subtitle: "Pacientes caninos",
     },
@@ -31,7 +29,6 @@ export function PatientsStats({ patients, onFilterClick, activeFilter }) {
       label: "Gatos",
       value: cats,
       icon: Cat,
-      color: "text-accent",
       filter: "Gato",
       subtitle: "Pacientes felinos",
     },
@@ -39,7 +36,6 @@ export function PatientsStats({ patients, onFilterClick, activeFilter }) {
       label: "Aves",
       value: birds,
       icon: Bird,
-      color: "text-accent",
       filter: "Ave",
       subtitle: "Pacientes aviares",
     },
@@ -47,7 +43,6 @@ export function PatientsStats({ patients, onFilterClick, activeFilter }) {
       label: "Otros",
       value: others,
       icon: Rabbit,
-      color: "text-muted-foreground",
       filter: "Otros",
       subtitle: "Otras especies",
     },
@@ -65,7 +60,7 @@ export function PatientsStats({ patients, onFilterClick, activeFilter }) {
             label={stat.label}
             value={stat.value}
             icon={Icon}
-            color={stat.color}
+            color="text-primary"
             isActive={isActive}
             onClick={() => onFilterClick(stat.filter)}
             subtitle={stat.subtitle}

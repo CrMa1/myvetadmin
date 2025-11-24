@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { formatCurrency } from "@/lib/currency"
 
 interface StaffTableProps {
   staff: any[]
@@ -247,7 +248,7 @@ export function StaffTable({ staff, onAdd, onEdit, onDelete, filterPosition, onC
                           <p className="text-sm font-mono">{member.license}</p>
                         </td>
                         <td className="px-4 py-3">
-                          <p className="text-sm font-medium">${member.salary.toLocaleString()}</p>
+                          <p className="text-sm font-medium">{formatCurrency(member.salary)}</p>
                           <p className="text-xs text-muted-foreground">mensual</p>
                         </td>
                         <td className="px-4 py-3">
@@ -408,6 +409,9 @@ export function StaffTable({ staff, onAdd, onEdit, onDelete, filterPosition, onC
                   }}
                   placeholder="Ej: 15000"
                 />
+                {formData.salary && (
+                  <p className="text-xs text-muted-foreground mt-1">{formatCurrency(formData.salary)}</p>
+                )}
               </div>
             </div>
           </div>

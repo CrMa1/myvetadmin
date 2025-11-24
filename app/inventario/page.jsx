@@ -1,6 +1,6 @@
 "use client"
 
-import { Plus } from 'lucide-react'
+import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { InventoryTable } from "@/components/inventory/inventory-table"
 import { StatsCard } from "@/components/shared/stats-card"
@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
-import { Package, AlertTriangle, DollarSign, TrendingUp } from 'lucide-react'
+import { Package, AlertTriangle, DollarSign, TrendingUp } from "lucide-react"
 import { formatCurrency, parseCurrency } from "@/lib/currency"
 
 export default function InventoryPage() {
@@ -252,7 +252,7 @@ export default function InventoryPage() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
         <StatsCard
-          title="Total de Productos"
+          label="Total de Productos"
           subtitle="Artículos en stock"
           value={totalItems}
           icon={Package}
@@ -261,7 +261,7 @@ export default function InventoryPage() {
           isActive={activeFilter === null}
         />
         <StatsCard
-          title="Stock Bajo"
+          label="Stock Bajo"
           subtitle="Requieren reabastecimiento"
           value={lowStockItems}
           icon={AlertTriangle}
@@ -271,14 +271,14 @@ export default function InventoryPage() {
           variant="warning"
         />
         <StatsCard
-          title="Valor Total"
+          label="Valor Total"
           subtitle="Inventario valorizado"
           value={formatCurrency(totalValue)}
           icon={DollarSign}
           trend={{ value: 0, isPositive: true }}
         />
         <StatsCard
-          title="Valor Promedio"
+          label="Valor Promedio"
           subtitle="Por artículo"
           value={formatCurrency(avgItemValue)}
           icon={TrendingUp}

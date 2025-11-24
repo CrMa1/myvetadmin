@@ -1,13 +1,15 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, FileText, Plus } from 'lucide-react'
+import { ArrowLeft, FileText, Plus } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { useAuth } from "@/contexts/auth-context"
+import { Loader } from "@/components/ui/loader"
+import { AddPatientModal } from "@/components/patients/add-patient-modal"
 
 export default function ClientDetailPage() {
   const params = useParams()
@@ -17,6 +19,7 @@ export default function ClientDetailPage() {
   const [patients, setPatients] = useState([])
   const [consultations, setConsultations] = useState([])
   const [loading, setLoading] = useState(true)
+  const [isAddPatientModalOpen, setIsAddPatientModalOpen] = useState(false)
 
   useEffect(() => {
     const userId = getUserId()
@@ -63,8 +66,8 @@ export default function ClientDetailPage() {
 
   if (loading) {
     return (
-      <div className="p-8">
-        <p>Cargando...</p>
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader size="lg" text="Cargando detalles del cliente..." />
       </div>
     )
   }
@@ -128,7 +131,7 @@ export default function ClientDetailPage() {
       <Card className="p-6 mb-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold">Mascotas del Cliente</h2>
-          <Button onClick={() => router.push("/pacientes")} variant="outline" size="sm">
+          <Button onClick={() => setIsAddPatientModalOpen(true)} variant="outline" size="sm">
             <Plus className="w-4 h-4 mr-2" />
             Agregar Mascota
           </Button>
@@ -166,18 +169,11 @@ export default function ClientDetailPage() {
                     <TableCell>{patient.age} años</TableCell>
                     <TableCell>{patient.sex}</TableCell>
                     <TableCell>
-                      {patient.last_visit
-                        ? new Date(patient.last_visit).toLocaleDateString("es-MX")
-                        : "Sin visitas"}
+                      {patient.last_visit ? new Date(patient.last_visit).toLocaleDateString("es-MX") : "Sin visitas"}
                     </TableCell>
                     <TableCell>{patient.consultation_count || 0}</TableCell>
                     <TableCell className="text-right">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleViewKardex(patient.id)}
-                        title="Ver Kardex"
-                      >
+                      <Button variant="ghost" size="sm" onClick={() => handleViewKardex(patient.id)} title="Ver Kardex">
                         <FileText className="w-4 h-4" />
                       </Button>
                     </TableCell>
@@ -235,6 +231,13 @@ export default function ClientDetailPage() {
           </Table>
         </div>
       </Card>
+
+      <AddPatientModal
+        open={isAddPatientModalOpen}
+        onOpenChange={setIsAddPatientModalOpen}
+        preSelectedClientId={client.id}
+        onPatientAdded={fetchClientDetail}
+      />
     </div>
   )
 }

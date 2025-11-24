@@ -1,7 +1,7 @@
 "use client"
 
 import { StatsCard } from "@/components/shared/stats-card"
-import { UserPlus, Users, Star, UserX } from 'lucide-react'
+import { UserPlus, Users, Star, UserX } from "lucide-react"
 
 export function ClientsStats({ clients, onFilterClick, activeFilter }) {
   const getStatusCount = (statusName) => {
@@ -10,28 +10,28 @@ export function ClientsStats({ clients, onFilterClick, activeFilter }) {
 
   const stats = [
     {
-      title: "Nuevos",
+      label: "Nuevos",
       subtitle: "Clientes recién registrados",
       value: getStatusCount("Nuevo"),
       icon: UserPlus,
       filter: "Nuevo",
     },
     {
-      title: "Frecuentes",
+      label: "Frecuentes",
       subtitle: "Clientes regulares",
       value: getStatusCount("Frecuente"),
       icon: Users,
       filter: "Frecuente",
     },
     {
-      title: "Especiales",
+      label: "Especiales",
       subtitle: "Clientes VIP o especiales",
       value: getStatusCount("Especial"),
       icon: Star,
       filter: "Especial",
     },
     {
-      title: "Inactivos",
+      label: "Inactivos",
       subtitle: "Sin actividad reciente",
       value: getStatusCount("Inactivo"),
       icon: UserX,
@@ -43,8 +43,8 @@ export function ClientsStats({ clients, onFilterClick, activeFilter }) {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
       {stats.map((stat) => (
         <StatsCard
-          key={stat.title}
-          title={stat.title}
+          key={stat.label}
+          label={stat.label}
           subtitle={stat.subtitle}
           value={stat.value}
           icon={stat.icon}

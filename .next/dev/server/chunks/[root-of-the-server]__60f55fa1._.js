@@ -154,13 +154,13 @@ async function query(sql, params) {
         //console.log("[v0] Query successful, rows returned:", Array.isArray(results) ? results.length : "single result")
         return results;
     } catch (error) {
-        //console.error("[v0] Database query error - Full details:")
-        //console.error("[v0] Query:", sql)
-        //console.error("[v0] Params:", params)
-        //console.error("[v0] Error message:", error.message)
-        //console.error("[v0] Error code:", error.code)
-        //console.error("[v0] Error sqlState:", error.sqlState)
-        //console.error("[v0] Error:", error)
+        console.error("[v0] Database query error - Full details:");
+        console.error("[v0] Query:", sql);
+        console.error("[v0] Params:", params);
+        console.error("[v0] Error message:", error.message);
+        console.error("[v0] Error code:", error.code);
+        console.error("[v0] Error sqlState:", error.sqlState);
+        console.error("[v0] Error:", error);
         throw error;
     }
 }

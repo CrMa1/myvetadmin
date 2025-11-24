@@ -2,29 +2,40 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Plus } from 'lucide-react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog"
+import { Plus } from "lucide-react"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogDescription,
+} from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Search, Edit, Trash2 } from 'lucide-react'
+import { Search, Edit, Trash2 } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
 import { ConsultationStats } from "@/components/consultations/consultation-stats"
+import { AddVeterinarianModal } from "@/components/personal/add-veterinarian-modal"
+import { AddPatientModal } from "@/components/patients/add-patient-modal"
 import { formatCurrency, parseCurrency } from "@/lib/currency"
 
 export default function ConsultasPage() {
   const { user, selectedClinic, getUserId, getClinicId } = useAuth()
   const { showSuccess, showError, showWarning, AlertContainer } = useAlertToast()
   const [consultations, setConsultations] = useState([])
+  const [patients, setPatients] = useState([]) // Adding missing state for patients
   const [staff, setStaff] = useState([])
   const [filteredConsultations, setFilteredConsultations] = useState([])
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isPatientDialogOpen, setIsPatientDialogOpen] = useState(false)
+  const [isVetDialogOpen, setIsVetDialogOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [selectedConsultation, setSelectedConsultation] = useState(null)
   const [editingConsultation, setEditingConsultation] = useState(null)
@@ -33,37 +44,21 @@ export default function ConsultasPage() {
   const [activeFilter, setActiveFilter] = useState(null)
   const [formData, setFormData] = useState({
     patientId: "",
-    patientName: "",
-    ownerName: "",
-    accompaniedBy: "",
     clientId: "",
     date: "",
     reason: "",
     diagnosis: "",
     treatment: "",
     notes: "",
-    veterinarian: "",
+    veterinarianId: null,
     cost: "",
     status: "Programada",
-  })
-  const [newPatientData, setNewPatientData] = useState({
-    name: "",
-    animalType: "",
-    breed: "",
-    age: "",
-    weight: "",
-    sex: "",
-    ownerName: "",
-    ownerPhone: "",
-    medicalHistory: "",
-    diseases: "",
-    clientId: "",
   })
   const [clients, setClients] = useState([])
   const [clientPatients, setClientPatients] = useState([])
   const [species, setSpecies] = useState([])
   const [formErrors, setFormErrors] = useState({})
-  const [patientFormErrors, setPatientFormErrors] = useState({})
+  const [formApiError, setFormApiError] = useState("")
 
   useEffect(() => {
     if (user && selectedClinic) {
@@ -71,6 +66,7 @@ export default function ConsultasPage() {
       fetchClients()
       fetchStaff()
       fetchSpecies()
+      fetchPatients()
     }
   }, [user, selectedClinic])
 
@@ -225,13 +221,14 @@ export default function ConsultasPage() {
 
   const validateForm = () => {
     const errors = {}
-    if (!formData.patientName.trim()) errors.patientName = "El nombre del paciente es requerido"
-    if (!formData.ownerName.trim()) errors.ownerName = "El nombre del dueño es requerido"
-    if (!formData.accompaniedBy.trim()) errors.accompaniedBy = "Este campo es requerido"
+    if (!formData.clientId) errors.clientId = "El cliente es requerido"
+    if (!formData.patientId) errors.patientId = "El paciente es requerido"
+    if (!formData.veterinarianId) errors.veterinarianId = "El veterinario es requerido"
     if (!formData.date) errors.date = "La fecha es requerida"
     if (!formData.reason.trim()) errors.reason = "El motivo de la consulta es requerido"
     if (!formData.status) errors.status = "El estatus es requerido"
-    
+    if (!formData.cost) errors.cost = "El costo es requerido"
+
     setFormErrors(errors)
     return Object.keys(errors).length === 0
   }
@@ -240,7 +237,7 @@ export default function ConsultasPage() {
     e.preventDefault()
 
     if (!validateForm()) {
-      showWarning("Por favor completa todos los campos obligatorios")
+      //showWarning("Por favor completa todos los campos obligatorios")
       return
     }
 
@@ -252,19 +249,24 @@ export default function ConsultasPage() {
       ? { ...formData, id: editingConsultation.id, userId, clinicId }
       : { ...formData, userId, clinicId }
 
-    const response = await fetch("/api/consultations", {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    })
+    try {
+      const response = await fetch("/api/consultations", {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      })
 
-    const result = await response.json()
-    if (result.success) {
-      showSuccess(editingConsultation ? "Consulta actualizada exitosamente" : "Consulta registrada exitosamente")
-      fetchConsultations()
-      handleCloseDialog()
-    } else {
-      showError(result.error || "Error al guardar consulta")
+      const result = await response.json()
+      if (result.success) {
+        showSuccess(editingConsultation ? "Consulta actualizada exitosamente" : "Consulta registrada exitosamente")
+        fetchConsultations()
+        handleCloseDialog()
+      } else {
+        setFormApiError(result.error || "Error al guardar consulta")
+      }
+    } catch (error) {
+      console.error("Error saving consultation:", error)
+      setFormApiError("Error al guardar consulta")
     }
   }
 
@@ -279,9 +281,12 @@ export default function ConsultasPage() {
     const userId = getUserId()
     const clinicId = getClinicId()
 
-    const response = await fetch(`/api/consultations?id=${selectedConsultation.id}&userId=${userId}&clinicId=${clinicId}`, {
-      method: "DELETE",
-    })
+    const response = await fetch(
+      `/api/consultations?id=${selectedConsultation.id}&userId=${userId}&clinicId=${clinicId}`,
+      {
+        method: "DELETE",
+      },
+    )
     const result = await response.json()
 
     if (result.success) {
@@ -295,23 +300,29 @@ export default function ConsultasPage() {
   }
 
   const handleEdit = (consultation) => {
+    console.log("Editing consultation:", consultation)
     setEditingConsultation(consultation)
+    const clientIdStr = consultation.clientId ? consultation.clientId.toString() : ""
+    const patientIdStr = consultation.patientId ? consultation.patientId.toString() : ""
+
     setFormData({
       ...formData,
-      patientId: consultation.patientId || "",
-      patientName: consultation.patientName || "",
-      ownerName: consultation.ownerName || "",
-      accompaniedBy: consultation.accompaniedBy || "",
-      clientId: consultation.clientId || "",
+      patientId: patientIdStr,
+      clientId: clientIdStr,
       date: consultation.date ? new Date(consultation.date).toISOString().split("T")[0] : "",
       reason: consultation.reason || "",
       diagnosis: consultation.diagnosis || "",
       treatment: consultation.treatment || "",
       notes: consultation.notes || "",
-      veterinarian: consultation.veterinarian || "",
+      veterinarianId: consultation.veterinarianId || null,
       cost: consultation.cost || "",
       status: consultation.status || "Programada",
     })
+
+    // Load the client's patients when editing
+    if (clientIdStr) {
+      fetchClientPatients(clientIdStr)
+    }
     setFormErrors({})
     setIsDialogOpen(true)
   }
@@ -321,20 +332,18 @@ export default function ConsultasPage() {
     setEditingConsultation(null)
     setFormData({
       patientId: "",
-      patientName: "",
-      ownerName: "",
-      accompaniedBy: "",
       clientId: "",
       date: "",
       reason: "",
       diagnosis: "",
       treatment: "",
       notes: "",
-      veterinarian: "",
+      veterinarianId: null,
       cost: "",
       status: "Programada",
     })
     setFormErrors({})
+    setFormApiError("")
   }
 
   const handleClientSelect = (clientId) => {
@@ -343,11 +352,28 @@ export default function ConsultasPage() {
       setFormData({
         ...formData,
         clientId: clientId,
-        ownerName: `${client.first_name} ${client.last_name}`,
         patientId: "",
-        patientName: "",
       })
       fetchClientPatients(clientId)
+    }
+  }
+
+  const loadClientPatients = async (clientId) => {
+    try {
+      const userId = getUserId()
+      const clinicId = getClinicId()
+      if (!userId || !clinicId) return
+
+      const response = await fetch(`/api/patients?userId=${userId}&clinicId=${clinicId}&clientId=${clientId}`)
+      const result = await response.json()
+      if (result.success) {
+        setClientPatients(result.data || [])
+        return result.data || []
+      }
+      return []
+    } catch (error) {
+      console.error("Error fetching client patients:", error)
+      return []
     }
   }
 
@@ -357,86 +383,48 @@ export default function ConsultasPage() {
     if (patient) {
       setFormData({
         ...formData,
-        patientId: patient.id,
-        patientName: patient.name,
+        patientId: patient.id.toString(),
       })
     }
   }
 
-  const validatePatientForm = () => {
-    const errors = {}
-    if (!newPatientData.name.trim()) errors.name = "El nombre es requerido"
-    if (!newPatientData.animalType) errors.animalType = "El tipo de animal es requerido"
-    if (!newPatientData.clientId) errors.clientId = "El cliente es requerido"
-    
-    setPatientFormErrors(errors)
-    return Object.keys(errors).length === 0
-  }
-
-  const handleNewPatient = async (e) => {
-    e.preventDefault()
-
-    if (!validatePatientForm()) {
-      showWarning("Por favor completa los campos obligatorios del paciente")
-      return
-    }
-
-    const userId = getUserId()
-    const clinicId = getClinicId()
-
-    const response = await fetch("/api/patients", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: newPatientData.name,
-        speciesId: newPatientData.animalType,
-        breed: newPatientData.breed,
-        age: newPatientData.age,
-        weight: newPatientData.weight,
-        sex: newPatientData.sex,
-        clientId: newPatientData.clientId,
-        medicalHistory: newPatientData.medicalHistory,
-        allergies: newPatientData.diseases,
-        userId,
-        clinicId,
-      }),
-    })
-
-    const result = await response.json()
-    if (result.success) {
-      showSuccess("Paciente registrado exitosamente")
+  const handlePatientAdded = async (newPatient) => {
+    if (newPatient) {
+      // Refresh clients list in case a new client was added
       await fetchClients()
 
-      setFormData({
-        ...formData,
-        patientId: result.data.id,
-        patientName: result.data.name,
-      })
+      // Refresh patients list for the client
+      const updatedPatients = await loadClientPatients(newPatient.clientId)
+
+      // Find the client to get owner name
+      // We need to fetch clients first to ensure we have the latest list
+      const response = await fetch(`/api/clients?userId=${getUserId()}&clinicId=${getClinicId()}`)
+      const clientsResult = await response.json()
+      const updatedClients = clientsResult.success ? clientsResult.data : clients
+
+      if (clientsResult.success) {
+        setClients(updatedClients)
+      }
+
+      const client = updatedClients.find((c) => c.id === Number(newPatient.clientId))
+
+      // Update form data with new patient and client
+      setFormData((prev) => ({
+        ...prev,
+        clientId: newPatient.client_id.toString(),
+        patientId: newPatient.id.toString(),
+      }))
 
       setIsPatientDialogOpen(false)
-      setNewPatientData({
-        name: "",
-        animalType: "",
-        breed: "",
-        age: "",
-        weight: "",
-        sex: "",
-        clientId: "",
-        medicalHistory: "",
-        diseases: "",
-      })
-      setPatientFormErrors({})
-    } else {
-      showError(result.error || "Error al registrar el paciente")
     }
   }
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })
-    if (formErrors[name]) {
-      setFormErrors({ ...formErrors, [name]: "" })
+  const handleInputChange = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }))
+    if (formErrors[field]) {
+      setFormErrors((prev) => ({ ...prev, [field]: "" }))
     }
+    if (formApiError) setFormApiError("")
   }
 
   const handleCurrencyChange = (e) => {
@@ -455,12 +443,21 @@ export default function ConsultasPage() {
 
   const getStatusColor = (status) => {
     const colors = {
-      "Programada": "default",
+      Programada: "default",
       "En Proceso": "secondary",
-      "Completada": "outline",
-      "Cancelada": "destructive",
+      Completada: "outline",
+      Cancelada: "destructive",
     }
     return colors[status] || "default"
+  }
+
+  const handleVetAdded = async (newVet) => {
+    await fetchStaff()
+    setIsVetDialogOpen(false)
+    setFormData((prev) => ({
+      ...prev,
+      veterinarianId: newVet.id.toString(),
+    }))
   }
 
   if (loading) {
@@ -539,7 +536,7 @@ export default function ConsultasPage() {
                           <p className="font-medium">{consultation.patientName}</p>
                         </td>
                         <td className="px-4 py-3">
-                          <p className="text-sm">{consultation.ownerName}</p>
+                          <p className="text-sm">{consultation.clientName}</p>
                         </td>
                         <td className="px-4 py-3">
                           <p className="text-sm">{consultation.reason}</p>
@@ -586,46 +583,55 @@ export default function ConsultasPage() {
             </div>
           </div>
           <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
-            <p>
-              Mostrando {filteredConsultations.length} consulta(s)
-            </p>
+            <p>Mostrando {filteredConsultations.length} consulta(s)</p>
           </div>
         </CardContent>
       </Card>
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <Dialog open={isDialogOpen} onOpenChange={handleCloseDialog}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{editingConsultation ? "Editar Consulta" : "Nueva Consulta"}</DialogTitle>
+            <DialogTitle className="text-2xl">{editingConsultation ? "Editar Consulta" : "Nueva Consulta"}</DialogTitle>
+            <p className="text-sm text-muted-foreground">
+              {editingConsultation ? "Modifica los detalles de la consulta" : "Registra una nueva consulta veterinaria"}
+            </p>
           </DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+
+          {formApiError && (
+            <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded">
+              <p className="text-sm font-medium">{formApiError}</p>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="grid gap-6">
+            <div className="grid gap-4">
               <div className="col-span-2">
-                <Label>Cliente (Dueño) *</Label>
+                <Label htmlFor="client">Cliente (Dueño) *</Label>
                 <Select value={formData.clientId} onValueChange={handleClientSelect}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar cliente primero" />
+                    <SelectValue placeholder="Seleccionar cliente" />
                   </SelectTrigger>
                   <SelectContent>
                     {clients.map((client) => (
                       <SelectItem key={client.id} value={client.id.toString()}>
-                        {client.first_name} {client.last_name} - {client.phone}
+                        {client.first_name} {client.last_name}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
+                {formErrors.clientId && <p className="text-sm text-destructive mt-1">{formErrors.clientId}</p>}
               </div>
 
               <div className="col-span-2">
-                <Label>Paciente *</Label>
+                <Label htmlFor="patient">Paciente *</Label>
                 <div className="flex gap-2">
-                  <Select 
-                    value={formData.patientId} 
+                  <Select
+                    value={formData.patientId?.toString()}
                     onValueChange={handlePatientSelect}
-                    disabled={clientPatients.length === 0}
+                    disabled={!formData.clientId}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder={clientPatients.length === 0 ? "Selecciona un cliente primero" : "Seleccionar paciente"} />
+                      <SelectValue placeholder="Seleccionar paciente" />
                     </SelectTrigger>
                     <SelectContent>
                       {clientPatients.map((patient) => (
@@ -636,96 +642,102 @@ export default function ConsultasPage() {
                     </SelectContent>
                   </Select>
                   <Button type="button" variant="outline" onClick={() => setIsPatientDialogOpen(true)}>
-                    Nuevo Paciente
+                    Agregar
                   </Button>
+                </div>
+                {formErrors.patientId && <p className="text-sm text-destructive mt-1">{formErrors.patientId}</p>}
+              </div>
+
+              <div className="col-span-2">
+                <div>
+                  <Label htmlFor="veterinarian">Veterinario</Label>
+                  <div className="flex gap-2">
+                    <Select
+                      value={formData.veterinarianId?.toString()}
+                      onValueChange={(value) => {
+                        if (value === "none") {
+                          setFormData({ ...formData, veterinarianId: null })
+                          return
+                        }
+                        setFormData({
+                          ...formData,
+                          veterinarianId: value,
+                        })
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Seleccionar veterinario" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="none">Ninguno</SelectItem>
+                        {staff.map((vet) => (
+                          <SelectItem key={vet.id} value={vet.id.toString()}>
+                            {vet.name} {vet.lastName} - {vet.position}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Button type="button" variant="outline" onClick={() => setIsVetDialogOpen(true)}>
+                      Agregar
+                    </Button>
+                  </div>
+                  {formErrors.veterinarianId && (
+                    <p className="text-sm text-destructive mt-1">{formErrors.veterinarianId}</p>
+                  )}
                 </div>
               </div>
 
-              <div>
-                <Label htmlFor="patientName">
-                  Nombre del Paciente * 
-                  {formErrors.patientName && <span className="text-xs text-destructive ml-2">{formErrors.patientName}</span>}
-                </Label>
-                <Input
-                  id="patientName"
-                  name="patientName"
-                  value={formData.patientName}
-                  onChange={handleInputChange}
-                  className={formErrors.patientName ? "border-destructive" : ""}
-                  required
-                />
-              </div>
+              <div className="col-span-2 grid grid-cols-3 gap-4">
+                <div>
+                  <Label htmlFor="date">
+                    Fecha *{formErrors.date && <span className="text-xs text-destructive ml-2">{formErrors.date}</span>}
+                  </Label>
+                  <Input
+                    id="date"
+                    name="date"
+                    type="date"
+                    value={formData.date}
+                    onChange={(e) => handleInputChange("date", e.target.value)}
+                    className={formErrors.date ? "border-destructive" : ""}
+                    required
+                  />
+                </div>
+                {formErrors.date && <p className="text-sm text-destructive mt-1">{formErrors.date}</p>}
+                <div>
+                  <Label htmlFor="status">Estatus *</Label>
+                  <Select
+                    value={formData.status}
+                    onValueChange={(value) => setFormData({ ...formData, status: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccionar estatus" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Programada">Programada</SelectItem>
+                      <SelectItem value="En Proceso">En Proceso</SelectItem>
+                      <SelectItem value="Completada">Completada</SelectItem>
+                      <SelectItem value="Cancelada">Cancelada</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                {formErrors.status && <p className="text-sm text-destructive mt-1">{formErrors.status}</p>}
 
-              <div>
-                <Label htmlFor="ownerName">
-                  Nombre del Dueño *
-                  {formErrors.ownerName && <span className="text-xs text-destructive ml-2">{formErrors.ownerName}</span>}
-                </Label>
-                <Input
-                  id="ownerName"
-                  name="ownerName"
-                  value={formData.ownerName}
-                  onChange={handleInputChange}
-                  className={formErrors.ownerName ? "border-destructive" : ""}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="accompaniedBy">
-                  Acompañado por *
-                  {formErrors.accompaniedBy && <span className="text-xs text-destructive ml-2">{formErrors.accompaniedBy}</span>}
-                </Label>
-                <Input
-                  id="accompaniedBy"
-                  name="accompaniedBy"
-                  value={formData.accompaniedBy}
-                  onChange={handleInputChange}
-                  className={formErrors.accompaniedBy ? "border-destructive" : ""}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="date">
-                  Fecha *
-                  {formErrors.date && <span className="text-xs text-destructive ml-2">{formErrors.date}</span>}
-                </Label>
-                <Input 
-                  id="date" 
-                  name="date" 
-                  type="date" 
-                  value={formData.date} 
-                  onChange={handleInputChange}
-                  className={formErrors.date ? "border-destructive" : ""}
-                  required 
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="status">
-                  Estatus *
-                  {formErrors.status && <span className="text-xs text-destructive ml-2">{formErrors.status}</span>}
-                </Label>
-                <Select
-                  value={formData.status}
-                  onValueChange={(value) => {
-                    setFormData({ ...formData, status: value })
-                    if (formErrors.status) {
-                      setFormErrors({ ...formErrors, status: "" })
-                    }
-                  }}
-                >
-                  <SelectTrigger className={formErrors.status ? "border-destructive" : ""}>
-                    <SelectValue placeholder="Seleccionar estatus" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Programada">Programada</SelectItem>
-                    <SelectItem value="En Proceso">En Proceso</SelectItem>
-                    <SelectItem value="Completada">Completada</SelectItem>
-                    <SelectItem value="Cancelada">Cancelada</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div>
+                  <Label htmlFor="cost">Costo</Label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+                    <Input
+                      id="cost"
+                      name="cost"
+                      type="text"
+                      value={formData.cost}
+                      onChange={handleCurrencyChange}
+                      className="pl-6"
+                      placeholder="0.00"
+                    />
+                  </div>
+                  {formErrors.cost && <p className="text-sm text-destructive mt-1">{formErrors.cost}</p>}
+                </div>
               </div>
 
               <div className="col-span-2">
@@ -733,67 +745,47 @@ export default function ConsultasPage() {
                   Motivo de la Consulta *
                   {formErrors.reason && <span className="text-xs text-destructive ml-2">{formErrors.reason}</span>}
                 </Label>
-                <Textarea 
-                  id="reason" 
-                  name="reason" 
-                  value={formData.reason} 
-                  onChange={handleInputChange}
-                  className={formErrors.reason ? "border-destructive" : ""}
-                  required 
+                <Textarea
+                  id="reason"
+                  name="reason"
+                  value={formData.reason}
+                  onChange={(e) => handleInputChange("reason", e.target.value)}
+                  className={`min-h-[100px] ${formErrors.reason ? "border-destructive" : ""}`}
+                  required
                 />
               </div>
 
               <div className="col-span-2">
                 <Label htmlFor="diagnosis">Diagnóstico</Label>
-                <Textarea id="diagnosis" name="diagnosis" value={formData.diagnosis} onChange={handleInputChange} />
+                <Textarea
+                  id="diagnosis"
+                  name="diagnosis"
+                  value={formData.diagnosis}
+                  onChange={(e) => handleInputChange("diagnosis", e.target.value)}
+                  className="min-h-[100px]"
+                />
               </div>
 
               <div className="col-span-2">
                 <Label htmlFor="treatment">Tratamiento</Label>
-                <Textarea id="treatment" name="treatment" value={formData.treatment} onChange={handleInputChange} />
+                <Textarea
+                  id="treatment"
+                  name="treatment"
+                  value={formData.treatment}
+                  onChange={(e) => handleInputChange("treatment", e.target.value)}
+                  className="min-h-[100px]"
+                />
               </div>
 
               <div className="col-span-2">
                 <Label htmlFor="notes">Notas Adicionales</Label>
-                <Textarea id="notes" name="notes" value={formData.notes} onChange={handleInputChange} />
-              </div>
-
-              <div>
-                <Label htmlFor="veterinarian">Veterinario</Label>
-                <Select
-                  value={formData.veterinarian}
-                  onValueChange={(value) => setFormData({ ...formData, veterinarian: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar veterinario" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="none">Ninguno</SelectItem>
-                    {staff.map((vet) => (
-                      <SelectItem key={vet.id} value={`${vet.name} ${vet.lastName}`}>
-                        {vet.name} {vet.lastName} - {vet.position}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="cost">Costo</Label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                  <Input
-                    id="cost"
-                    name="cost"
-                    value={formData.cost}
-                    onChange={handleCurrencyChange}
-                    placeholder="0.00"
-                    className="pl-7"
-                  />
-                </div>
-                {formData.cost && (
-                  <p className="text-xs text-muted-foreground mt-1">{formatCurrency(formData.cost)}</p>
-                )}
+                <Textarea
+                  id="notes"
+                  name="notes"
+                  value={formData.notes}
+                  onChange={(e) => handleInputChange("notes", e.target.value)}
+                  className="min-h-[100px]"
+                />
               </div>
             </div>
 
@@ -807,172 +799,14 @@ export default function ConsultasPage() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={isPatientDialogOpen} onOpenChange={setIsPatientDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Registrar Nuevo Paciente</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleNewPatient} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="col-span-2">
-                <Label htmlFor="clientId">
-                  Cliente (Dueño) *
-                  {patientFormErrors.clientId && <span className="text-xs text-destructive ml-2">{patientFormErrors.clientId}</span>}
-                </Label>
-                <Select
-                  value={newPatientData.clientId}
-                  onValueChange={(value) => {
-                    setNewPatientData({ ...newPatientData, clientId: value })
-                    if (patientFormErrors.clientId) {
-                      setPatientFormErrors({ ...patientFormErrors, clientId: "" })
-                    }
-                  }}
-                >
-                  <SelectTrigger className={patientFormErrors.clientId ? "border-destructive" : ""}>
-                    <SelectValue placeholder="Seleccionar cliente" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {clients.map((client) => (
-                      <SelectItem key={client.id} value={client.id.toString()}>
-                        {client.first_name} {client.last_name} - {client.phone}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+      <AddVeterinarianModal open={isVetDialogOpen} onOpenChange={setIsVetDialogOpen} onSuccess={handleVetAdded} />
 
-              <div>
-                <Label htmlFor="name">
-                  Nombre *
-                  {patientFormErrors.name && <span className="text-xs text-destructive ml-2">{patientFormErrors.name}</span>}
-                </Label>
-                <Input
-                  id="name"
-                  value={newPatientData.name}
-                  onChange={(e) => {
-                    setNewPatientData({ ...newPatientData, name: e.target.value })
-                    if (patientFormErrors.name) {
-                      setPatientFormErrors({ ...patientFormErrors, name: "" })
-                    }
-                  }}
-                  className={patientFormErrors.name ? "border-destructive" : ""}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="animalType">
-                  Tipo de Animal *
-                  {patientFormErrors.animalType && <span className="text-xs text-destructive ml-2">{patientFormErrors.animalType}</span>}
-                </Label>
-                <Select
-                  value={newPatientData.animalType}
-                  onValueChange={(value) => {
-                    setNewPatientData({ ...newPatientData, animalType: value })
-                    if (patientFormErrors.animalType) {
-                      setPatientFormErrors({ ...patientFormErrors, animalType: "" })
-                    }
-                  }}
-                >
-                  <SelectTrigger className={patientFormErrors.animalType ? "border-destructive" : ""}>
-                    <SelectValue placeholder="Seleccionar" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {species.map((sp) => (
-                      <SelectItem key={sp.id} value={sp.id.toString()}>
-                        {sp.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="breed">Raza</Label>
-                <Input
-                  id="breed"
-                  value={newPatientData.breed}
-                  onChange={(e) => setNewPatientData({ ...newPatientData, breed: e.target.value })}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="age">Edad (años)</Label>
-                <Input
-                  id="age"
-                  value={newPatientData.age}
-                  onChange={(e) => {
-                    if (e.target.value === "" || /^\d+$/.test(e.target.value)) {
-                      setNewPatientData({ ...newPatientData, age: e.target.value })
-                    }
-                  }}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="weight">Peso (kg)</Label>
-                <Input
-                  id="weight"
-                  value={newPatientData.weight}
-                  onChange={(e) => {
-                    if (e.target.value === "" || /^\d*\.?\d*$/.test(e.target.value)) {
-                      setNewPatientData({ ...newPatientData, weight: e.target.value })
-                    }
-                  }}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="sex">Sexo</Label>
-                <Select
-                  value={newPatientData.sex}
-                  onValueChange={(value) => setNewPatientData({ ...newPatientData, sex: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Macho">Macho</SelectItem>
-                    <SelectItem value="Hembra">Hembra</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="col-span-2">
-                <Label htmlFor="medicalHistory">Historial Médico</Label>
-                <Textarea
-                  id="medicalHistory"
-                  value={newPatientData.medicalHistory}
-                  onChange={(e) => setNewPatientData({ ...newPatientData, medicalHistory: e.target.value })}
-                />
-              </div>
-
-              <div className="col-span-2">
-                <Label htmlFor="diseases">Enfermedades/Alergias</Label>
-                <Textarea
-                  id="diseases"
-                  value={newPatientData.diseases}
-                  onChange={(e) => setNewPatientData({ ...newPatientData, diseases: e.target.value })}
-                />
-              </div>
-            </div>
-
-            <div className="flex justify-end gap-2">
-              <Button 
-                type="button" 
-                variant="outline" 
-                onClick={() => {
-                  setIsPatientDialogOpen(false)
-                  setPatientFormErrors({})
-                }}
-              >
-                Cancelar
-              </Button>
-              <Button type="submit">Guardar Paciente</Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <AddPatientModal
+        open={isPatientDialogOpen}
+        onOpenChange={setIsPatientDialogOpen}
+        onPatientAdded={handlePatientAdded}
+        preSelectedClientId={formData.clientId}
+      />
 
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent>

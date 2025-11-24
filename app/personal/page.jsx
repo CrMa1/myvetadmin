@@ -1,23 +1,20 @@
 "use client"
 
-import { Plus } from 'lucide-react'
+import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { StaffTable } from "@/components/staff/staff-table"
 import { StatsCard } from "@/components/shared/stats-card"
 import { useState, useEffect } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
-import { Users, Stethoscope, UserCheck, DollarSign } from 'lucide-react'
-import { formatCurrency, parseCurrency } from "@/lib/currency"
+import { Users, Stethoscope, UserCheck, DollarSign } from "lucide-react"
+import { formatCurrency } from "@/lib/currency"
+import { StaffModal } from "@/components/staff/staff-modal"
 
 export default function StaffPage() {
   const { user, selectedClinic, getUserId, getClinicId } = useAuth()
-  const { showSuccess, showError, showWarning, showInfo, AlertContainer } = useAlertToast()
+  const { showSuccess, showError, showWarning, AlertContainer } = useAlertToast()
   const [staff, setStaff] = useState([])
   const [filteredStaff, setFilteredStaff] = useState([])
   const [positions, setPositions] = useState([])
@@ -25,15 +22,7 @@ export default function StaffPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingStaff, setEditingStaff] = useState(null)
   const [activeFilter, setActiveFilter] = useState(null)
-  const [formData, setFormData] = useState({
-    name: "",
-    lastName: "",
-    position: "",
-    email: "",
-    phone: "",
-    salary: "",
-    license: "",
-  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     if (user && selectedClinic) {
@@ -82,29 +71,11 @@ export default function StaffPage() {
 
   const handleAdd = () => {
     setEditingStaff(null)
-    setFormData({
-      name: "",
-      lastName: "",
-      position: "",
-      email: "",
-      phone: "",
-      salary: "",
-      license: "",
-    })
     setIsDialogOpen(true)
   }
 
   const handleEdit = (member) => {
     setEditingStaff(member)
-    setFormData({
-      name: member.name || "",
-      lastName: member.lastName || "",
-      position: member.position || "",
-      email: member.email || "",
-      phone: member.phone || "",
-      salary: member.salary || "",
-      license: member.license || "",
-    })
     setIsDialogOpen(true)
   }
 
@@ -132,44 +103,31 @@ export default function StaffPage() {
     }
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
+  const handleSubmit = async (formData, setApiError) => {
     if (!formData.name || !formData.lastName || !formData.position) {
-      showWarning("Por favor completa todos los campos requeridos")
+      if (setApiError) setApiError("Por favor completa todos los campos requeridos")
       return
     }
 
     try {
+      setIsSubmitting(true)
       const userId = getUserId()
       const clinicId = getClinicId()
 
       const url = "/api/staff"
       const method = editingStaff ? "PUT" : "POST"
-      const body = editingStaff
-        ? {
-            name: formData.name,
-            lastName: formData.lastName,
-            positionId: formData.position,
-            email: formData.email,
-            phone: formData.phone,
-            salary: formData.salary,
-            license: formData.license,
-            id: editingStaff.id,
-            userId,
-            clinicId,
-          }
-        : {
-            name: formData.name,
-            lastName: formData.lastName,
-            positionId: formData.position,
-            email: formData.email,
-            phone: formData.phone,
-            salary: formData.salary,
-            license: formData.license,
-            userId,
-            clinicId,
-          }
+      const body = {
+        name: formData.name,
+        lastName: formData.lastName,
+        positionId: formData.position,
+        email: formData.email,
+        phone: formData.phone,
+        salary: formData.salary,
+        license: formData.license,
+        userId,
+        clinicId,
+        ...(editingStaff && { id: editingStaff.id }),
+      }
 
       const response = await fetch(url, {
         method,
@@ -182,24 +140,24 @@ export default function StaffPage() {
       if (result.success) {
         showSuccess(editingStaff ? "Empleado actualizado exitosamente" : "Empleado agregado exitosamente")
         setIsDialogOpen(false)
+        setEditingStaff(null)
         await fetchStaff()
       } else {
-        showError(result.error || "Error al guardar el empleado")
+        if (setApiError) {
+          setApiError(result.error || "Error al guardar el empleado")
+        } else {
+          showError(result.error || "Error al guardar el empleado")
+        }
       }
     } catch (error) {
       console.error("Error saving staff:", error)
-      showError("Error al guardar el empleado")
-    }
-  }
-
-  const handleInputChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
-
-  const handleCurrencyChange = (value) => {
-    const cleanValue = parseCurrency(value)
-    if (cleanValue === "" || /^\d*\.?\d{0,2}$/.test(cleanValue)) {
-      handleInputChange("salary", cleanValue)
+      if (setApiError) {
+        setApiError("Error al guardar el empleado")
+      } else {
+        showError("Error al guardar el empleado")
+      }
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -248,7 +206,7 @@ export default function StaffPage() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
         <StatsCard
-          title="Total de Empleados"
+          label="Total de Empleados"
           subtitle="Personal registrado"
           value={totalStaff}
           icon={Users}
@@ -257,7 +215,7 @@ export default function StaffPage() {
           isActive={activeFilter === null}
         />
         <StatsCard
-          title="Veterinarios"
+          label="Veterinarios"
           subtitle="Personal médico"
           value={veterinarians}
           icon={Stethoscope}
@@ -266,14 +224,14 @@ export default function StaffPage() {
           isActive={activeFilter === "Veterinario"}
         />
         <StatsCard
-          title="Personal Activo"
+          label="Personal Activo"
           subtitle="Empleados activos"
           value={activeStaff}
           icon={UserCheck}
           trend={{ value: 0, isPositive: true }}
         />
         <StatsCard
-          title="Nómina Total"
+          label="Nómina Total"
           subtitle="Gasto mensual"
           value={formatCurrency(totalPayroll)}
           icon={DollarSign}
@@ -283,103 +241,14 @@ export default function StaffPage() {
 
       <StaffTable staff={filteredStaff} onEdit={handleEdit} onDelete={handleDelete} onSearch={handleSearch} />
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>{editingStaff ? "Editar Empleado" : "Agregar Nuevo Empleado"}</DialogTitle>
-          </DialogHeader>
-
-          <form onSubmit={handleSubmit} className="grid gap-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="name">Nombre *</Label>
-                <Input
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange("name", e.target.value)}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="lastName">Apellido *</Label>
-                <Input
-                  id="lastName"
-                  value={formData.lastName}
-                  onChange={(e) => handleInputChange("lastName", e.target.value)}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="position">Puesto *</Label>
-                <Select value={formData.position} onValueChange={(value) => handleInputChange("position", value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {positions.map((pos) => (
-                      <SelectItem key={pos.id} value={pos.id.toString()}>
-                        {pos.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="phone">Teléfono</Label>
-                <Input id="phone" value={formData.phone} onChange={(e) => handleInputChange("phone", e.target.value)} />
-              </div>
-
-              <div>
-                <Label htmlFor="salary">Salario</Label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                  <Input
-                    id="salary"
-                    value={formData.salary}
-                    onChange={(e) => handleCurrencyChange(e.target.value)}
-                    placeholder="0.00"
-                    className="pl-7"
-                  />
-                </div>
-                {formData.salary && (
-                  <p className="text-xs text-muted-foreground mt-1">{formatCurrency(formData.salary)}</p>
-                )}
-              </div>
-
-              <div>
-                <Label htmlFor="license">Cédula Profesional</Label>
-                <Input
-                  id="license"
-                  value={formData.license}
-                  onChange={(e) => handleInputChange("license", e.target.value)}
-                />
-              </div>
-            </div>
-
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
-                Cancelar
-              </Button>
-              <Button type="submit" className="btn-primary">
-                {editingStaff ? "Actualizar" : "Guardar"}
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <StaffModal
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        editingStaff={editingStaff}
+        positions={positions}
+        onSubmit={handleSubmit}
+        isSubmitting={isSubmitting}
+      />
     </div>
   )
 }

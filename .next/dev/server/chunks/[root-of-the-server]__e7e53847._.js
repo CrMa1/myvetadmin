@@ -201,8 +201,11 @@ async function GET(request) {
         }
         const consultations = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
         consultations.id, 
-        consultations.patient_id as patientId,
+        consultations.user_id as userId,
+        consultations.clinic_id as clinicId,
         consultations.client_id as clientId,
+        consultations.patient_id as patientId,
+        consultations.veterinarian_id as veterinarianId,
         CONCAT(clients.first_name, ' ', clients.last_name) as clientName,
         CONCAT(patients.name, ' ', patients.breed) as patientName,
         reason, 
@@ -212,11 +215,11 @@ async function GET(request) {
         consultation_date as date, 
         status, 
         cost,
-        users.name as veterinarian
+        staff.name as veterinarian
        FROM consultations 
        INNER JOIN patients ON consultations.patient_id = patients.id
        INNER JOIN clients ON consultations.client_id = clients.id
-       INNER JOIN users ON consultations.veterinarian_id = users.id
+       INNER JOIN staff ON consultations.veterinarian_id = staff.id
        WHERE consultations.user_id = ? AND consultations.clinic_id = ?
        ORDER BY consultation_date DESC`, [
             userId,
@@ -247,37 +250,25 @@ async function POST(request) {
                 status: 400
             });
         }
+        console.log("Creating consultation with data:", data);
         const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`INSERT INTO consultations 
-       (user_id, clinic_id, patient_id, client_id, patient_name, accompanied_by, reason, diagnosis, treatment, notes, consultation_date, veterinarian, status, cost)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
+       (user_id, clinic_id, client_id, patient_id, veterinarian_id, reason, diagnosis, treatment, notes, consultation_date, status, cost)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
             data.userId,
             data.clinicId,
-            data.patientId || null,
-            data.clientId || null,
-            data.patientName,
-            data.accompaniedBy || null,
+            data.clientId,
+            data.patientId,
+            data.veterinarianId,
             data.reason,
             data.diagnosis || null,
             data.treatment || null,
             data.notes || null,
             data.date || new Date().toISOString().split("T")[0],
-            data.veterinarian || null,
             data.status || "Programada",
             data.cost || null
         ]);
         const newConsultation = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
-        id, 
-        patient_id as patientId,
-        client_id as clientId,
-        accompanied_by as accompaniedBy,
-        reason, 
-        diagnosis, 
-        treatment, 
-        notes, 
-        consultation_date as date, 
-        veterinarian, 
-        status, 
-        cost 
+        *
        FROM consultations 
        WHERE id = ?`, [
             result.insertId
@@ -308,21 +299,19 @@ async function PUT(request) {
             });
         }
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`UPDATE consultations 
-       SET patient_name = ?, owner_name = ?, accompanied_by = ?, reason = ?, diagnosis = ?, 
-           treatment = ?, notes = ?, consultation_date = ?, veterinarian = ?, status = ?, cost = ?, client_id = ?
+       SET reason = ?, diagnosis = ?, treatment = ?, notes = ?, consultation_date = ?, 
+           veterinarian_id = ?, status = ?, cost = ?, client_id = ?, patient_id = ?
        WHERE id = ? AND user_id = ? AND clinic_id = ?`, [
-            data.patientName,
-            data.ownerName,
-            data.accompaniedBy || null,
             data.reason,
             data.diagnosis || null,
             data.treatment || null,
             data.notes || null,
             data.date,
-            data.veterinarian || null,
+            data.veterinarianId || null,
             data.status || "Programada",
             data.cost || null,
             data.clientId || null,
+            data.patientId || null,
             data.id,
             data.userId,
             data.clinicId
@@ -331,15 +320,12 @@ async function PUT(request) {
         id, 
         patient_id as patientId,
         client_id as clientId,
-        patient_name as patientName, 
-        owner_name as ownerName,
-        accompanied_by as accompaniedBy,
         reason, 
         diagnosis, 
         treatment, 
         notes, 
         consultation_date as date, 
-        veterinarian, 
+        veterinarian_id as veterinarianId, 
         status, 
         cost 
        FROM consultations 

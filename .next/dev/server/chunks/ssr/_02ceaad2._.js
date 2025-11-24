@@ -616,6 +616,8 @@ function ClinicsPage() {
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
     const [isDialogOpen, setIsDialogOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [editingClinic, setEditingClinic] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [apiError, setApiError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
+    const [formErrors, setFormErrors] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({});
     const [formData, setFormData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({
         name: "",
         address: "",
@@ -664,6 +666,8 @@ function ClinicsPage() {
             postalCode: "",
             description: ""
         });
+        setFormErrors({});
+        setApiError("");
         setIsDialogOpen(true);
     };
     const handleEdit = (clinic)=>{
@@ -678,6 +682,8 @@ function ClinicsPage() {
             postalCode: clinic.postal_code || "",
             description: clinic.description || ""
         });
+        setFormErrors({});
+        setApiError("");
         setIsDialogOpen(true);
     };
     const handleDelete = async (id)=>{
@@ -703,10 +709,17 @@ function ClinicsPage() {
             showError("Error al eliminar el consultorio");
         }
     };
+    const validateForm = ()=>{
+        const errors = {};
+        if (!formData.name.trim()) errors.name = "Campo requerido";
+        if (!formData.address.trim()) errors.address = "Campo requerido";
+        if (!formData.phone.trim()) errors.phone = "Campo requerido";
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
     const handleSubmit = async (e)=>{
         e.preventDefault();
-        if (!formData.name || !formData.address || !formData.phone) {
-            showWarning("Por favor completa todos los campos requeridos");
+        if (!validateForm()) {
             return;
         }
         try {
@@ -734,11 +747,11 @@ function ClinicsPage() {
                 setIsDialogOpen(false);
                 await fetchClinics();
             } else {
-                showError(result.error || "Error al guardar el consultorio");
+                setApiError(result.error || "Error al guardar el consultorio");
             }
         } catch (error) {
             console.error("Error saving clinic:", error);
-            showError("Error al guardar el consultorio");
+            setApiError("Error al guardar el consultorio");
         }
     };
     const handleSelectClinic = (clinic)=>{
@@ -750,13 +763,20 @@ function ClinicsPage() {
                 ...prev,
                 [field]: value
             }));
+        if (formErrors[field]) {
+            setFormErrors((prev)=>({
+                    ...prev,
+                    [field]: ""
+                }));
+        }
+        if (apiError) setApiError("");
     };
     if (loading) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$loader$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["LoadingPage"], {
             message: "Cargando consultorios..."
         }, void 0, false, {
             fileName: "[project]/app/consultorios/page.jsx",
-            lineNumber: 161,
+            lineNumber: 180,
             columnNumber: 12
         }, this);
     }
@@ -766,7 +786,7 @@ function ClinicsPage() {
             children: "Por favor inicia sesión"
         }, void 0, false, {
             fileName: "[project]/app/consultorios/page.jsx",
-            lineNumber: 165,
+            lineNumber: 184,
             columnNumber: 12
         }, this);
     }
@@ -775,7 +795,7 @@ function ClinicsPage() {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(AlertContainer, {}, void 0, false, {
                 fileName: "[project]/app/consultorios/page.jsx",
-                lineNumber: 170,
+                lineNumber: 189,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -786,7 +806,7 @@ function ClinicsPage() {
                         children: "Mis Consultorios"
                     }, void 0, false, {
                         fileName: "[project]/app/consultorios/page.jsx",
-                        lineNumber: 172,
+                        lineNumber: 191,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -797,20 +817,20 @@ function ClinicsPage() {
                                 className: "w-4 h-4 mr-2"
                             }, void 0, false, {
                                 fileName: "[project]/app/consultorios/page.jsx",
-                                lineNumber: 174,
+                                lineNumber: 193,
                                 columnNumber: 11
                             }, this),
                             "Agregar Consultorio"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/consultorios/page.jsx",
-                        lineNumber: 173,
+                        lineNumber: 192,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/consultorios/page.jsx",
-                lineNumber: 171,
+                lineNumber: 190,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -822,7 +842,7 @@ function ClinicsPage() {
                             className: "w-12 h-12 mx-auto mb-4 text-muted-foreground"
                         }, void 0, false, {
                             fileName: "[project]/app/consultorios/page.jsx",
-                            lineNumber: 182,
+                            lineNumber: 201,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -830,7 +850,7 @@ function ClinicsPage() {
                             children: "No tienes consultorios registrados"
                         }, void 0, false, {
                             fileName: "[project]/app/consultorios/page.jsx",
-                            lineNumber: 183,
+                            lineNumber: 202,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -839,13 +859,13 @@ function ClinicsPage() {
                             children: "Agregar tu primer consultorio"
                         }, void 0, false, {
                             fileName: "[project]/app/consultorios/page.jsx",
-                            lineNumber: 184,
+                            lineNumber: 203,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/consultorios/page.jsx",
-                    lineNumber: 181,
+                    lineNumber: 200,
                     columnNumber: 11
                 }, this) : clinics.map((clinic)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
                         className: `p-6 hover:shadow-lg transition-shadow ${selectedClinic && selectedClinic.id === clinic.id ? "ring-2 ring-primary" : ""}`,
@@ -861,12 +881,12 @@ function ClinicsPage() {
                                                 className: "w-6 h-6 text-primary"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/consultorios/page.jsx",
-                                                lineNumber: 199,
+                                                lineNumber: 218,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 198,
+                                            lineNumber: 217,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -876,7 +896,7 @@ function ClinicsPage() {
                                                     children: clinic.name
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/consultorios/page.jsx",
-                                                    lineNumber: 202,
+                                                    lineNumber: 221,
                                                     columnNumber: 21
                                                 }, this),
                                                 selectedClinic && selectedClinic.id === clinic.id && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -884,24 +904,24 @@ function ClinicsPage() {
                                                     children: "Activo"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/consultorios/page.jsx",
-                                                    lineNumber: 204,
+                                                    lineNumber: 223,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 201,
+                                            lineNumber: 220,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/consultorios/page.jsx",
-                                    lineNumber: 197,
+                                    lineNumber: 216,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/app/consultorios/page.jsx",
-                                lineNumber: 196,
+                                lineNumber: 215,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -913,7 +933,7 @@ function ClinicsPage() {
                                                 children: "Dirección:"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/consultorios/page.jsx",
-                                                lineNumber: 212,
+                                                lineNumber: 231,
                                                 columnNumber: 19
                                             }, this),
                                             " ",
@@ -921,7 +941,7 @@ function ClinicsPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/consultorios/page.jsx",
-                                        lineNumber: 211,
+                                        lineNumber: 230,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -930,7 +950,7 @@ function ClinicsPage() {
                                                 children: "Teléfono:"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/consultorios/page.jsx",
-                                                lineNumber: 215,
+                                                lineNumber: 234,
                                                 columnNumber: 19
                                             }, this),
                                             " ",
@@ -938,7 +958,7 @@ function ClinicsPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/consultorios/page.jsx",
-                                        lineNumber: 214,
+                                        lineNumber: 233,
                                         columnNumber: 17
                                     }, this),
                                     clinic.email && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -947,7 +967,7 @@ function ClinicsPage() {
                                                 children: "Email:"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/consultorios/page.jsx",
-                                                lineNumber: 219,
+                                                lineNumber: 238,
                                                 columnNumber: 21
                                             }, this),
                                             " ",
@@ -955,7 +975,7 @@ function ClinicsPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/consultorios/page.jsx",
-                                        lineNumber: 218,
+                                        lineNumber: 237,
                                         columnNumber: 19
                                     }, this),
                                     clinic.city && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -964,7 +984,7 @@ function ClinicsPage() {
                                                 children: "Ciudad:"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/consultorios/page.jsx",
-                                                lineNumber: 224,
+                                                lineNumber: 243,
                                                 columnNumber: 21
                                             }, this),
                                             " ",
@@ -972,7 +992,7 @@ function ClinicsPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/consultorios/page.jsx",
-                                        lineNumber: 223,
+                                        lineNumber: 242,
                                         columnNumber: 19
                                     }, this),
                                     clinic.description && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -982,7 +1002,7 @@ function ClinicsPage() {
                                                 children: "Descripción:"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/consultorios/page.jsx",
-                                                lineNumber: 229,
+                                                lineNumber: 248,
                                                 columnNumber: 21
                                             }, this),
                                             " ",
@@ -990,13 +1010,13 @@ function ClinicsPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/consultorios/page.jsx",
-                                        lineNumber: 228,
+                                        lineNumber: 247,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/consultorios/page.jsx",
-                                lineNumber: 210,
+                                lineNumber: 229,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1009,7 +1029,7 @@ function ClinicsPage() {
                                         children: "Seleccionar"
                                     }, void 0, false, {
                                         fileName: "[project]/app/consultorios/page.jsx",
-                                        lineNumber: 236,
+                                        lineNumber: 255,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1020,12 +1040,12 @@ function ClinicsPage() {
                                             className: "w-4 h-4"
                                         }, void 0, false, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 241,
+                                            lineNumber: 260,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/consultorios/page.jsx",
-                                        lineNumber: 240,
+                                        lineNumber: 259,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1036,29 +1056,29 @@ function ClinicsPage() {
                                             className: "w-4 h-4 text-destructive"
                                         }, void 0, false, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 244,
+                                            lineNumber: 263,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/consultorios/page.jsx",
-                                        lineNumber: 243,
+                                        lineNumber: 262,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/consultorios/page.jsx",
-                                lineNumber: 234,
+                                lineNumber: 253,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, clinic.id, true, {
                         fileName: "[project]/app/consultorios/page.jsx",
-                        lineNumber: 190,
+                        lineNumber: 209,
                         columnNumber: 13
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/app/consultorios/page.jsx",
-                lineNumber: 179,
+                lineNumber: 198,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Dialog"], {
@@ -1072,13 +1092,28 @@ function ClinicsPage() {
                                 children: editingClinic ? "Editar Consultorio" : "Agregar Nuevo Consultorio"
                             }, void 0, false, {
                                 fileName: "[project]/app/consultorios/page.jsx",
-                                lineNumber: 255,
+                                lineNumber: 274,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/consultorios/page.jsx",
-                            lineNumber: 254,
+                            lineNumber: 273,
                             columnNumber: 11
+                        }, this),
+                        apiError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-sm font-medium",
+                                children: apiError
+                            }, void 0, false, {
+                                fileName: "[project]/app/consultorios/page.jsx",
+                                lineNumber: 279,
+                                columnNumber: 15
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/app/consultorios/page.jsx",
+                            lineNumber: 278,
+                            columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
                             onSubmit: handleSubmit,
@@ -1088,55 +1123,91 @@ function ClinicsPage() {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
                                             htmlFor: "name",
-                                            children: "Nombre del Consultorio *"
-                                        }, void 0, false, {
+                                            children: [
+                                                "Nombre del Consultorio ",
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "text-red-500",
+                                                    children: "*"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/app/consultorios/page.jsx",
+                                                    lineNumber: 286,
+                                                    columnNumber: 40
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 260,
+                                            lineNumber: 285,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
                                             id: "name",
                                             value: formData.name,
                                             onChange: (e)=>handleInputChange("name", e.target.value),
-                                            required: true,
-                                            placeholder: "Ej: Clínica Veterinaria San Francisco"
+                                            placeholder: "Ej: Clínica Veterinaria San Francisco",
+                                            className: formErrors.name ? "border-red-500" : ""
                                         }, void 0, false, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 261,
+                                            lineNumber: 288,
                                             columnNumber: 15
+                                        }, this),
+                                        formErrors.name && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-red-500 text-sm mt-1",
+                                            children: formErrors.name
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/consultorios/page.jsx",
+                                            lineNumber: 295,
+                                            columnNumber: 35
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/consultorios/page.jsx",
-                                    lineNumber: 259,
+                                    lineNumber: 284,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
                                             htmlFor: "address",
-                                            children: "Dirección Completa *"
-                                        }, void 0, false, {
+                                            children: [
+                                                "Dirección Completa ",
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "text-red-500",
+                                                    children: "*"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/app/consultorios/page.jsx",
+                                                    lineNumber: 300,
+                                                    columnNumber: 36
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 271,
+                                            lineNumber: 299,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
                                             id: "address",
                                             value: formData.address,
                                             onChange: (e)=>handleInputChange("address", e.target.value),
-                                            required: true,
                                             placeholder: "Calle, número, colonia",
-                                            rows: 2
+                                            rows: 2,
+                                            className: formErrors.address ? "border-red-500" : ""
                                         }, void 0, false, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 272,
+                                            lineNumber: 302,
                                             columnNumber: 15
+                                        }, this),
+                                        formErrors.address && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-red-500 text-sm mt-1",
+                                            children: formErrors.address
+                                        }, void 0, false, {
+                                            fileName: "[project]/app/consultorios/page.jsx",
+                                            lineNumber: 310,
+                                            columnNumber: 38
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/consultorios/page.jsx",
-                                    lineNumber: 270,
+                                    lineNumber: 298,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1149,7 +1220,7 @@ function ClinicsPage() {
                                                     children: "Ciudad"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/consultorios/page.jsx",
-                                                    lineNumber: 284,
+                                                    lineNumber: 315,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1159,13 +1230,13 @@ function ClinicsPage() {
                                                     placeholder: "Ciudad"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/consultorios/page.jsx",
-                                                    lineNumber: 285,
+                                                    lineNumber: 316,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 283,
+                                            lineNumber: 314,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1175,7 +1246,7 @@ function ClinicsPage() {
                                                     children: "Estado"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/consultorios/page.jsx",
-                                                    lineNumber: 294,
+                                                    lineNumber: 325,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1185,19 +1256,19 @@ function ClinicsPage() {
                                                     placeholder: "Estado"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/consultorios/page.jsx",
-                                                    lineNumber: 295,
+                                                    lineNumber: 326,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 293,
+                                            lineNumber: 324,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/consultorios/page.jsx",
-                                    lineNumber: 282,
+                                    lineNumber: 313,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1210,7 +1281,7 @@ function ClinicsPage() {
                                                     children: "Código Postal"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/consultorios/page.jsx",
-                                                    lineNumber: 306,
+                                                    lineNumber: 337,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1223,46 +1294,64 @@ function ClinicsPage() {
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/consultorios/page.jsx",
-                                                    lineNumber: 307,
+                                                    lineNumber: 338,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 305,
+                                            lineNumber: 336,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
                                                     htmlFor: "phone",
-                                                    children: "Teléfono *"
-                                                }, void 0, false, {
+                                                    children: [
+                                                        "Teléfono ",
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "text-red-500",
+                                                            children: "*"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/consultorios/page.jsx",
+                                                            lineNumber: 351,
+                                                            columnNumber: 28
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
                                                     fileName: "[project]/app/consultorios/page.jsx",
-                                                    lineNumber: 319,
+                                                    lineNumber: 350,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
                                                     id: "phone",
                                                     value: formData.phone,
                                                     onChange: (e)=>handleInputChange("phone", e.target.value),
-                                                    required: true,
-                                                    placeholder: "(555) 123-4567"
+                                                    placeholder: "(555) 123-4567",
+                                                    className: formErrors.phone ? "border-red-500" : ""
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/consultorios/page.jsx",
-                                                    lineNumber: 320,
+                                                    lineNumber: 353,
                                                     columnNumber: 17
+                                                }, this),
+                                                formErrors.phone && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                    className: "text-red-500 text-sm mt-1",
+                                                    children: formErrors.phone
+                                                }, void 0, false, {
+                                                    fileName: "[project]/app/consultorios/page.jsx",
+                                                    lineNumber: 360,
+                                                    columnNumber: 38
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 318,
+                                            lineNumber: 349,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/consultorios/page.jsx",
-                                    lineNumber: 304,
+                                    lineNumber: 335,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1272,7 +1361,7 @@ function ClinicsPage() {
                                             children: "Email"
                                         }, void 0, false, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 331,
+                                            lineNumber: 365,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1283,13 +1372,13 @@ function ClinicsPage() {
                                             placeholder: "contacto@clinica.com"
                                         }, void 0, false, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 332,
+                                            lineNumber: 366,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/consultorios/page.jsx",
-                                    lineNumber: 330,
+                                    lineNumber: 364,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1299,7 +1388,7 @@ function ClinicsPage() {
                                             children: "Descripción"
                                         }, void 0, false, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 342,
+                                            lineNumber: 376,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -1310,13 +1399,13 @@ function ClinicsPage() {
                                             placeholder: "Breve descripción del consultorio..."
                                         }, void 0, false, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 343,
+                                            lineNumber: 377,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/consultorios/page.jsx",
-                                    lineNumber: 341,
+                                    lineNumber: 375,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DialogFooter"], {
@@ -1328,7 +1417,7 @@ function ClinicsPage() {
                                             children: "Cancelar"
                                         }, void 0, false, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 353,
+                                            lineNumber: 387,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1337,36 +1426,36 @@ function ClinicsPage() {
                                             children: editingClinic ? "Actualizar" : "Guardar"
                                         }, void 0, false, {
                                             fileName: "[project]/app/consultorios/page.jsx",
-                                            lineNumber: 356,
+                                            lineNumber: 390,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/consultorios/page.jsx",
-                                    lineNumber: 352,
+                                    lineNumber: 386,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/consultorios/page.jsx",
-                            lineNumber: 258,
+                            lineNumber: 283,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/consultorios/page.jsx",
-                    lineNumber: 253,
+                    lineNumber: 272,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/app/consultorios/page.jsx",
-                lineNumber: 252,
+                lineNumber: 271,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/consultorios/page.jsx",
-        lineNumber: 169,
+        lineNumber: 188,
         columnNumber: 5
     }, this);
 }
