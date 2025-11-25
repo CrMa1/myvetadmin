@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -10,19 +10,19 @@ import { formatCurrency, parseCurrency } from "@/lib/currency"
 
 export function StaffModal({ open, onOpenChange, editingStaff, positions, onSubmit, isSubmitting }) {
   const [formData, setFormData] = useState({
-    name: editingStaff?.name || "",
-    lastName: editingStaff?.lastName || "",
-    position: editingStaff?.position?.toString() || "",
-    email: editingStaff?.email || "",
-    phone: editingStaff?.phone || "",
-    salary: editingStaff?.salary ? editingStaff.salary.toString() : "",
-    license: editingStaff?.license || "",
+    name: "",
+    lastName: "",
+    position: "",
+    email: "",
+    phone: "",
+    salary: "",
+    license: "",
   })
 
   const [formErrors, setFormErrors] = useState({})
   const [apiError, setApiError] = useState("")
 
-  useState(() => {
+  useEffect(() => {
     if (editingStaff) {
       setFormData({
         name: editingStaff.name || "",
@@ -99,6 +99,8 @@ export function StaffModal({ open, onOpenChange, editingStaff, positions, onSubm
     onOpenChange(newOpen)
   }
 
+  const positionsArray = Array.isArray(positions) ? positions : []
+
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-2xl">
@@ -148,11 +150,17 @@ export function StaffModal({ open, onOpenChange, editingStaff, positions, onSubm
                 <SelectValue placeholder="Seleccionar puesto" />
               </SelectTrigger>
               <SelectContent>
-                {positions.map((pos) => (
-                  <SelectItem key={pos.id} value={pos.id.toString()}>
-                    {pos.name}
+                {positionsArray.length > 0 ? (
+                  positionsArray.map((pos) => (
+                    <SelectItem key={pos.id} value={pos.id.toString()}>
+                      {pos.name}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <SelectItem value="loading" disabled>
+                    Cargando puestos...
                   </SelectItem>
-                ))}
+                )}
               </SelectContent>
             </Select>
             {formErrors.position && <span className="text-xs text-destructive ml-2">{formErrors.position}</span>}

@@ -34,7 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
-, "components/staff/staff-stats.jsx", "components/accounting/accounting-stats.jsx", "components/inventory/inventory-stats.jsx"  ],
+, "components/staff/staff-stats.jsx", "components/accounting/accounting-stats.jsx", "components/inventory/inventory-stats.jsx", "components/accounting/accounting-table.jsx", "components/accounting/accounting-chart.jsx"  ],
   "exclude": [
     "node_modules"
   ]

@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Trash2, Plus, ShoppingCart, Receipt, Package } from 'lucide-react'
+import { Trash2, Plus, ShoppingCart, Receipt, Package } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
@@ -189,17 +189,17 @@ export default function VenderPage() {
   }
 
   if (!userId || !clinicId) {
-    return <div className="container-custom py-8">Por favor selecciona un consultorio</div>
+    return <div className="page-container">Por favor selecciona un consultorio</div>
   }
 
   if (inventory.length === 0 && !loading) {
     return (
-      <div className="container-custom py-8">
+      <div className="page-container">
         <AlertContainer />
-        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-          <Package className="w-24 h-24 text-muted-foreground mb-6" />
-          <h2 className="text-3xl font-bold mb-4">No hay productos en inventario</h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-md">
+        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+          <Package className="w-16 h-16 sm:w-24 sm:h-24 text-muted-foreground mb-4 sm:mb-6" />
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">No hay productos en inventario</h2>
+          <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 max-w-md">
             Para empezar a vender, necesitas agregar productos a tu inventario primero.
           </p>
           <Link href="/inventario">
@@ -215,12 +215,12 @@ export default function VenderPage() {
 
   if (showReceipt && lastSale) {
     return (
-      <div className="container-custom py-8">
+      <div className="page-container">
         <AlertContainer />
-        <Card className="max-w-2xl mx-auto p-8">
+        <Card className="max-w-2xl mx-auto p-4 sm:p-8">
           <div className="text-center mb-6">
-            <Receipt className="w-16 h-16 mx-auto mb-4 text-primary" />
-            <h1 className="text-3xl font-bold mb-2">Venta Completada</h1>
+            <Receipt className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 text-primary" />
+            <h1 className="text-2xl sm:text-3xl font-bold mb-2">Venta Completada</h1>
             <p className="text-muted-foreground">Ticket #{lastSale.id}</p>
           </div>
 
@@ -274,13 +274,13 @@ export default function VenderPage() {
                 <span>-${lastSale.discount.toFixed(2)}</span>
               </div>
             )}
-            <div className="flex justify-between text-lg font-bold pt-2 border-t">
+            <div className="flex justify-between text-lg sm:text-xl font-bold pt-2 border-t">
               <span>Total:</span>
               <span>${lastSale.total.toFixed(2)}</span>
             </div>
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <Button onClick={printReceipt} variant="outline" className="flex-1 bg-transparent">
               Imprimir Ticket
             </Button>
@@ -294,17 +294,17 @@ export default function VenderPage() {
   }
 
   return (
-    <div className="container-custom py-8">
+    <div className="page-container">
       <AlertContainer />
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold">Punto de Venta</h1>
+      <div className="page-header">
+        <h1 className="page-title">Punto de Venta</h1>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Products Section */}
-        <div className="lg:col-span-2">
-          <Card className="p-6">
-            <div className="mb-6">
+        <div className="lg:col-span-2 order-2 lg:order-1">
+          <Card className="p-4 sm:p-6">
+            <div className="mb-4 sm:mb-6">
               <Label htmlFor="search">Buscar productos</Label>
               <Input
                 id="search"
@@ -315,25 +315,25 @@ export default function VenderPage() {
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[600px] overflow-y-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-h-[400px] sm:max-h-[600px] overflow-y-auto">
               {filteredInventory.map((item) => (
                 <Card
                   key={item.id}
-                  className="p-4 hover:shadow-md transition-shadow cursor-pointer"
+                  className="p-3 sm:p-4 hover:shadow-md transition-shadow cursor-pointer"
                   onClick={() => addToCart(item)}
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <h3 className="font-semibold">{item.name}</h3>
-                      <p className="text-sm text-muted-foreground">{item.category}</p>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-semibold text-sm sm:text-base truncate">{item.name}</h3>
+                      <p className="text-xs sm:text-sm text-muted-foreground">{item.category}</p>
                     </div>
-                    <span className="text-lg font-bold text-primary">${item.price}</span>
+                    <span className="text-base sm:text-lg font-bold text-primary ml-2">${item.price}</span>
                   </div>
-                  <div className="flex justify-between items-center text-sm">
+                  <div className="flex justify-between items-center text-xs sm:text-sm">
                     <span className={`${item.stock < item.minStock ? "text-destructive" : "text-muted-foreground"}`}>
                       Stock: {item.stock}
                     </span>
-                    <Button size="sm" className="btn-primary">
+                    <Button size="sm" className="btn-primary h-8 px-2 sm:px-3">
                       <Plus className="w-4 h-4" />
                     </Button>
                   </div>
@@ -344,14 +344,14 @@ export default function VenderPage() {
         </div>
 
         {/* Cart Section */}
-        <div>
-          <Card className="p-6 sticky top-4">
-            <div className="flex items-center gap-2 mb-6">
-              <ShoppingCart className="w-6 h-6 text-primary" />
-              <h2 className="text-2xl font-bold">Carrito</h2>
+        <div className="order-1 lg:order-2">
+          <Card className="p-4 sm:p-6 lg:sticky lg:top-4">
+            <div className="flex items-center gap-2 mb-4 sm:mb-6">
+              <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+              <h2 className="text-xl sm:text-2xl font-bold">Carrito</h2>
             </div>
 
-            <div className="space-y-4 mb-6">
+            <div className="space-y-4 mb-4 sm:mb-6">
               <div>
                 <Label htmlFor="customer">Cliente</Label>
                 <Input
@@ -378,14 +378,14 @@ export default function VenderPage() {
               </div>
             </div>
 
-            <div className="border-t pt-4 mb-4 max-h-[300px] overflow-y-auto">
+            <div className="border-t pt-4 mb-4 max-h-[200px] sm:max-h-[300px] overflow-y-auto">
               {cart.length === 0 ? (
-                <p className="text-center text-muted-foreground py-8">El carrito está vacío</p>
+                <p className="text-center text-muted-foreground py-6 sm:py-8">El carrito está vacío</p>
               ) : (
                 cart.map((item) => (
                   <div key={item.id} className="flex items-center gap-2 mb-3 pb-3 border-b">
-                    <div className="flex-1">
-                      <p className="font-medium text-sm">{item.name}</p>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-xs sm:text-sm truncate">{item.name}</p>
                       <p className="text-xs text-muted-foreground">${item.price} c/u</p>
                     </div>
                     <Input
@@ -394,10 +394,12 @@ export default function VenderPage() {
                       max={item.stock}
                       value={item.quantity}
                       onChange={(e) => updateQuantity(item.id, Number.parseInt(e.target.value) || 0)}
-                      className="w-16 text-center"
+                      className="w-14 sm:w-16 text-center text-sm"
                     />
-                    <span className="font-semibold w-20 text-right">${(item.price * item.quantity).toFixed(2)}</span>
-                    <Button size="sm" variant="ghost" onClick={() => removeFromCart(item.id)}>
+                    <span className="font-semibold w-16 sm:w-20 text-right text-sm">
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </span>
+                    <Button size="sm" variant="ghost" onClick={() => removeFromCart(item.id)} className="h-8 w-8 p-0">
                       <Trash2 className="w-4 h-4 text-destructive" />
                     </Button>
                   </div>
@@ -423,10 +425,10 @@ export default function VenderPage() {
                   max={calculateSubtotal()}
                   value={discount}
                   onChange={(e) => setDiscount(Number.parseFloat(e.target.value) || 0)}
-                  className="w-24 text-right"
+                  className="w-20 sm:w-24 text-right"
                 />
               </div>
-              <div className="flex justify-between text-xl font-bold pt-2 border-t">
+              <div className="flex justify-between text-lg sm:text-xl font-bold pt-2 border-t">
                 <span>Total:</span>
                 <span className="text-primary">${calculateTotal().toFixed(2)}</span>
               </div>

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useMemo, useState } from "react"
-import { Search, Edit, Trash2, AlertTriangle, Package, Plus, X } from "lucide-react"
+import { Search, Edit, Trash2, AlertTriangle, Package, X } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -179,20 +179,22 @@ export function InventoryTable({
     <>
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <CardTitle>Inventario de Productos</CardTitle>
-              <CardDescription>Medicamentos, alimentos y productos disponibles</CardDescription>
+              <CardDescription className="hidden sm:block">
+                Medicamentos, alimentos y productos disponibles
+              </CardDescription>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
               {filterCategory && (
-                <Button variant="outline" size="sm" onClick={onClearFilter}>
+                <Button variant="outline" size="sm" onClick={onClearFilter} className="w-full sm:w-auto bg-transparent">
                   <X className="h-4 w-4 mr-2" />
                   Limpiar filtro
                 </Button>
               )}
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-full sm:w-40">
                   <SelectValue placeholder="Categoría" />
                 </SelectTrigger>
                 <SelectContent>
@@ -203,7 +205,7 @@ export function InventoryTable({
                   <SelectItem value="Servicio">Servicios</SelectItem>
                 </SelectContent>
               </Select>
-              <div className="relative w-64">
+              <div className="relative w-full sm:w-64">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="search"
@@ -217,9 +219,10 @@ export function InventoryTable({
           </div>
         </CardHeader>
         <CardContent>
-          <div className="rounded-lg border border-border overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
+          {/* Desktop Table View */}
+          <div className="table-wrapper">
+            <div className="table-scroll">
+              <table className="w-full hidden md:table">
                 <thead className="bg-muted/50">
                   <tr>
                     <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">ID</th>
@@ -321,12 +324,108 @@ export function InventoryTable({
               </table>
             </div>
           </div>
-          {filteredInventory.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">No se encontraron productos</p>
-            </div>
-          )}
-          <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
+
+          {/* Mobile Card View */}
+          <div className="md:hidden space-y-4">
+            {filteredInventory.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">No se encontraron productos</p>
+              </div>
+            ) : (
+              filteredInventory.map((item) => {
+                const stockStatus = getStockStatus(item.stock, item.minStock)
+                const stockPercentage = (item.stock / (item.minStock * 3)) * 100
+
+                return (
+                  <div key={item.id} className="border rounded-lg p-4 space-y-3 bg-card">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-start gap-2 flex-1 min-w-0">
+                        <Package className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+                        <div className="flex-1 min-w-0 space-y-1">
+                          <p className="font-medium">{item.name}</p>
+                          <p className="text-xs text-muted-foreground font-mono">ID: {item.id}</p>
+                        </div>
+                      </div>
+                      <Badge variant="outline" className="flex-shrink-0 ml-2">
+                        {item.category}
+                      </Badge>
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">Stock:</span>
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">{item.stock} unidades</span>
+                          {stockStatus.alert && <AlertTriangle className="h-3 w-3 text-orange-500" />}
+                        </div>
+                      </div>
+                      <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                        <div
+                          className={`h-full transition-all ${
+                            stockPercentage > 50
+                              ? "bg-green-500"
+                              : stockPercentage > 20
+                                ? "bg-orange-500"
+                                : "bg-red-500"
+                          }`}
+                          style={{ width: `${Math.min(stockPercentage, 100)}%` }}
+                        />
+                      </div>
+                      <Badge variant={stockStatus.variant} className="w-full justify-center">
+                        {stockStatus.label}
+                      </Badge>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                      <div>
+                        <p className="text-muted-foreground text-xs">Stock Mínimo</p>
+                        <p className="font-medium">{item.minStock} unidades</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground text-xs">Precio Unitario</p>
+                        <p className="font-medium">${item.price.toLocaleString()}</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 text-sm">
+                      <div>
+                        <p className="text-muted-foreground text-xs">Valor Total</p>
+                        <p className="font-medium text-lg">${(item.stock * item.price).toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground text-xs">Proveedor</p>
+                        <p>{item.supplier}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2 pt-2 border-t">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex-1 bg-transparent"
+                        onClick={() => handleEditClick(item)}
+                      >
+                        <Edit className="h-4 w-4 mr-2" />
+                        Editar
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex-1 text-destructive hover:text-destructive bg-transparent"
+                        onClick={() => handleDeleteClick(item)}
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Eliminar
+                      </Button>
+                    </div>
+                  </div>
+                )
+              })
+            )}
+          </div>
+
+          {/* Stats footer - hidden on mobile when showing cards */}
+          <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-sm text-muted-foreground hidden md:flex">
             <p>
               Mostrando {filteredInventory.length} de {inventory.length} productos
             </p>

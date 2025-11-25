@@ -12,19 +12,17 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Search, Edit, Trash2 } from "lucide-react"
+import { Search } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
 import { ConsultationStats } from "@/components/consultations/consultation-stats"
 import { AddVeterinarianModal } from "@/components/personal/add-veterinarian-modal"
 import { AddPatientModal } from "@/components/patients/add-patient-modal"
-import { formatCurrency, parseCurrency } from "@/lib/currency"
+import { parseCurrency } from "@/lib/currency"
+import { ConsultationsTable } from "@/components/consultations/consultations-table"
+import { ConsultationModal } from "@/components/consultations/consultation-modal"
 
 export default function ConsultasPage() {
   const { user, selectedClinic, getUserId, getClinicId } = useAuth()
@@ -233,40 +231,67 @@ export default function ConsultasPage() {
     return Object.keys(errors).length === 0
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    if (!validateForm()) {
-      //showWarning("Por favor completa todos los campos obligatorios")
-      return
-    }
-
+  const handleSubmitConsultation = async (formData, editingConsultation) => {
     const userId = getUserId()
     const clinicId = getClinicId()
 
-    const method = editingConsultation ? "PUT" : "POST"
-    const body = editingConsultation
-      ? { ...formData, id: editingConsultation.id, userId, clinicId }
-      : { ...formData, userId, clinicId }
+    if (!userId || !clinicId) {
+      throw new Error("Usuario o clínica no encontrados")
+    }
+
+    const consultationData = {
+      patientId: Number.parseInt(formData.patientId),
+      clientId: Number.parseInt(formData.clientId),
+      date: formData.date,
+      reason: formData.reason,
+      diagnosis: formData.diagnosis,
+      treatment: formData.treatment,
+      notes: formData.notes,
+      veterinarianId: formData.veterinarianId ? Number.parseInt(formData.veterinarianId) : null,
+      cost: formData.cost ? Number.parseFloat(formData.cost) : 0,
+      status: formData.status,
+      userId: Number.parseInt(userId),
+      clinicId: Number.parseInt(clinicId),
+    }
 
     try {
-      const response = await fetch("/api/consultations", {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      })
+      if (editingConsultation) {
+        const response = await fetch(`/api/consultations/${editingConsultation.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(consultationData),
+        })
 
-      const result = await response.json()
-      if (result.success) {
-        showSuccess(editingConsultation ? "Consulta actualizada exitosamente" : "Consulta registrada exitosamente")
-        fetchConsultations()
-        handleCloseDialog()
+        if (!response.ok) {
+          const error = await response.json()
+          throw new Error(error.error || "Error al actualizar la consulta")
+        }
+
+        const updated = await response.json()
+        setConsultations(consultations.map((c) => (c.id === editingConsultation.id ? updated : c)))
+        showSuccess("Consulta actualizada exitosamente")
       } else {
-        setFormApiError(result.error || "Error al guardar consulta")
+        const response = await fetch("/api/consultations", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(consultationData),
+        })
+
+        if (!response.ok) {
+          const error = await response.json()
+          throw new Error(error.error || "Error al crear la consulta")
+        }
+
+        const newConsultation = await response.json()
+        setConsultations([...consultations, newConsultation])
+        showSuccess("Consulta creada exitosamente")
       }
+
+      setIsDialogOpen(false)
+      setEditingConsultation(null)
     } catch (error) {
-      console.error("Error saving consultation:", error)
-      setFormApiError("Error al guardar consulta")
+      showError(error.message)
+      throw error
     }
   }
 
@@ -346,14 +371,8 @@ export default function ConsultasPage() {
     setFormApiError("")
   }
 
-  const handleClientSelect = (clientId) => {
-    const client = clients.find((c) => c.id === Number.parseInt(clientId))
-    if (client) {
-      setFormData({
-        ...formData,
-        clientId: clientId,
-        patientId: "",
-      })
+  const handleClientSelectInModal = (clientId) => {
+    if (clientId) {
       fetchClientPatients(clientId)
     }
   }
@@ -469,13 +488,14 @@ export default function ConsultasPage() {
   }
 
   return (
-    <div className="p-6">
+    <div className="page-container">
       <AlertContainer />
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Consultas</h1>
+      <div className="page-header">
+        <h1 className="text-2xl sm:text-3xl font-bold">Consultas</h1>
         <Button onClick={() => setIsDialogOpen(true)}>
           <Plus className="w-4 h-4 mr-2" />
-          Nueva Consulta
+          <span className="hidden sm:inline">Nueva Consulta</span>
+          <span className="sm:hidden">Nueva</span>
         </Button>
       </div>
 
@@ -483,12 +503,14 @@ export default function ConsultasPage() {
 
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <CardTitle>Lista de Consultas</CardTitle>
-              <CardDescription>Todas las consultas registradas en el sistema</CardDescription>
+              <CardDescription className="hidden sm:block">
+                Todas las consultas registradas en el sistema
+              </CardDescription>
             </div>
-            <div className="relative w-64">
+            <div className="relative w-full sm:w-64">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
@@ -501,303 +523,22 @@ export default function ConsultasPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="rounded-lg border border-border overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-muted/50">
-                  <tr>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">ID</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Fecha</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Paciente</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Dueño</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Motivo</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Diagnóstico</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Veterinario</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Estatus</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Costo</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {filteredConsultations.length === 0 ? (
-                    <tr>
-                      <td colSpan={10} className="text-center py-12">
-                        <p className="text-muted-foreground">No se encontraron consultas</p>
-                      </td>
-                    </tr>
-                  ) : (
-                    filteredConsultations.map((consultation) => (
-                      <tr key={consultation.id} className="hover:bg-muted/30 transition-colors">
-                        <td className="px-4 py-3 text-sm font-mono text-muted-foreground">{consultation.id}</td>
-                        <td className="px-4 py-3">
-                          <p className="text-sm">{new Date(consultation.date).toLocaleDateString("es-MX")}</p>
-                        </td>
-                        <td className="px-4 py-3">
-                          <p className="font-medium">{consultation.patientName}</p>
-                        </td>
-                        <td className="px-4 py-3">
-                          <p className="text-sm">{consultation.clientName}</p>
-                        </td>
-                        <td className="px-4 py-3">
-                          <p className="text-sm">{consultation.reason}</p>
-                        </td>
-                        <td className="px-4 py-3">
-                          <p className="text-sm">{consultation.diagnosis || "-"}</p>
-                        </td>
-                        <td className="px-4 py-3">
-                          <p className="text-sm">{consultation.veterinarian || "-"}</p>
-                        </td>
-                        <td className="px-4 py-3">
-                          <Badge variant={getStatusColor(consultation.status)}>
-                            {consultation.status || "Programada"}
-                          </Badge>
-                        </td>
-                        <td className="px-4 py-3">
-                          <p className="text-sm font-medium">{formatCurrency(consultation.cost || 0)}</p>
-                        </td>
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-2">
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8"
-                              onClick={() => handleEdit(consultation)}
-                            >
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8 text-destructive hover:text-destructive"
-                              onClick={() => handleDeleteClick(consultation)}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
-            <p>Mostrando {filteredConsultations.length} consulta(s)</p>
-          </div>
+          <ConsultationsTable consultations={filteredConsultations} onEdit={handleEdit} onDelete={handleDeleteClick} />
         </CardContent>
       </Card>
 
-      <Dialog open={isDialogOpen} onOpenChange={handleCloseDialog}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-2xl">{editingConsultation ? "Editar Consulta" : "Nueva Consulta"}</DialogTitle>
-            <p className="text-sm text-muted-foreground">
-              {editingConsultation ? "Modifica los detalles de la consulta" : "Registra una nueva consulta veterinaria"}
-            </p>
-          </DialogHeader>
-
-          {formApiError && (
-            <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded">
-              <p className="text-sm font-medium">{formApiError}</p>
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="grid gap-6">
-            <div className="grid gap-4">
-              <div className="col-span-2">
-                <Label htmlFor="client">Cliente (Dueño) *</Label>
-                <Select value={formData.clientId} onValueChange={handleClientSelect}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar cliente" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {clients.map((client) => (
-                      <SelectItem key={client.id} value={client.id.toString()}>
-                        {client.first_name} {client.last_name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {formErrors.clientId && <p className="text-sm text-destructive mt-1">{formErrors.clientId}</p>}
-              </div>
-
-              <div className="col-span-2">
-                <Label htmlFor="patient">Paciente *</Label>
-                <div className="flex gap-2">
-                  <Select
-                    value={formData.patientId?.toString()}
-                    onValueChange={handlePatientSelect}
-                    disabled={!formData.clientId}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Seleccionar paciente" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {clientPatients.map((patient) => (
-                        <SelectItem key={patient.id} value={patient.id.toString()}>
-                          {patient.name} - {patient.species}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <Button type="button" variant="outline" onClick={() => setIsPatientDialogOpen(true)}>
-                    Agregar
-                  </Button>
-                </div>
-                {formErrors.patientId && <p className="text-sm text-destructive mt-1">{formErrors.patientId}</p>}
-              </div>
-
-              <div className="col-span-2">
-                <div>
-                  <Label htmlFor="veterinarian">Veterinario</Label>
-                  <div className="flex gap-2">
-                    <Select
-                      value={formData.veterinarianId?.toString()}
-                      onValueChange={(value) => {
-                        if (value === "none") {
-                          setFormData({ ...formData, veterinarianId: null })
-                          return
-                        }
-                        setFormData({
-                          ...formData,
-                          veterinarianId: value,
-                        })
-                      }}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Seleccionar veterinario" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="none">Ninguno</SelectItem>
-                        {staff.map((vet) => (
-                          <SelectItem key={vet.id} value={vet.id.toString()}>
-                            {vet.name} {vet.lastName} - {vet.position}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <Button type="button" variant="outline" onClick={() => setIsVetDialogOpen(true)}>
-                      Agregar
-                    </Button>
-                  </div>
-                  {formErrors.veterinarianId && (
-                    <p className="text-sm text-destructive mt-1">{formErrors.veterinarianId}</p>
-                  )}
-                </div>
-              </div>
-
-              <div className="col-span-2 grid grid-cols-3 gap-4">
-                <div>
-                  <Label htmlFor="date">
-                    Fecha *{formErrors.date && <span className="text-xs text-destructive ml-2">{formErrors.date}</span>}
-                  </Label>
-                  <Input
-                    id="date"
-                    name="date"
-                    type="date"
-                    value={formData.date}
-                    onChange={(e) => handleInputChange("date", e.target.value)}
-                    className={formErrors.date ? "border-destructive" : ""}
-                    required
-                  />
-                </div>
-                {formErrors.date && <p className="text-sm text-destructive mt-1">{formErrors.date}</p>}
-                <div>
-                  <Label htmlFor="status">Estatus *</Label>
-                  <Select
-                    value={formData.status}
-                    onValueChange={(value) => setFormData({ ...formData, status: value })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Seleccionar estatus" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Programada">Programada</SelectItem>
-                      <SelectItem value="En Proceso">En Proceso</SelectItem>
-                      <SelectItem value="Completada">Completada</SelectItem>
-                      <SelectItem value="Cancelada">Cancelada</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                {formErrors.status && <p className="text-sm text-destructive mt-1">{formErrors.status}</p>}
-
-                <div>
-                  <Label htmlFor="cost">Costo</Label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                    <Input
-                      id="cost"
-                      name="cost"
-                      type="text"
-                      value={formData.cost}
-                      onChange={handleCurrencyChange}
-                      className="pl-6"
-                      placeholder="0.00"
-                    />
-                  </div>
-                  {formErrors.cost && <p className="text-sm text-destructive mt-1">{formErrors.cost}</p>}
-                </div>
-              </div>
-
-              <div className="col-span-2">
-                <Label htmlFor="reason">
-                  Motivo de la Consulta *
-                  {formErrors.reason && <span className="text-xs text-destructive ml-2">{formErrors.reason}</span>}
-                </Label>
-                <Textarea
-                  id="reason"
-                  name="reason"
-                  value={formData.reason}
-                  onChange={(e) => handleInputChange("reason", e.target.value)}
-                  className={`min-h-[100px] ${formErrors.reason ? "border-destructive" : ""}`}
-                  required
-                />
-              </div>
-
-              <div className="col-span-2">
-                <Label htmlFor="diagnosis">Diagnóstico</Label>
-                <Textarea
-                  id="diagnosis"
-                  name="diagnosis"
-                  value={formData.diagnosis}
-                  onChange={(e) => handleInputChange("diagnosis", e.target.value)}
-                  className="min-h-[100px]"
-                />
-              </div>
-
-              <div className="col-span-2">
-                <Label htmlFor="treatment">Tratamiento</Label>
-                <Textarea
-                  id="treatment"
-                  name="treatment"
-                  value={formData.treatment}
-                  onChange={(e) => handleInputChange("treatment", e.target.value)}
-                  className="min-h-[100px]"
-                />
-              </div>
-
-              <div className="col-span-2">
-                <Label htmlFor="notes">Notas Adicionales</Label>
-                <Textarea
-                  id="notes"
-                  name="notes"
-                  value={formData.notes}
-                  onChange={(e) => handleInputChange("notes", e.target.value)}
-                  className="min-h-[100px]"
-                />
-              </div>
-            </div>
-
-            <div className="flex justify-end gap-2">
-              <Button type="button" variant="outline" onClick={handleCloseDialog}>
-                Cancelar
-              </Button>
-              <Button type="submit">{editingConsultation ? "Actualizar" : "Guardar"}</Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <ConsultationModal
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        consultation={editingConsultation}
+        clients={clients}
+        clientPatients={clientPatients}
+        staff={staff}
+        onSubmit={handleSubmitConsultation}
+        onClientSelect={handleClientSelectInModal}
+        onPatientAdded={handlePatientAdded}
+        onVetAdded={handleVetAdded}
+      />
 
       <AddVeterinarianModal open={isVetDialogOpen} onOpenChange={setIsVetDialogOpen} onSuccess={handleVetAdded} />
 

@@ -185,7 +185,7 @@ export default function StaffPage() {
   }
 
   if (!user || !selectedClinic) {
-    return <div className="p-8">Por favor selecciona un consultorio</div>
+    return <div className="page-container">Por favor selecciona un consultorio</div>
   }
 
   const totalStaff = staff.length
@@ -194,17 +194,17 @@ export default function StaffPage() {
   const totalPayroll = staff.reduce((sum, s) => sum + (Number.parseFloat(s.salary) || 0), 0)
 
   return (
-    <div className="p-8">
+    <div className="page-container">
       <AlertContainer />
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-foreground">Personal</h1>
-        <Button onClick={handleAdd} className="btn-primary">
+      <div className="page-header">
+        <h1 className="page-title">Personal</h1>
+        <Button onClick={handleAdd} className="btn-primary w-full sm:w-auto">
           <Plus className="w-4 h-4 mr-2" />
           Nuevo Empleado
         </Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
+      <div className="stats-grid">
         <StatsCard
           label="Total de Empleados"
           subtitle="Personal registrado"

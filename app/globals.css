@@ -125,8 +125,144 @@
   }
 }
 
-/* Custom grid system for flexible layouts */
+/* ============================================
+   RESPONSIVE UTILITY CLASSES
+   ============================================ */
+
 @layer utilities {
+  /* Responsive page container */
+  .page-container {
+    @apply p-4 sm:p-6 lg:p-8;
+  }
+
+  /* Responsive page header with title and action button */
+  .page-header {
+    @apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6;
+  }
+
+  .page-title {
+    @apply text-2xl sm:text-3xl font-bold text-foreground;
+  }
+
+  /* Responsive stats grid - 1 col mobile, 2 col tablet, 4 col desktop */
+  .stats-grid {
+    @apply grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6;
+  }
+
+  /* Responsive charts grid - stacked mobile, side-by-side desktop */
+  .charts-grid {
+    @apply grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2;
+  }
+
+  /* Responsive form grid - 1 col mobile, 2 col tablet+ */
+  .form-grid {
+    @apply grid gap-4 grid-cols-1 sm:grid-cols-2;
+  }
+
+  .form-grid-3 {
+    @apply grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+  }
+
+  /* Responsive card grid for consultorios */
+  .card-grid {
+    @apply grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+  }
+
+  /* Responsive table wrapper with horizontal scroll on mobile */
+  .table-wrapper {
+    @apply rounded-lg border border-border overflow-hidden;
+  }
+
+  .table-scroll {
+    @apply overflow-x-auto -mx-4 sm:mx-0;
+  }
+
+  .table-responsive {
+    @apply w-full min-w-[640px];
+  }
+
+  /* Hide on mobile, show on larger screens */
+  .hide-mobile {
+    @apply hidden sm:table-cell;
+  }
+
+  .hide-tablet {
+    @apply hidden lg:table-cell;
+  }
+
+  /* Responsive modal content */
+  .modal-content {
+    @apply w-full max-w-[95vw] sm:max-w-lg lg:max-w-2xl max-h-[90vh] overflow-y-auto;
+  }
+
+  .modal-content-lg {
+    @apply w-full max-w-[95vw] sm:max-w-2xl lg:max-w-4xl max-h-[90vh] overflow-y-auto;
+  }
+
+  /* Responsive filter bar */
+  .filter-bar {
+    @apply flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between;
+  }
+
+  .filter-controls {
+    @apply flex flex-col sm:flex-row gap-2 sm:items-center;
+  }
+
+  /* Responsive search input */
+  .search-input-wrapper {
+    @apply relative w-full sm:w-64;
+  }
+
+  /* Responsive button group */
+  .button-group {
+    @apply flex flex-wrap gap-2;
+  }
+
+  /* Responsive date filter */
+  .date-filter {
+    @apply flex flex-col sm:flex-row gap-2 sm:items-end;
+  }
+
+  .date-input-wrapper {
+    @apply flex-1 min-w-0 sm:min-w-[150px];
+  }
+
+  /* Mobile card view for tables */
+  .mobile-card {
+    @apply block sm:hidden p-4 border-b border-border;
+  }
+
+  .mobile-card-row {
+    @apply flex justify-between items-center py-1;
+  }
+
+  .mobile-card-label {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .mobile-card-value {
+    @apply text-sm font-medium;
+  }
+
+  /* Desktop table view */
+  .desktop-table {
+    @apply hidden sm:block;
+  }
+
+  /* Responsive text sizes */
+  .text-responsive-sm {
+    @apply text-xs sm:text-sm;
+  }
+
+  .text-responsive-base {
+    @apply text-sm sm:text-base;
+  }
+
+  .text-responsive-lg {
+    @apply text-base sm:text-lg;
+  }
+
+  /* Custom container */
   .container-custom {
     width: 100%;
     margin-left: auto;

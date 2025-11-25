@@ -1,13 +1,20 @@
 "use client"
 
-import { useState, useMemo } from "react"
-import { useRouter } from 'next/navigation'
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Search, Edit, Trash2, FileText } from 'lucide-react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
+import { Search, Edit, Trash2, FileText } from "lucide-react"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog"
 
 export function PatientsTable({ patients, onEdit, onDelete, onSearch }) {
   const [searchQuery, setSearchQuery] = useState("")
@@ -34,16 +41,29 @@ export function PatientsTable({ patients, onEdit, onDelete, onSearch }) {
     }
   }
 
+  const getSpeciesIcon = (species) => {
+    if (!species) return "🐾"
+    const lowerSpecies = species.toLowerCase()
+    if (lowerSpecies.includes("perro") || lowerSpecies.includes("dog")) return "🐕"
+    if (lowerSpecies.includes("gato") || lowerSpecies.includes("cat")) return "🐈"
+    if (lowerSpecies.includes("ave") || lowerSpecies.includes("bird")) return "🐦"
+    if (lowerSpecies.includes("conejo") || lowerSpecies.includes("rabbit")) return "🐰"
+    if (lowerSpecies.includes("hamster")) return "🐹"
+    return "🐾"
+  }
+
   return (
     <>
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <CardTitle>Lista de Pacientes</CardTitle>
-              <CardDescription>Todas las mascotas registradas en el sistema</CardDescription>
+              <CardDescription className="hidden sm:block">
+                Todas las mascotas registradas en el sistema
+              </CardDescription>
             </div>
-            <div className="relative w-64">
+            <div className="relative w-full sm:w-64">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
@@ -56,9 +76,10 @@ export function PatientsTable({ patients, onEdit, onDelete, onSearch }) {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="rounded-lg border border-border overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
+          {/* Desktop Table View */}
+          <div className="table-wrapper">
+            <div className="table-scroll">
+              <table className="w-full hidden md:table">
                 <thead className="bg-muted/50">
                   <tr>
                     <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">ID</th>
@@ -119,12 +140,7 @@ export function PatientsTable({ patients, onEdit, onDelete, onSearch }) {
                             >
                               <FileText className="h-4 w-4" />
                             </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8"
-                              onClick={() => onEdit(patient)}
-                            >
+                            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => onEdit(patient)}>
                               <Edit className="h-4 w-4" />
                             </Button>
                             <Button
@@ -144,10 +160,90 @@ export function PatientsTable({ patients, onEdit, onDelete, onSearch }) {
               </table>
             </div>
           </div>
-          <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
-            <p>
-              Mostrando {patients.length} paciente(s)
-            </p>
+
+          {/* Mobile Card View */}
+          <div className="md:hidden space-y-4">
+            {patients.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">No se encontraron pacientes</p>
+              </div>
+            ) : (
+              patients.map((patient) => (
+                <div key={patient.id} className="border rounded-lg p-4 space-y-3 bg-card">
+                  <div className="flex items-start gap-3">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted text-2xl flex-shrink-0">
+                      {getSpeciesIcon(patient.animalType)}
+                    </div>
+                    <div className="flex-1 space-y-1 min-w-0">
+                      <p className="font-medium">{patient.name}</p>
+                      <p className="text-sm text-muted-foreground">{patient.ownerName}</p>
+                      <p className="text-xs text-muted-foreground font-mono">ID: {patient.id}</p>
+                    </div>
+                    <Badge variant="secondary">{patient.animalType}</Badge>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <div>
+                      <p className="text-muted-foreground text-xs">Raza</p>
+                      <p className="font-medium">{patient.breed}</p>
+                    </div>
+                    <div>
+                      <p className="text-muted-foreground text-xs">Edad</p>
+                      <p className="font-medium">{patient.age} años</p>
+                    </div>
+                    <div>
+                      <p className="text-muted-foreground text-xs">Peso</p>
+                      <p className="font-medium">{patient.weight} kg</p>
+                    </div>
+                    <div>
+                      <p className="text-muted-foreground text-xs">Teléfono</p>
+                      <p className="font-medium">{patient.ownerPhone}</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      <p className="text-muted-foreground text-xs">Última Visita</p>
+                      <p>{new Date(patient.lastVisit).toLocaleDateString("es-MX")}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2 pt-2 border-t">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 bg-transparent"
+                      onClick={() => router.push(`/kardex/${patient.id}`)}
+                    >
+                      <FileText className="h-4 w-4 mr-2" />
+                      Kardex
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 bg-transparent"
+                      onClick={() => onEdit(patient)}
+                    >
+                      <Edit className="h-4 w-4 mr-2" />
+                      Editar
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-destructive hover:text-destructive bg-transparent"
+                      onClick={() => handleDeleteClick(patient)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Stats footer - hidden on mobile when showing cards */}
+          <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground hidden md:flex">
+            <p>Mostrando {patients.length} paciente(s)</p>
           </div>
         </CardContent>
       </Card>

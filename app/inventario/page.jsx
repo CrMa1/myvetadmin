@@ -231,7 +231,7 @@ export default function InventoryPage() {
   const clinicId = getClinicId()
 
   if (!userId || !clinicId) {
-    return <div className="p-8">Por favor selecciona un consultorio</div>
+    return <div className="page-container">Por favor selecciona un consultorio</div>
   }
 
   const totalItems = inventory.length
@@ -240,17 +240,17 @@ export default function InventoryPage() {
   const avgItemValue = totalItems > 0 ? totalValue / totalItems : 0
 
   return (
-    <div className="p-8">
+    <div className="page-container">
       <AlertContainer />
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-foreground">Inventario</h1>
-        <Button onClick={handleAdd} className="btn-primary">
+      <div className="page-header">
+        <h1 className="page-title">Inventario</h1>
+        <Button onClick={handleAdd} className="btn-primary w-full sm:w-auto">
           <Plus className="w-4 h-4 mr-2" />
           Nuevo Producto
         </Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
+      <div className="stats-grid">
         <StatsCard
           label="Total de Productos"
           subtitle="Artículos en stock"
@@ -294,13 +294,13 @@ export default function InventoryPage() {
       />
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="modal-content">
           <DialogHeader>
             <DialogTitle>{editingItem ? "Editar Producto" : "Agregar Nuevo Producto"}</DialogTitle>
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="grid gap-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="form-grid">
               <div>
                 <Label htmlFor="name">Nombre *</Label>
                 <Input
@@ -326,7 +326,9 @@ export default function InventoryPage() {
                   </SelectContent>
                 </Select>
               </div>
+            </div>
 
+            <div className="form-grid">
               <div>
                 <Label htmlFor="quantity">Cantidad *</Label>
                 <Input
@@ -357,7 +359,9 @@ export default function InventoryPage() {
                   <p className="text-xs text-muted-foreground mt-1">{formatCurrency(formData.price)}</p>
                 )}
               </div>
+            </div>
 
+            <div className="form-grid">
               <div>
                 <Label htmlFor="supplier">Proveedor</Label>
                 <Input
@@ -388,11 +392,16 @@ export default function InventoryPage() {
               />
             </div>
 
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
+            <DialogFooter className="flex-col sm:flex-row gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsDialogOpen(false)}
+                className="w-full sm:w-auto"
+              >
                 Cancelar
               </Button>
-              <Button type="submit" className="btn-primary">
+              <Button type="submit" className="btn-primary w-full sm:w-auto">
                 {editingItem ? "Actualizar" : "Guardar"}
               </Button>
             </DialogFooter>

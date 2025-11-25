@@ -181,24 +181,24 @@ export default function ClinicsPage() {
   }
 
   if (!getUserId()) {
-    return <div className="p-8">Por favor inicia sesión</div>
+    return <div className="page-container">Por favor inicia sesión</div>
   }
 
   return (
-    <div className="p-8">
+    <div className="page-container">
       <AlertContainer />
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-foreground">Mis Consultorios</h1>
-        <Button onClick={handleAdd} className="btn-primary">
+      <div className="page-header">
+        <h1 className="page-title">Mis Consultorios</h1>
+        <Button onClick={handleAdd} className="btn-primary w-full sm:w-auto">
           <Plus className="w-4 h-4 mr-2" />
           Agregar Consultorio
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="card-grid">
         {clinics.length === 0 ? (
-          <Card className="col-span-full p-8 text-center">
-            <Building2 className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+          <Card className="col-span-full p-6 sm:p-8 text-center">
+            <Building2 className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-4 text-muted-foreground" />
             <p className="text-muted-foreground">No tienes consultorios registrados</p>
             <Button onClick={handleAdd} className="mt-4">
               Agregar tu primer consultorio
@@ -208,17 +208,17 @@ export default function ClinicsPage() {
           clinics.map((clinic) => (
             <Card
               key={clinic.id}
-              className={`p-6 hover:shadow-lg transition-shadow ${
+              className={`p-4 sm:p-6 hover:shadow-lg transition-shadow ${
                 selectedClinic && selectedClinic.id === clinic.id ? "ring-2 ring-primary" : ""
               }`}
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Building2 className="w-6 h-6 text-primary" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">{clinic.name}</h3>
+                    <h3 className="font-semibold text-base sm:text-lg">{clinic.name}</h3>
                     {selectedClinic && selectedClinic.id === clinic.id && (
                       <span className="text-xs text-primary font-medium">Activo</span>
                     )}
@@ -226,7 +226,7 @@ export default function ClinicsPage() {
                 </div>
               </div>
 
-              <div className="space-y-2 mb-4 text-sm text-muted-foreground">
+              <div className="space-y-2 mb-4 text-xs sm:text-sm text-muted-foreground">
                 <p>
                   <strong>Dirección:</strong> {clinic.address}
                 </p>
@@ -234,7 +234,7 @@ export default function ClinicsPage() {
                   <strong>Teléfono:</strong> {clinic.phone}
                 </p>
                 {clinic.email && (
-                  <p>
+                  <p className="hidden sm:block">
                     <strong>Email:</strong> {clinic.email}
                   </p>
                 )}
@@ -243,23 +243,18 @@ export default function ClinicsPage() {
                     <strong>Ciudad:</strong> {clinic.city}
                   </p>
                 )}
-                {clinic.description && (
-                  <p className="mt-2">
-                    <strong>Descripción:</strong> {clinic.description}
-                  </p>
-                )}
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 {(!selectedClinic || selectedClinic.id !== clinic.id) && (
-                  <Button onClick={() => handleSelectClinic(clinic)} className="flex-1" variant="outline">
+                  <Button onClick={() => handleSelectClinic(clinic)} className="flex-1" variant="outline" size="sm">
                     Seleccionar
                   </Button>
                 )}
-                <Button onClick={() => handleEdit(clinic)} variant="outline" size="icon">
+                <Button onClick={() => handleEdit(clinic)} variant="outline" size="icon" className="h-9 w-9">
                   <Edit className="w-4 h-4" />
                 </Button>
-                <Button onClick={() => handleDelete(clinic.id)} variant="outline" size="icon">
+                <Button onClick={() => handleDelete(clinic.id)} variant="outline" size="icon" className="h-9 w-9">
                   <Trash2 className="w-4 h-4 text-destructive" />
                 </Button>
               </div>
@@ -269,7 +264,7 @@ export default function ClinicsPage() {
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="modal-content">
           <DialogHeader>
             <DialogTitle>{editingClinic ? "Editar Consultorio" : "Agregar Nuevo Consultorio"}</DialogTitle>
           </DialogHeader>
@@ -310,7 +305,7 @@ export default function ClinicsPage() {
               {formErrors.address && <p className="text-red-500 text-sm mt-1">{formErrors.address}</p>}
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="form-grid">
               <div>
                 <Label htmlFor="city">Ciudad</Label>
                 <Input
@@ -332,7 +327,7 @@ export default function ClinicsPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="form-grid">
               <div>
                 <Label htmlFor="postalCode">Código Postal</Label>
                 <Input
@@ -383,11 +378,16 @@ export default function ClinicsPage() {
               />
             </div>
 
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
+            <DialogFooter className="flex-col sm:flex-row gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsDialogOpen(false)}
+                className="w-full sm:w-auto"
+              >
                 Cancelar
               </Button>
-              <Button type="submit" className="btn-primary">
+              <Button type="submit" className="btn-primary w-full sm:w-auto">
                 {editingClinic ? "Actualizar" : "Guardar"}
               </Button>
             </DialogFooter>

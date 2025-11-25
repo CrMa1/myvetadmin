@@ -154,15 +154,15 @@ export default function ClientsPage() {
   }
 
   if (!getUserId() || !getClinicId()) {
-    return <div className="p-8">Por favor selecciona un consultorio</div>
+    return <div className="page-container">Por favor selecciona un consultorio</div>
   }
 
   return (
-    <div className="p-8">
+    <div className="page-container">
       <AlertContainer />
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-foreground">Clientes</h1>
-        <Button onClick={handleAdd} className="btn-primary">
+      <div className="page-header">
+        <h1 className="page-title">Clientes</h1>
+        <Button onClick={handleAdd} className="btn-primary w-full sm:w-auto">
           <Plus className="w-4 h-4 mr-2" />
           Agregar Cliente
         </Button>

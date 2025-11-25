@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useState, useMemo } from "react"
-import { Search, Edit, Trash2, Mail, Phone, Plus, X } from "lucide-react"
+import { Search, Edit, Trash2, Mail, Phone, X } from "lucide-react"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import {
@@ -172,19 +172,22 @@ export function StaffTable({ staff, onAdd, onEdit, onDelete, filterPosition, onC
     <>
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <CardTitle>Lista de Personal</CardTitle>
-              <CardDescription>Todos los empleados registrados en el sistema</CardDescription>
+              <CardDescription className="hidden sm:block">
+                Todos los empleados registrados en el sistema
+              </CardDescription>
             </div>
             <div className="flex items-center gap-2">
               {filterPosition && (
                 <Button variant="outline" size="sm" onClick={onClearFilter}>
                   <X className="h-4 w-4 mr-2" />
-                  Limpiar filtro
+                  <span className="hidden sm:inline">Limpiar filtro</span>
+                  <span className="sm:hidden">Limpiar</span>
                 </Button>
               )}
-              <div className="relative w-64">
+              <div className="relative w-full sm:w-64">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="search"
@@ -198,9 +201,10 @@ export function StaffTable({ staff, onAdd, onEdit, onDelete, filterPosition, onC
           </div>
         </CardHeader>
         <CardContent>
-          <div className="rounded-lg border border-border overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
+          {/* Desktop Table View */}
+          <div className="table-wrapper">
+            <div className="table-scroll">
+              <table className="w-full hidden md:table">
                 <thead className="bg-muted/50">
                   <tr>
                     <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">ID</th>
@@ -281,12 +285,87 @@ export function StaffTable({ staff, onAdd, onEdit, onDelete, filterPosition, onC
               </table>
             </div>
           </div>
-          {filteredStaff.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">No se encontró personal</p>
-            </div>
-          )}
-          <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
+
+          {/* Mobile Card View */}
+          <div className="md:hidden space-y-4">
+            {filteredStaff.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">No se encontró personal</p>
+              </div>
+            ) : (
+              filteredStaff.map((member) => {
+                const hireDate = new Date(member.hireDate)
+                const yearsEmployed = Math.floor((Date.now() - hireDate.getTime()) / (365 * 24 * 60 * 60 * 1000))
+
+                return (
+                  <div key={member.id} className="border rounded-lg p-4 space-y-3 bg-card">
+                    <div className="flex items-start justify-between">
+                      <div className="space-y-1">
+                        <p className="font-medium">{`${member.firstName} ${member.lastName}`}</p>
+                        {yearsEmployed > 0 && (
+                          <p className="text-xs text-muted-foreground">{yearsEmployed} años en la clínica</p>
+                        )}
+                        <p className="text-xs text-muted-foreground font-mono">ID: {member.id}</p>
+                      </div>
+                      <Badge variant={getPositionColor(member.position) as any}>{member.position}</Badge>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                      <div>
+                        <p className="text-muted-foreground text-xs">Email</p>
+                        <p className="font-medium truncate">{member.email}</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground text-xs">Teléfono</p>
+                        <p className="font-medium">{member.phone}</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 text-sm">
+                      <div>
+                        <p className="text-muted-foreground text-xs">Salario Mensual</p>
+                        <p className="font-medium">{formatCurrency(member.salary)}</p>
+                      </div>
+                      {member.license && (
+                        <div>
+                          <p className="text-muted-foreground text-xs">Licencia Profesional</p>
+                          <p className="font-mono text-xs">{member.license}</p>
+                        </div>
+                      )}
+                      <div>
+                        <p className="text-muted-foreground text-xs">Fecha de Ingreso</p>
+                        <p>{format(hireDate, "dd MMM yyyy", { locale: es })}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2 pt-2 border-t">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex-1 bg-transparent"
+                        onClick={() => handleEditClick(member)}
+                      >
+                        <Edit className="h-4 w-4 mr-2" />
+                        Editar
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex-1 text-destructive hover:text-destructive bg-transparent"
+                        onClick={() => handleDeleteClick(member)}
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Eliminar
+                      </Button>
+                    </div>
+                  </div>
+                )
+              })
+            )}
+          </div>
+
+          {/* Stats footer - hidden on mobile when showing cards */}
+          <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground hidden md:flex">
             <p>
               Mostrando {filteredStaff.length} de {staff.length} empleados
             </p>

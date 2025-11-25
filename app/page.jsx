@@ -96,15 +96,15 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="p-6 space-y-6">
+      <div className="page-container space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
+          <h1 className="page-title">Dashboard</h1>
           <p className="text-muted-foreground">Cargando datos del consultorio...</p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="stats-grid">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="rounded-lg border bg-card p-6 space-y-3">
+            <div key={i} className="rounded-lg border bg-card p-4 sm:p-6 space-y-3">
               <div className="flex items-center justify-between">
                 <div className="h-4 w-24 bg-muted animate-pulse rounded" />
                 <div className="h-4 w-4 bg-muted animate-pulse rounded" />
@@ -115,28 +115,16 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div className="charts-grid">
           {[1, 2].map((i) => (
-            <div key={i} className="rounded-lg border bg-card p-6 space-y-4">
+            <div key={i} className="rounded-lg border bg-card p-4 sm:p-6 space-y-4">
               <div className="space-y-2">
                 <div className="h-6 w-40 bg-muted animate-pulse rounded" />
                 <div className="h-4 w-32 bg-muted animate-pulse rounded" />
               </div>
-              <div className="h-[300px] bg-muted animate-pulse rounded" />
+              <div className="h-[250px] sm:h-[300px] bg-muted animate-pulse rounded" />
             </div>
           ))}
-        </div>
-
-        <div className="rounded-lg border bg-card p-6 space-y-4">
-          <div className="space-y-2">
-            <div className="h-6 w-40 bg-muted animate-pulse rounded" />
-            <div className="h-4 w-48 bg-muted animate-pulse rounded" />
-          </div>
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-20 bg-muted animate-pulse rounded" />
-            ))}
-          </div>
         </div>
 
         <div className="flex items-center justify-center py-8">
@@ -157,14 +145,14 @@ export default function DashboardPage() {
   const appointmentsChange = metrics.appointmentsChange || 0
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="page-container space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-        <p className="text-muted-foreground">Resumen general de la clínica</p>
+        <h1 className="page-title">Dashboard</h1>
+        <p className="text-muted-foreground text-sm sm:text-base">Resumen general de la clínica</p>
       </div>
 
       <div className="rounded-lg border bg-card p-4 space-y-4">
-        <div className="flex flex-wrap gap-2">
+        <div className="button-group">
           <Button variant="outline" size="sm" onClick={() => handleQuickFilter("today")}>
             Hoy
           </Button>
@@ -179,8 +167,8 @@ export default function DashboardPage() {
           </Button>
         </div>
 
-        <div className="flex flex-wrap gap-2 items-end">
-          <div className="flex-1 min-w-[200px]">
+        <div className="date-filter">
+          <div className="date-input-wrapper">
             <label className="text-sm font-medium mb-1 block">Fecha Inicio</label>
             <Input
               type="date"
@@ -188,7 +176,7 @@ export default function DashboardPage() {
               onChange={(e) => setDateRange({ ...dateRange, startDate: e.target.value })}
             />
           </div>
-          <div className="flex-1 min-w-[200px]">
+          <div className="date-input-wrapper">
             <label className="text-sm font-medium mb-1 block">Fecha Fin</label>
             <Input
               type="date"
@@ -196,11 +184,13 @@ export default function DashboardPage() {
               onChange={(e) => setDateRange({ ...dateRange, endDate: e.target.value })}
             />
           </div>
-          <Button onClick={handleCustomFilter}>Filtrar</Button>
+          <Button onClick={handleCustomFilter} className="w-full sm:w-auto">
+            Filtrar
+          </Button>
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="stats-grid">
         <StatsCard
           label="Ingresos Totales"
           subtitle="Total acumulado"
@@ -231,7 +221,7 @@ export default function DashboardPage() {
         />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="charts-grid">
         <SalesChart data={dashboardData?.salesData} />
         <IncomeExpenseChart data={dashboardData?.incomeExpenseData} />
       </div>
