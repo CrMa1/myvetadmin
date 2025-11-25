@@ -38,6 +38,22 @@ export async function POST(request) {
       return NextResponse.json({ success: false, error: "userId y clinicId son requeridos" }, { status: 400 })
     }
 
+    if (!body.type) {
+      return NextResponse.json({ success: false, error: "El tipo es requerido" }, { status: 400 })
+    }
+
+    if (!body.categoryId) {
+      return NextResponse.json({ success: false, error: "La categoría es requerida" }, { status: 400 })
+    }
+
+    if (!body.amount || Number.parseFloat(body.amount) <= 0) {
+      return NextResponse.json({ success: false, error: "El monto debe ser mayor a 0" }, { status: 400 })
+    }
+
+    if (!body.date) {
+      return NextResponse.json({ success: false, error: "La fecha es requerida" }, { status: 400 })
+    }
+
     const result = await query(
       `INSERT INTO accounting (user_id, clinic_id, type, category_id, amount, description, reference, transaction_date, payment_method, created_by)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -49,7 +65,7 @@ export async function POST(request) {
         body.amount,
         body.description || null,
         body.reference || null,
-        body.date || new Date().toISOString().split("T")[0],
+        body.date,
         body.paymentMethod || "Efectivo",
         body.createdBy || null,
       ],
@@ -80,6 +96,22 @@ export async function PUT(request) {
 
     if (!body.userId || !body.clinicId) {
       return NextResponse.json({ success: false, error: "userId y clinicId son requeridos" }, { status: 400 })
+    }
+
+    if (!body.type) {
+      return NextResponse.json({ success: false, error: "El tipo es requerido" }, { status: 400 })
+    }
+
+    if (!body.categoryId) {
+      return NextResponse.json({ success: false, error: "La categoría es requerida" }, { status: 400 })
+    }
+
+    if (!body.amount || Number.parseFloat(body.amount) <= 0) {
+      return NextResponse.json({ success: false, error: "El monto debe ser mayor a 0" }, { status: 400 })
+    }
+
+    if (!body.date) {
+      return NextResponse.json({ success: false, error: "La fecha es requerida" }, { status: 400 })
     }
 
     await query(

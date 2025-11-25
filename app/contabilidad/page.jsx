@@ -6,16 +6,12 @@ import { AccountingTable } from "@/components/accounting/accounting-table"
 import { StatsCard } from "@/components/shared/stats-card"
 import { AccountingChart } from "@/components/accounting/accounting-chart"
 import { useState, useEffect } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
 import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
-import { formatCurrency, parseCurrency } from "@/lib/currency"
+import { formatCurrency } from "@/lib/currency"
+import { AccountingModal } from "@/components/accounting/accounting-modal"
 
 export default function AccountingPage() {
   const { getUserId, getClinicId } = useAuth()
@@ -24,16 +20,10 @@ export default function AccountingPage() {
   const [filteredAccounting, setFilteredAccounting] = useState([])
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingRecord, setEditingRecord] = useState(null)
   const [activeFilter, setActiveFilter] = useState(null)
-  const [formData, setFormData] = useState({
-    type: "",
-    category: "",
-    amount: "",
-    description: "",
-    date: "",
-  })
+  const [consultationIncome, setConsultationIncome] = useState(0)
 
   useEffect(() => {
     const userId = getUserId()
@@ -41,6 +31,7 @@ export default function AccountingPage() {
     if (userId && clinicId) {
       fetchAccounting()
       fetchCategories()
+      fetchConsultationIncome()
     }
   }, [getUserId, getClinicId])
 
@@ -66,6 +57,23 @@ export default function AccountingPage() {
     }
   }
 
+  const fetchConsultationIncome = async () => {
+    try {
+      const userId = getUserId()
+      const clinicId = getClinicId()
+      const response = await fetch(`/api/consultations?userId=${userId}&clinicId=${clinicId}`)
+      const result = await response.json()
+
+      if (result.success) {
+        const completedConsultations = result.data.filter((c) => c.status === "Completada")
+        const total = completedConsultations.reduce((sum, c) => sum + Number.parseFloat(c.cost || 0), 0)
+        setConsultationIncome(total)
+      }
+    } catch (error) {
+      console.error("Error fetching consultation income:", error)
+    }
+  }
+
   const fetchCategories = async () => {
     try {
       const response = await fetch("/api/conta-categories")
@@ -82,26 +90,12 @@ export default function AccountingPage() {
 
   const handleAdd = () => {
     setEditingRecord(null)
-    setFormData({
-      type: "",
-      category: "",
-      amount: "",
-      description: "",
-      date: new Date().toISOString().split("T")[0],
-    })
-    setIsDialogOpen(true)
+    setIsModalOpen(true)
   }
 
   const handleEdit = (record) => {
     setEditingRecord(record)
-    setFormData({
-      type: record.type || "",
-      category: record.categoryId?.toString() || "",
-      amount: record.amount || "",
-      description: record.description || "",
-      date: record.date || "",
-    })
-    setIsDialogOpen(true)
+    setIsModalOpen(true)
   }
 
   const handleDelete = async (id) => {
@@ -127,27 +121,20 @@ export default function AccountingPage() {
     }
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    if (!formData.type || !formData.category || !formData.amount) {
-      showWarning("Por favor completa todos los campos requeridos")
-      return
-    }
-
+  const handleSave = async (formData, record) => {
     try {
       const url = "/api/accounting"
-      const method = editingRecord ? "PUT" : "POST"
+      const method = record ? "PUT" : "POST"
       const userId = getUserId()
       const clinicId = getClinicId()
-      const body = editingRecord
+      const body = record
         ? {
             type: formData.type,
             categoryId: formData.category,
             amount: formData.amount,
             description: formData.description,
             date: formData.date,
-            id: editingRecord.id,
+            id: record.id,
             userId,
             clinicId,
           }
@@ -170,26 +157,15 @@ export default function AccountingPage() {
       const result = await response.json()
 
       if (result.success) {
-        showSuccess(editingRecord ? "Registro actualizado exitosamente" : "Registro agregado exitosamente")
-        setIsDialogOpen(false)
+        showSuccess(record ? "Registro actualizado exitosamente" : "Registro agregado exitosamente")
         await fetchAccounting()
+        return result
       } else {
-        showError(result.error || "Error al guardar el registro")
+        return { success: false, error: result.error || "Error al guardar el registro" }
       }
     } catch (error) {
       console.error("Error saving record:", error)
-      showError("Error al guardar el registro")
-    }
-  }
-
-  const handleInputChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
-
-  const handleCurrencyChange = (value) => {
-    const cleanValue = parseCurrency(value)
-    if (cleanValue === "" || /^\d*\.?\d{0,2}$/.test(cleanValue)) {
-      handleInputChange("amount", cleanValue)
+      return { success: false, error: "Error al guardar el registro" }
     }
   }
 
@@ -200,6 +176,11 @@ export default function AccountingPage() {
     } else {
       setFilteredAccounting(accounting)
     }
+  }
+
+  const handleClearFilter = () => {
+    setActiveFilter(null)
+    setFilteredAccounting(accounting)
   }
 
   const handleSearch = (query) => {
@@ -222,9 +203,10 @@ export default function AccountingPage() {
     return <div className="p-8">Por favor selecciona un consultorio</div>
   }
 
-  const totalIncome = accounting
+  const accountingIncome = accounting
     .filter((a) => a.type === "Ingreso")
     .reduce((sum, a) => sum + Number.parseFloat(a.amount || 0), 0)
+  const totalIncome = accountingIncome + consultationIncome
   const totalExpenses = accounting
     .filter((a) => a.type === "Egreso")
     .reduce((sum, a) => sum + Number.parseFloat(a.amount || 0), 0)
@@ -286,98 +268,20 @@ export default function AccountingPage() {
       <br />
       <AccountingTable
         accounting={filteredAccounting}
+        onAdd={handleAdd}
         onEdit={handleEdit}
         onDelete={handleDelete}
-        onSearch={handleSearch}
+        filterType={activeFilter}
+        onClearFilter={handleClearFilter}
       />
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>{editingRecord ? "Editar Registro" : "Agregar Nuevo Registro"}</DialogTitle>
-          </DialogHeader>
-
-          <form onSubmit={handleSubmit} className="grid gap-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="type">Tipo *</Label>
-                <Select value={formData.type} onValueChange={(value) => handleInputChange("type", value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Ingreso">Ingreso</SelectItem>
-                    <SelectItem value="Egreso">Egreso</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="category">Categoría *</Label>
-                <Select value={formData.category} onValueChange={(value) => handleInputChange("category", value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((cat) => (
-                      <SelectItem key={cat.id} value={cat.id.toString()}>
-                        {cat.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label htmlFor="amount">Monto *</Label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                  <Input
-                    id="amount"
-                    value={formData.amount}
-                    onChange={(e) => handleCurrencyChange(e.target.value)}
-                    placeholder="0.00"
-                    className="pl-7"
-                    required
-                  />
-                </div>
-                {formData.amount && (
-                  <p className="text-xs text-muted-foreground mt-1">{formatCurrency(formData.amount)}</p>
-                )}
-              </div>
-
-              <div>
-                <Label htmlFor="date">Fecha</Label>
-                <Input
-                  id="date"
-                  type="date"
-                  value={formData.date}
-                  onChange={(e) => handleInputChange("date", e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div>
-              <Label htmlFor="description">Descripción</Label>
-              <Textarea
-                id="description"
-                value={formData.description}
-                onChange={(e) => handleInputChange("description", e.target.value)}
-                rows={3}
-              />
-            </div>
-
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
-                Cancelar
-              </Button>
-              <Button type="submit" className="btn-primary">
-                {editingRecord ? "Actualizar" : "Guardar"}
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <AccountingModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        record={editingRecord}
+        categories={categories}
+        onSave={handleSave}
+      />
     </div>
   )
 }

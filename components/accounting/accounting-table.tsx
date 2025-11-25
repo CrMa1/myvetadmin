@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useMemo, useState } from "react"
-import { Search, Edit, Trash2, ArrowUpCircle, ArrowDownCircle, Plus, X } from "lucide-react"
+import { Search, Edit, Trash2, ArrowUpCircle, ArrowDownCircle, X } from "lucide-react"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import {
@@ -17,7 +17,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
 
 interface AccountingTableProps {
   accounting: any[]
@@ -38,8 +37,6 @@ export function AccountingTable({
 }: AccountingTableProps) {
   const [searchQuery, setSearchQuery] = useState("")
   const [typeFilter, setTypeFilter] = useState<string>("all")
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [selectedRecord, setSelectedRecord] = useState<any>(null)
   const [formData, setFormData] = useState({
@@ -101,38 +98,11 @@ export function AccountingTable({
     }
 
     onAdd(newRecord)
-    setIsAddDialogOpen(false)
     resetForm()
   }
 
   const handleEditClick = (record: any) => {
-    setSelectedRecord(record)
-    setFormData({
-      type: record.type,
-      category: record.category,
-      description: record.description,
-      amount: record.amount.toString(),
-      status: record.status,
-    })
-    setIsEditDialogOpen(true)
-  }
-
-  const handleEdit = () => {
-    if (!formData.type || !formData.category || !formData.description || !formData.amount) {
-      alert("Por favor complete todos los campos obligatorios")
-      return
-    }
-
-    const updatedRecord = {
-      ...selectedRecord,
-      ...formData,
-      amount: Number.parseInt(formData.amount),
-    }
-
-    onEdit(updatedRecord)
-    setIsEditDialogOpen(false)
-    resetForm()
-    setSelectedRecord(null)
+    onEdit(record)
   }
 
   const handleDeleteClick = (record: any) => {
@@ -301,116 +271,6 @@ export function AccountingTable({
           </div>
         </CardContent>
       </Card>
-
-      {/* Add/Edit Dialog */}
-      <Dialog
-        open={isAddDialogOpen || isEditDialogOpen}
-        onOpenChange={(open) => {
-          if (!open) {
-            setIsAddDialogOpen(false)
-            setIsEditDialogOpen(false)
-            resetForm()
-            setSelectedRecord(null)
-          }
-        }}
-      >
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>{isAddDialogOpen ? "Nuevo Registro" : "Editar Registro"}</DialogTitle>
-            <DialogDescription>
-              {isAddDialogOpen ? "Complete los datos del nuevo registro" : "Modifique los datos del registro"}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="type">
-                  Tipo <span className="text-destructive">*</span>
-                </Label>
-                <Select value={formData.type} onValueChange={(value) => setFormData({ ...formData, type: value })}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccione" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Ingreso">Ingreso</SelectItem>
-                    <SelectItem value="Egreso">Egreso</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="category">
-                  Categoría <span className="text-destructive">*</span>
-                </Label>
-                <Input
-                  id="category"
-                  value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  placeholder="Ej: Consultas"
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="description">
-                Descripción <span className="text-destructive">*</span>
-              </Label>
-              <Input
-                id="description"
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                placeholder="Describa el registro"
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="amount">
-                  Monto <span className="text-destructive">*</span>
-                </Label>
-                <Input
-                  id="amount"
-                  type="number"
-                  min="0"
-                  value={formData.amount}
-                  onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                  onKeyPress={(e) => {
-                    if (!/[0-9]/.test(e.key)) {
-                      e.preventDefault()
-                    }
-                  }}
-                  placeholder="Ej: 1500"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="status">Estado</Label>
-                <Select value={formData.status} onValueChange={(value) => setFormData({ ...formData, status: value })}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccione" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Completado">Completado</SelectItem>
-                    <SelectItem value="Pendiente">Pendiente</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </div>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setIsAddDialogOpen(false)
-                setIsEditDialogOpen(false)
-                resetForm()
-                setSelectedRecord(null)
-              }}
-            >
-              Cancelar
-            </Button>
-            <Button onClick={isAddDialogOpen ? handleAdd : handleEdit}>
-              {isAddDialogOpen ? "Agregar" : "Guardar Cambios"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>

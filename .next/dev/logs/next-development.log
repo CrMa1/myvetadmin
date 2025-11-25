@@ -520,3 +520,557 @@ Import traces:
        height and width.
 [03:40:21.077] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
 [03:40:21.513] Server  LOG     [v0] Found upcoming consultations: 0
+[03:45:21.066] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[03:45:21.501] Server  LOG     [v0] Found upcoming consultations: 0
+[03:48:44.173] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/contabilidad color: rgb(120, 120, 120) color: inherit {"dp":"/contabilidad","o":"http://localhost:3000/contabilidad","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764018764750}
+[03:48:44.662] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[03:48:44.662] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[03:49:26.260] Browser ERROR   `value` prop on `%s` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components. input
+[03:49:28.968] Browser ERROR   A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://react.dev/link/controlled-components
+[03:49:28.968] Browser WARN    Select is changing from uncontrolled to controlled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.
+[03:50:17.071] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[03:50:17.234] Server  LOG     [v0] Found upcoming consultations: 0
+[03:50:47.638] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[03:50:47.638] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[03:55:21.076] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[03:55:21.453] Server  LOG     [v0] Found upcoming consultations: 0
+[04:00:21.058] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:00:21.569] Server  LOG     [v0] Found upcoming consultations: 0
+[04:05:21.068] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:05:21.452] Server  LOG     [v0] Found upcoming consultations: 0
+[04:10:21.066] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:10:21.449] Server  LOG     [v0] Found upcoming consultations: 0
+[04:15:21.061] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:15:21.445] Server  LOG     [v0] Found upcoming consultations: 0
+[04:20:21.073] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:20:21.468] Server  LOG     [v0] Found upcoming consultations: 0
+[04:25:21.069] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:25:21.465] Server  LOG     [v0] Found upcoming consultations: 0
+[04:30:18.034] Server  ERROR    ⨯ ./app/contabilidad/page.jsx:14:1
+Module not found: Can't resolve '@/components/accounting/accounting-modal'
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+Import map: aliased to relative './components/accounting/accounting-modal' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[04:30:18.036] Server  ERROR    ⨯ ./app/contabilidad/page.jsx:14:1
+Module not found: Can't resolve '@/components/accounting/accounting-modal'
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+Import map: aliased to relative './components/accounting/accounting-modal' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[04:30:18.037] Server  ERROR    ⨯ ./app/contabilidad/page.jsx:14:1
+Module not found: Can't resolve '@/components/accounting/accounting-modal'
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+Import map: aliased to relative './components/accounting/accounting-modal' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[04:30:18.039] Server  ERROR    ⨯ ./app/contabilidad/page.jsx:14:1
+Module not found: Can't resolve '@/components/accounting/accounting-modal'
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+Import map: aliased to relative './components/accounting/accounting-modal' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[04:30:18.041] Server  ERROR    ⨯ ./app/contabilidad/page.jsx:14:1
+Module not found: Can't resolve '@/components/accounting/accounting-modal'
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+Import map: aliased to relative './components/accounting/accounting-modal' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[04:30:18.043] Server  ERROR    ⨯ ./app/contabilidad/page.jsx:14:1
+Module not found: Can't resolve '@/components/accounting/accounting-modal'
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+Import map: aliased to relative './components/accounting/accounting-modal' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[04:30:18.045] Server  ERROR    ⨯ ./app/contabilidad/page.jsx:14:1
+Module not found: Can't resolve '@/components/accounting/accounting-modal'
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+Import map: aliased to relative './components/accounting/accounting-modal' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[04:30:18.046] Server  ERROR    ⨯ ./app/contabilidad/page.jsx:14:1
+Module not found: Can't resolve '@/components/accounting/accounting-modal'
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+Import map: aliased to relative './components/accounting/accounting-modal' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[04:30:18.050] Server  ERROR    ⨯ ./app/contabilidad/page.jsx:14:1
+Module not found: Can't resolve '@/components/accounting/accounting-modal'
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+Import map: aliased to relative './components/accounting/accounting-modal' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[04:30:18.052] Server  ERROR    ⨯ ./app/contabilidad/page.jsx:14:1
+Module not found: Can't resolve '@/components/accounting/accounting-modal'
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+Import map: aliased to relative './components/accounting/accounting-modal' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[04:30:18.054] Server  ERROR    ⨯ ./app/contabilidad/page.jsx:14:1
+Module not found: Can't resolve '@/components/accounting/accounting-modal'
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+Import map: aliased to relative './components/accounting/accounting-modal' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[04:30:18.056] Server  ERROR    ⨯ ./app/contabilidad/page.jsx:14:1
+Module not found: Can't resolve '@/components/accounting/accounting-modal'
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+Import map: aliased to relative './components/accounting/accounting-modal' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[04:30:18.069] Server  LOG      ✓ Compiled in 108ms
+[04:30:19.057] Browser ERROR   ./app/contabilidad/page.jsx:14:1
+Module not found: Can't resolve '@/components/accounting/accounting-modal'
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+Import map: aliased to relative './components/accounting/accounting-modal' inside of [project]/
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[04:30:21.076] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:30:21.497] Server  LOG     [v0] Found upcoming consultations: 0
+[04:30:22.059] Browser ERROR   ./app/contabilidad/page.jsx:14:1
+Module not found: Can't resolve '@/components/accounting/accounting-modal'
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+Import map: aliased to relative './components/accounting/accounting-modal' inside of [project]/
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+[04:30:43.585] Server  LOG      ✓ Compiled in 123ms
+[04:30:44.049] Browser ERROR   ./app/contabilidad/page.jsx:14:1
+Export AccountingModal doesn't exist in target module
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+The export AccountingModal was not found in module [project]/components/accounting/accounting-modal.jsx [app-client] (ecmascript).
+The module has no exports at all.
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+[04:30:44.049] Browser ERROR   ./app/contabilidad/page.jsx:14:1
+Export AccountingModal doesn't exist in target module
+  12 | import { DollarSign, TrendingUp, TrendingDown, Activity } from "lucide-react"
+  13 | import { formatCurrency } from "@/lib/currency"
+> 14 | import { AccountingModal } from "@/components/accounting/accounting-modal"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function AccountingPage() {
+  17 |   const { getUserId, getClinicId } = useAuth()
+
+The export AccountingModal was not found in module [project]/components/accounting/accounting-modal.jsx [app-ssr] (ecmascript).
+The module has no exports at all.
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./app/contabilidad/page.jsx [Client Component Browser]
+    ./app/contabilidad/page.jsx [Server Component]
+
+  Client Component SSR:
+    ./app/contabilidad/page.jsx [Client Component SSR]
+    ./app/contabilidad/page.jsx [Server Component]
+[04:30:47.067] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[04:30:47.067] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[04:31:03.757] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[04:31:03.757] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[04:31:11.621] Browser WARN    Select is changing from uncontrolled to controlled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.
+[04:31:15.191] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[04:31:15.191] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[04:34:06.626] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[04:34:06.695] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:34:06.819] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[04:34:06.819] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/contabilidad","route":"/contabilidad"}
+[04:34:06.819] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/contabilidad color: rgb(120, 120, 120) color: inherit {"dp":"/contabilidad","o":"http://localhost:3000/contabilidad","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764021487405}
+[04:34:07.088] Server  LOG     [v0] Found upcoming consultations: 0
+[04:34:07.104] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:34:07.181] Server  LOG     [v0] Found upcoming consultations: 0
+[04:34:07.235] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[04:34:07.235] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[04:34:08.207] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[04:34:08.207] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[04:34:15.871] Browser WARN    Select is changing from uncontrolled to controlled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.
+[04:34:17.021] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[04:34:17.021] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[04:35:40.694] Browser ERROR   `value` prop on `%s` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components. input
+[04:35:42.920] Browser ERROR   A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://react.dev/link/controlled-components
+[04:35:42.920] Browser WARN    Select is changing from uncontrolled to controlled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.
+[04:36:46.979] Server  LOG      ✓ Compiled in 115ms
+[04:36:51.747] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[04:36:51.797] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:36:51.911] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[04:36:51.911] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/contabilidad","route":"/contabilidad"}
+[04:36:51.911] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/contabilidad color: rgb(120, 120, 120) color: inherit {"dp":"/contabilidad","o":"http://localhost:3000/contabilidad","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764021652501}
+[04:36:52.212] Server  LOG     [v0] Found upcoming consultations: 0
+[04:36:52.221] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:36:52.306] Server  LOG     [v0] Found upcoming consultations: 0
+[04:36:52.313] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[04:36:52.313] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[04:36:53.730] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[04:36:53.731] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[04:37:32.273] Server  LOG      ✓ Compiled in 127ms
+[04:37:33.057] Browser ERROR   `value` prop on `%s` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components. input
+[04:39:40.858] Server  LOG      ✓ Compiled in 115ms
+[04:39:49.311] Server  LOG      ✓ Compiled in 101ms
+[04:39:55.848] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[04:39:55.848] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[04:39:58.179] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[04:39:58.179] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[04:40:06.081] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[04:40:06.081] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[04:41:51.792] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:41:52.188] Server  LOG     [v0] Found upcoming consultations: 0
+[04:46:51.795] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:46:52.212] Server  LOG     [v0] Found upcoming consultations: 0
+[04:51:51.789] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:51:52.213] Server  LOG     [v0] Found upcoming consultations: 0
+[04:56:51.794] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[04:56:52.279] Server  LOG     [v0] Found upcoming consultations: 0
+[05:01:51.799] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:01:52.216] Server  LOG     [v0] Found upcoming consultations: 0
+[05:06:52.059] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:06:52.526] Server  LOG     [v0] Found upcoming consultations: 0
+[05:12:21.071] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:12:21.548] Server  LOG     [v0] Found upcoming consultations: 0
+[05:17:21.065] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:17:21.512] Server  LOG     [v0] Found upcoming consultations: 0
+[05:22:21.067] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:22:21.559] Server  LOG     [v0] Found upcoming consultations: 0
+[05:27:21.070] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:27:21.479] Server  LOG     [v0] Found upcoming consultations: 0
+[05:31:57.911] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:31:58.332] Server  LOG     [v0] Found upcoming consultations: 0
+[05:36:51.791] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:36:52.254] Server  LOG     [v0] Found upcoming consultations: 0
+[05:42:21.069] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:42:21.720] Server  LOG     [v0] Found upcoming consultations: 0
+[05:47:21.066] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:47:21.505] Server  LOG     [v0] Found upcoming consultations: 0
+[05:52:21.071] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:52:21.498] Server  LOG     [v0] Found upcoming consultations: 0
+[05:57:21.076] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[05:57:21.470] Server  LOG     [v0] Found upcoming consultations: 0
+[06:02:21.064] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:02:21.553] Server  LOG     [v0] Found upcoming consultations: 0
+[06:07:21.067] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:07:21.470] Server  LOG     [v0] Found upcoming consultations: 0
+[06:12:21.078] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:12:21.495] Server  LOG     [v0] Found upcoming consultations: 0
+[06:16:51.787] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:16:52.180] Server  LOG     [v0] Found upcoming consultations: 0
+[06:22:21.078] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:22:21.470] Server  LOG     [v0] Found upcoming consultations: 0
+[06:27:21.074] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:27:21.651] Server  LOG     [v0] Found upcoming consultations: 0
+[06:32:21.079] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:32:21.543] Server  LOG     [v0] Found upcoming consultations: 0
+[06:37:21.074] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:37:21.465] Server  LOG     [v0] Found upcoming consultations: 0
+[06:42:21.078] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:42:21.462] Server  LOG     [v0] Found upcoming consultations: 0
+[06:47:21.070] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:47:21.468] Server  LOG     [v0] Found upcoming consultations: 0
+[06:52:21.079] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:52:21.491] Server  LOG     [v0] Found upcoming consultations: 0
+[06:56:51.797] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[06:56:52.227] Server  LOG     [v0] Found upcoming consultations: 0
+[07:01:51.799] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[07:01:52.195] Server  LOG     [v0] Found upcoming consultations: 0
