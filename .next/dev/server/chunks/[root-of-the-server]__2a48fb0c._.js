@@ -201,12 +201,13 @@ async function GET(request) {
         }
         const inventory = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
         i.*,
+        i.min_stock as minStock,
         i.category_id as categoryId,
         ic.name as category,
         i.expiry_date as expiryDate
        FROM inventory i
        LEFT JOIN item_categories ic ON i.category_id = ic.id
-       WHERE i.user_id = ? AND i.clinic_id = ? 
+       WHERE i.user_id = ? AND i.clinic_id = ? AND i.deleted = 0
        ORDER BY i.created_at DESC`, [
             userId,
             clinicId
@@ -216,7 +217,6 @@ async function GET(request) {
             data: inventory
         });
     } catch (error) {
-        console.error("Get inventory error:", error);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: false,
             error: "Error al obtener inventario"
@@ -236,17 +236,15 @@ async function POST(request) {
                 status: 400
             });
         }
-        const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`INSERT INTO inventory (user_id, clinic_id, name, category_id, type, stock, price, cost, unit, description, expiry_date, supplier)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
+        const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`INSERT INTO inventory (user_id, clinic_id, category_id, name, stock, min_stock, price, description, expiry_date, supplier)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
             body.userId,
             body.clinicId,
-            body.name,
             body.categoryId,
-            body.type || null,
+            body.name,
             body.stock || 0,
+            body.minStock || 0,
             body.price,
-            body.cost || null,
-            body.unit || null,
             body.description || null,
             body.expiryDate || null,
             body.supplier || null
@@ -266,7 +264,6 @@ async function POST(request) {
             data: newItem[0]
         });
     } catch (error) {
-        console.error("Create inventory error:", error);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: false,
             error: "Error al crear producto"
@@ -287,16 +284,13 @@ async function PUT(request) {
             });
         }
         await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`UPDATE inventory 
-       SET name = ?, category_id = ?, type = ?, stock = ?, price = ?, 
-           cost = ?, unit = ?, description = ?, expiry_date = ?, supplier = ?
+       SET category_id = ?, name = ?, stock = ?, min_stock = ?, price = ?, description = ?, expiry_date = ?, supplier = ?
        WHERE id = ? AND user_id = ? AND clinic_id = ?`, [
+            body.category_id,
             body.name,
-            body.categoryId,
-            body.type || null,
             body.stock || 0,
+            body.minStock || 0,
             body.price,
-            body.cost || null,
-            body.unit || null,
             body.description || null,
             body.expiryDate || null,
             body.supplier || null,
@@ -329,7 +323,6 @@ async function PUT(request) {
             data: updatedItem[0]
         });
     } catch (error) {
-        console.error("Update inventory error:", error);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: false,
             error: "Error al actualizar producto"
@@ -352,7 +345,7 @@ async function DELETE(request) {
                 status: 400
             });
         }
-        const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])("DELETE FROM inventory WHERE id = ? AND user_id = ? AND clinic_id = ?", [
+        const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])("UPDATE inventory SET deleted = 1 WHERE id = ? AND user_id = ? AND clinic_id = ?", [
             id,
             userId,
             clinicId
@@ -370,7 +363,6 @@ async function DELETE(request) {
             message: "Producto eliminado correctamente"
         });
     } catch (error) {
-        console.error("Delete inventory error:", error);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: false,
             error: "Error al eliminar producto"

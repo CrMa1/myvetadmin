@@ -11,7 +11,9 @@ import { parseCurrency, formatCurrency } from "@/lib/currency"
 
 export function AddVeterinarianModal({ open, onOpenChange, onSuccess }) {
   const { user, selectedClinic, getUserId, getClinicId } = useAuth()
-  const { showSuccess, showError, showWarning, AlertContainer } = useAlertToast()
+  const { showSuccess, showError, AlertContainer } = useAlertToast()
+  const [apiError, setApiError] = useState("")
+  const [formErrors, setFormErrors] = useState({})
   const [formData, setFormData] = useState({
     name: "",
     lastName: "",
@@ -23,6 +25,10 @@ export function AddVeterinarianModal({ open, onOpenChange, onSuccess }) {
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+    if (formErrors[field]) {
+      setFormErrors({ ...formErrors, [field]: "" })
+    }
+    if (apiError) setApiError("")
   }
 
   const handleCurrencyChange = (value) => {
@@ -32,11 +38,23 @@ export function AddVeterinarianModal({ open, onOpenChange, onSuccess }) {
     }
   }
 
+  const validateForm = () => {
+    const errors = {}
+    if (!formData.name.trim()) errors.name = "Campo requerido"
+    if (!formData.lastName.trim()) errors.lastName = "Campo requerido"
+    if (!formData.email) errors.email = "Campo requerido"
+    if (!formData.phone) errors.phone = "Campo requerido"
+    if (!formData.salary) errors.salary = "Campo requerido"
+
+    setFormErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!formData.name || !formData.lastName) {
-      showWarning("Por favor completa nombre y apellido")
+    if (!validateForm()) {
       return
     }
 
@@ -69,7 +87,11 @@ export function AddVeterinarianModal({ open, onOpenChange, onSuccess }) {
         })
         onSuccess(result.data)
       } else {
-        showError(result.error || "Error al guardar el veterinario")
+        if (setApiError) {
+          setApiError(result.error || "Error al guardar el empleado")
+        } else {
+          showError(result.error || "Error al guardar el empleado")
+        }
       }
     } catch (error) {
       console.error("Error saving veterinarian:", error)
@@ -86,72 +108,85 @@ export function AddVeterinarianModal({ open, onOpenChange, onSuccess }) {
             <DialogTitle>Agregar Nuevo Veterinario</DialogTitle>
           </DialogHeader>
 
+          {apiError && (
+            <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded">
+              <p className="text-sm font-medium">{apiError}</p>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="grid gap-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="vet-name">Nombre *</Label>
+                <Label htmlFor="name">Nombre *</Label>
                 <Input
-                  id="vet-name"
+                  id="name"
                   value={formData.name}
                   onChange={(e) => handleInputChange("name", e.target.value)}
-                  required
+                  className={`mt-1.5 ${formErrors.name ? "border-destructive" : ""}`}
                 />
+                {formErrors.name && <span className="text-xs text-destructive ml-2">{formErrors.name}</span>}
               </div>
 
               <div>
-                <Label htmlFor="vet-lastName">Apellido *</Label>
+                <Label htmlFor="lastName">Apellido *</Label>
                 <Input
-                  id="vet-lastName"
+                  id="lastName"
                   value={formData.lastName}
                   onChange={(e) => handleInputChange("lastName", e.target.value)}
-                  required
+                  className={`mt-1.5 ${formErrors.lastName ? "border-destructive" : ""}`}
                 />
+                {formErrors.lastName && <span className="text-xs text-destructive ml-2">{formErrors.lastName}</span>}
               </div>
 
               <div>
-                <Label htmlFor="vet-email">Email</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  id="vet-email"
+                  id="email"
                   type="email"
                   value={formData.email}
                   onChange={(e) => handleInputChange("email", e.target.value)}
+                  className={`mt-1.5 ${formErrors.email ? "border-destructive" : ""}`}
                 />
+                {formErrors.email && <span className="text-xs text-destructive ml-2">{formErrors.email}</span>}
               </div>
 
               <div>
-                <Label htmlFor="vet-phone">Teléfono</Label>
+                <Label htmlFor="phone">Teléfono</Label>
                 <Input
-                  id="vet-phone"
+                  id="phone"
                   value={formData.phone}
                   onChange={(e) => {
                     const value = e.target.value.replace(/\D/g, "").slice(0, 10)
                     handleInputChange("phone", value)
                   }}
                   maxLength={10}
+                  className={`mt-1.5 ${formErrors.phone ? "border-destructive" : ""}`}
                 />
+                {formErrors.phone && <span className="text-xs text-destructive ml-2">{formErrors.phone}</span>}
               </div>
 
               <div>
-                <Label htmlFor="vet-salary">Salario</Label>
+                <Label htmlFor="salary">Salario</Label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
                   <Input
-                    id="vet-salary"
+                    id="salary"
                     value={formData.salary}
                     onChange={(e) => handleCurrencyChange(e.target.value)}
                     placeholder="0.00"
-                    className="pl-7"
+                    className={`pl-7 ${formErrors.salary ? "border-destructive" : ""}`}
                   />
                 </div>
+                {formErrors.salary && <span className="text-xs text-destructive ml-2">{formErrors.salary}</span>}
                 {formData.salary && (
                   <p className="text-xs text-muted-foreground mt-1">{formatCurrency(formData.salary)}</p>
                 )}
               </div>
 
               <div>
-                <Label htmlFor="vet-license">Cédula Profesional</Label>
+                <Label htmlFor="license">Cédula Profesional</Label>
                 <Input
-                  id="vet-license"
+                  id="license"
                   value={formData.license}
                   onChange={(e) => handleInputChange("license", e.target.value)}
                 />

@@ -3,6 +3,7 @@
 import { SalesChart } from "@/components/dashboard/sales-chart"
 import { RecentAppointments } from "@/components/dashboard/recent-appointments"
 import { IncomeExpenseChart } from "@/components/dashboard/income-expense-chart"
+import { LowStockInventory } from "@/components/dashboard/low-stock-inventory"
 import { StatsCard } from "@/components/shared/stats-card"
 import { useAuth } from "@/contexts/auth-context"
 import { useState, useEffect } from "react"
@@ -226,7 +227,10 @@ export default function DashboardPage() {
         <IncomeExpenseChart data={dashboardData?.incomeExpenseData} />
       </div>
 
-      <RecentAppointments data={dashboardData?.appointments} />
+      <div className="grid gap-6 md:grid-cols-2">
+        <RecentAppointments data={dashboardData?.appointments} />
+        <LowStockInventory data={dashboardData?.lowStockInventory} />
+      </div>
     </div>
   )
 }

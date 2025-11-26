@@ -14,6 +14,7 @@
   "/api/patients/[id]/route": "app/api/patients/[id]/route.js",
   "/api/patients/route": "app/api/patients/route.js",
   "/api/positions/route": "app/api/positions/route.js",
+  "/api/profile/route": "app/api/profile/route.js",
   "/api/search/route": "app/api/search/route.js",
   "/api/species/route": "app/api/species/route.js",
   "/api/staff/route": "app/api/staff/route.js",
@@ -26,6 +27,7 @@
   "/kardex/[id]/page": "app/kardex/[id]/page.js",
   "/pacientes/page": "app/pacientes/page.js",
   "/page": "app/page.js",
+  "/perfil/page": "app/perfil/page.js",
   "/personal/page": "app/personal/page.js",
   "/vender/page": "app/vender/page.js"
 }

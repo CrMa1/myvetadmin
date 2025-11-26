@@ -67,6 +67,20 @@ export async function GET(request) {
       [userId, clinicId],
     )
 
+    const lowStockInventory = await query(
+      `SELECT 
+        i.*,
+        i.min_stock as minStock,
+        i.category_id as categoryId,
+        ic.name as category,
+        i.expiry_date as expiryDate
+       FROM inventory i
+       LEFT JOIN item_categories ic ON i.category_id = ic.id
+       WHERE stock <= min_stock AND user_id = ? AND clinic_id = ?
+       ORDER BY i.created_at DESC`,
+      params,
+    )
+
     const salesData = await query(
       `SELECT DATE(transaction_date) as date, SUM(amount) as revenue
        FROM accounting
@@ -198,6 +212,7 @@ export async function GET(request) {
           date: apt.consultation_date,
           status: apt.status,
         })),
+        lowStockInventory: lowStockInventory,
       },
     }
 

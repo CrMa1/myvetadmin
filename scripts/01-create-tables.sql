@@ -156,32 +156,33 @@ CREATE TABLE IF NOT EXISTS `conta_categories` (
 -- La exportación de datos fue deseleccionada.
 
 -- Volcando estructura para tabla mavishop_myvetadmin.inventory
-CREATE TABLE IF NOT EXISTS `inventory` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `clinic_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `category` enum('Medicamento','Producto','Servicio','Alimento') NOT NULL,
-  `type` varchar(100) DEFAULT NULL,
-  `stock` int(11) DEFAULT 0,
-  `price` decimal(10,2) NOT NULL,
-  `cost` decimal(10,2) DEFAULT NULL,
-  `unit` varchar(50) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `expiry_date` date DEFAULT NULL,
-  `supplier` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `clinic_id` (`clinic_id`),
-  KEY `idx_user_clinic` (`user_id`,`clinic_id`),
-  KEY `idx_category` (`category`),
-  KEY `idx_name` (`name`),
-  KEY `category_id` (`category_id`),
-  CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `inventory_ibfk_2` FOREIGN KEY (`clinic_id`) REFERENCES `clinics` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `inventory` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`user_id` INT(11) NOT NULL,
+	`clinic_id` INT(11) NOT NULL,
+	`category_id` INT(11) NOT NULL,
+	`name` VARCHAR(200) NOT NULL COLLATE 'utf8mb4_unicode_ci',
+	`stock` INT(11) NULL DEFAULT '0',
+	`min_stock` INT(11) NULL DEFAULT '0',
+	`price` DECIMAL(10,2) NOT NULL,
+	`description` TEXT NULL DEFAULT NULL COLLATE 'utf8mb4_unicode_ci',
+	`expiry_date` DATE NULL DEFAULT NULL,
+	`supplier` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_unicode_ci',
+	`deleted` TINYINT(1) NOT NULL DEFAULT '0',
+	`created_at` TIMESTAMP NOT NULL DEFAULT current_timestamp(),
+	`updated_at` TIMESTAMP NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+	PRIMARY KEY (`id`) USING BTREE,
+	INDEX `idx_user_clinic` (`user_id`, `clinic_id`) USING BTREE,
+	INDEX `idx_name` (`name`) USING BTREE,
+	INDEX `category_id` (`category_id`) USING BTREE,
+	INDEX `inventory_ibfk_2` (`clinic_id`) USING BTREE,
+	CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE,
+	CONSTRAINT `inventory_ibfk_2` FOREIGN KEY (`clinic_id`) REFERENCES `clinics` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE
+)
+COLLATE='utf8mb4_unicode_ci'
+ENGINE=InnoDB;
+
+
 
 -- La exportación de datos fue deseleccionada.
 

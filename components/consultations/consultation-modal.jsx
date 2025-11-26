@@ -265,7 +265,7 @@ export function ConsultationModal({
                       <SelectItem value="none">Ninguno</SelectItem>
                       {staff.map((vet) => (
                         <SelectItem key={vet.id} value={vet.id.toString()}>
-                          {vet.name} {vet.lastName} - {vet.position}
+                          {vet.firstName} {vet.lastName} - {vet.position}
                         </SelectItem>
                       ))}
                     </SelectContent>

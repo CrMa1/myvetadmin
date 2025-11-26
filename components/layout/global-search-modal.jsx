@@ -4,10 +4,11 @@ import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Eye, Edit, User, Dog, Calendar, Users } from "lucide-react"
+import { Eye, Edit, User, Dog, Calendar, Users, Package } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { StaffModal } from "@/components/staff/staff-modal"
 import { ConsultationModal } from "@/components/consultations/consultation-modal"
+import { InventoryForm } from "@/components/inventory/inventory-form"
 import { useAuth } from "@/contexts/auth-context"
 
 export function GlobalSearchModal({ isOpen, onClose, searchQuery }) {
@@ -24,6 +25,9 @@ export function GlobalSearchModal({ isOpen, onClose, searchQuery }) {
   const [clientPatients, setClientPatients] = useState([])
   const [staff, setStaff] = useState([])
   const [isSubmittingStaff, setIsSubmittingStaff] = useState(false)
+  const [selectedInventoryItem, setSelectedInventoryItem] = useState(null) // Added state for selected inventory item
+  const [showInventoryModal, setShowInventoryModal] = useState(false) // Added state for inventory modal
+  const [categories, setCategories] = useState([]) // Added state for inventory categories
 
   useEffect(() => {
     if (isOpen && searchQuery) {
@@ -36,6 +40,7 @@ export function GlobalSearchModal({ isOpen, onClose, searchQuery }) {
       fetchPositions()
       fetchClients()
       fetchStaff()
+      fetchCategories() // Added fetch categories
     }
   }, [isOpen])
 
@@ -72,9 +77,10 @@ export function GlobalSearchModal({ isOpen, onClose, searchQuery }) {
       const userId = getUserId()
       const clinicId = getClinicId()
       if (!userId || !clinicId) return
-
+      console.log("Fetching staff for userId:", userId, "clinicId:", clinicId)
       const response = await fetch(`/api/staff?userId=${userId}&clinicId=${clinicId}`)
       const result = await response.json()
+      console.log("Fetching staff result:", result)
       if (result.success) {
         setStaff(result.data || [])
       }
@@ -100,17 +106,40 @@ export function GlobalSearchModal({ isOpen, onClose, searchQuery }) {
     }
   }
 
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch("/api/item-categories")
+      const result = await response.json()
+      if (result.success) {
+        setCategories(result.data || [])
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error)
+    }
+  }
+
   const performSearch = async () => {
     try {
       setLoading(true)
-      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`)
+      const userId = getUserId()
+      const clinicId = getClinicId()
+
+      if (!userId || !clinicId) {
+        console.error("Error: Usuario o clínica no encontrados")
+        setLoading(false)
+        return
+      }
+
+      const response = await fetch(
+        `/api/search?q=${encodeURIComponent(searchQuery)}&userId=${userId}&clinicId=${clinicId}`,
+      )
       const data = await response.json()
 
       if (data.success) {
         setResults(data.data)
       }
     } catch (error) {
-      console.error("[v0] Error searching:", error)
+      console.error("Error searching:", error)
     } finally {
       setLoading(false)
     }
@@ -143,6 +172,7 @@ export function GlobalSearchModal({ isOpen, onClose, searchQuery }) {
 
   const handleConsultationClick = async (consultation) => {
     if (consultation.clientId) {
+      await fetchStaff()
       await fetchClientPatients(consultation.clientId)
     }
 
@@ -292,11 +322,61 @@ export function GlobalSearchModal({ isOpen, onClose, searchQuery }) {
     performSearch() // Reload search results
   }
 
+  //Inventrory
+  const handleInventoryClick = (item) => {
+    setSelectedInventoryItem(item)
+    setShowInventoryModal(true)
+  }
+
+  const handleInventorySave = async (itemData) => {
+    try {
+      const userId = getUserId()
+      const clinicId = getClinicId()
+
+      if (!userId || !clinicId) {
+        console.error("Error: Usuario o clínica no encontrados")
+        return
+      }
+
+      const method = selectedInventoryItem ? "PUT" : "POST"
+      const body = {
+        ...itemData,
+        userId: Number.parseInt(userId),
+        clinicId: Number.parseInt(clinicId),
+        ...(selectedInventoryItem && { id: selectedInventoryItem.id }),
+      }
+
+      const response = await fetch("/api/inventory", {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        handleInventoryModalClose()
+        performSearch() // Refresh search results
+      } else {
+        console.error("Error saving inventory:", result.error)
+      }
+    } catch (error) {
+      console.error("Error saving inventory:", error)
+    }
+  }
+
+  const handleInventoryModalClose = () => {
+    setShowInventoryModal(false)
+    setSelectedInventoryItem(null)
+    performSearch() // Reload search results
+  }
+
   const totalResults =
     (results?.clients?.length || 0) +
     (results?.patients?.length || 0) +
     (results?.consultations?.length || 0) +
-    (results?.staff?.length || 0)
+    (results?.staff?.length || 0) +
+    (results?.inventory?.length || 0)
 
   return (
     <>
@@ -439,6 +519,42 @@ export function GlobalSearchModal({ isOpen, onClose, searchQuery }) {
                     </div>
                   </div>
                 )}
+
+                {/* Inventory */}
+                {results?.inventory && results.inventory.length > 0 && (
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <Package className="h-5 w-5 text-primary" />
+                      <h3 className="font-semibold text-lg">Inventario ({results.inventory.length})</h3>
+                    </div>
+                    <div className="space-y-2">
+                      {results.inventory.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent transition-colors"
+                        >
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <p className="font-medium">{item.name}</p>
+                              <Badge variant="outline">{item.category}</Badge>
+                              {item.stock <= item.minStock && <Badge variant="destructive">Bajo Stock</Badge>}
+                            </div>
+                            <p className="text-sm text-muted-foreground">
+                              Stock: {item.stock} | Precio: ${Number.parseFloat(item.price || 0).toFixed(2)}
+                            </p>
+                            {item.supplier && (
+                              <p className="text-sm text-muted-foreground">Proveedor: {item.supplier}</p>
+                            )}
+                          </div>
+                          <Button size="sm" onClick={() => handleInventoryClick(item)}>
+                            <Edit className="h-4 w-4 mr-2" />
+                            Editar
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </>
             )}
           </div>
@@ -467,7 +583,17 @@ export function GlobalSearchModal({ isOpen, onClose, searchQuery }) {
           onSubmit={handleConsultationSubmit}
           onClientSelect={handleClientSelect}
           onPatientAdded={() => {}}
-          onVetAdded={() => {}}
+          onVetAdded={fetchStaff}
+        />
+      )}
+
+      {showInventoryModal && (
+        <InventoryForm
+          isOpen={showInventoryModal}
+          onClose={handleInventoryModalClose}
+          onSave={handleInventorySave}
+          item={selectedInventoryItem}
+          categories={categories}
         />
       )}
     </>

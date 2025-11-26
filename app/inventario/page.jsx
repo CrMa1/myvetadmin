@@ -3,18 +3,14 @@
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { InventoryTable } from "@/components/inventory/inventory-table"
+import { InventoryForm } from "@/components/inventory/inventory-form"
 import { StatsCard } from "@/components/shared/stats-card"
 import { useState, useEffect } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
 import { Package, AlertTriangle, DollarSign, TrendingUp } from "lucide-react"
-import { formatCurrency, parseCurrency } from "@/lib/currency"
+import { formatCurrency } from "@/lib/currency"
 
 export default function InventoryPage() {
   const { getUserId, getClinicId } = useAuth()
@@ -23,18 +19,9 @@ export default function InventoryPage() {
   const [filteredInventory, setFilteredInventory] = useState([])
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isFormOpen, setIsFormOpen] = useState(false)
   const [editingItem, setEditingItem] = useState(null)
   const [activeFilter, setActiveFilter] = useState(null)
-  const [formData, setFormData] = useState({
-    name: "",
-    category: "",
-    quantity: "",
-    price: "",
-    supplier: "",
-    expiryDate: "",
-    description: "",
-  })
 
   useEffect(() => {
     const userId = getUserId()
@@ -83,35 +70,15 @@ export default function InventoryPage() {
 
   const handleAdd = () => {
     setEditingItem(null)
-    setFormData({
-      name: "",
-      category: "",
-      quantity: "",
-      price: "",
-      supplier: "",
-      expiryDate: "",
-      description: "",
-    })
-    setIsDialogOpen(true)
+    setIsFormOpen(true)
   }
 
   const handleEdit = (item) => {
     setEditingItem(item)
-    setFormData({
-      name: item.name || "",
-      category: item.categoryId?.toString() || "",
-      quantity: item.stock || "",
-      price: item.price || "",
-      supplier: item.supplier || "",
-      expiryDate: item.expiryDate || "",
-      description: item.description || "",
-    })
-    setIsDialogOpen(true)
+    setIsFormOpen(true)
   }
 
   const handleDelete = async (id) => {
-    if (!confirm("¿Estás seguro de eliminar este producto?")) return
-
     try {
       const userId = getUserId()
       const clinicId = getClinicId()
@@ -132,40 +99,22 @@ export default function InventoryPage() {
     }
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    if (!formData.name || !formData.category || !formData.quantity) {
-      showWarning("Por favor completa todos los campos requeridos")
-      return
-    }
-
+  const handleSave = async (itemData) => {
     try {
       const url = "/api/inventory"
       const method = editingItem ? "PUT" : "POST"
       const userId = getUserId()
       const clinicId = getClinicId()
+
       const body = editingItem
         ? {
-            name: formData.name,
-            categoryId: formData.category,
-            stock: formData.quantity,
-            price: formData.price,
-            supplier: formData.supplier,
-            expiryDate: formData.expiryDate,
-            description: formData.description,
+            ...itemData,
             id: editingItem.id,
             userId,
             clinicId,
           }
         : {
-            name: formData.name,
-            categoryId: formData.category,
-            stock: formData.quantity,
-            price: formData.price,
-            supplier: formData.supplier,
-            expiryDate: formData.expiryDate,
-            description: formData.description,
+            ...itemData,
             userId,
             clinicId,
           }
@@ -180,7 +129,8 @@ export default function InventoryPage() {
 
       if (result.success) {
         showSuccess(editingItem ? "Producto actualizado exitosamente" : "Producto agregado exitosamente")
-        setIsDialogOpen(false)
+        setIsFormOpen(false)
+        setEditingItem(null)
         await fetchInventory()
       } else {
         showError(result.error || "Error al guardar el producto")
@@ -189,10 +139,6 @@ export default function InventoryPage() {
       console.error("Error saving item:", error)
       showError("Error al guardar el producto")
     }
-  }
-
-  const handleInputChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
   const handleFilterClick = (filter) => {
@@ -214,13 +160,6 @@ export default function InventoryPage() {
         (i.supplier?.toLowerCase() || "").includes(query.toLowerCase()),
     )
     setFilteredInventory(filtered)
-  }
-
-  const handleCurrencyChange = (value) => {
-    const cleanValue = parseCurrency(value)
-    if (cleanValue === "" || /^\d*\.?\d{0,2}$/.test(cleanValue)) {
-      handleInputChange("price", cleanValue)
-    }
   }
 
   if (loading) {
@@ -288,126 +227,23 @@ export default function InventoryPage() {
 
       <InventoryTable
         inventory={filteredInventory}
+        onAdd={handleAdd}
         onEdit={handleEdit}
         onDelete={handleDelete}
-        onSearch={handleSearch}
+        filterCategory={activeFilter}
+        onClearFilter={() => setActiveFilter(null)}
       />
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="modal-content">
-          <DialogHeader>
-            <DialogTitle>{editingItem ? "Editar Producto" : "Agregar Nuevo Producto"}</DialogTitle>
-          </DialogHeader>
-
-          <form onSubmit={handleSubmit} className="grid gap-4">
-            <div className="form-grid">
-              <div>
-                <Label htmlFor="name">Nombre *</Label>
-                <Input
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange("name", e.target.value)}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="category">Categoría *</Label>
-                <Select value={formData.category} onValueChange={(value) => handleInputChange("category", value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((cat) => (
-                      <SelectItem key={cat.id} value={cat.id.toString()}>
-                        {cat.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div className="form-grid">
-              <div>
-                <Label htmlFor="quantity">Cantidad *</Label>
-                <Input
-                  id="quantity"
-                  type="number"
-                  value={formData.quantity}
-                  onChange={(e) => handleInputChange("quantity", e.target.value)}
-                  onKeyPress={(e) => {
-                    if (!/[0-9]/.test(e.key)) e.preventDefault()
-                  }}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="price">Precio</Label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                  <Input
-                    id="price"
-                    value={formData.price}
-                    onChange={(e) => handleCurrencyChange(e.target.value)}
-                    placeholder="0.00"
-                    className="pl-7"
-                  />
-                </div>
-                {formData.price && (
-                  <p className="text-xs text-muted-foreground mt-1">{formatCurrency(formData.price)}</p>
-                )}
-              </div>
-            </div>
-
-            <div className="form-grid">
-              <div>
-                <Label htmlFor="supplier">Proveedor</Label>
-                <Input
-                  id="supplier"
-                  value={formData.supplier}
-                  onChange={(e) => handleInputChange("supplier", e.target.value)}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="expiryDate">Fecha de Vencimiento</Label>
-                <Input
-                  id="expiryDate"
-                  type="date"
-                  value={formData.expiryDate}
-                  onChange={(e) => handleInputChange("expiryDate", e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div>
-              <Label htmlFor="description">Descripción</Label>
-              <Textarea
-                id="description"
-                value={formData.description}
-                onChange={(e) => handleInputChange("description", e.target.value)}
-                rows={3}
-              />
-            </div>
-
-            <DialogFooter className="flex-col sm:flex-row gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setIsDialogOpen(false)}
-                className="w-full sm:w-auto"
-              >
-                Cancelar
-              </Button>
-              <Button type="submit" className="btn-primary w-full sm:w-auto">
-                {editingItem ? "Actualizar" : "Guardar"}
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <InventoryForm
+        isOpen={isFormOpen}
+        onClose={() => {
+          setIsFormOpen(false)
+          setEditingItem(null)
+        }}
+        onSave={handleSave}
+        item={editingItem}
+        categories={categories}
+      />
     </div>
   )
 }

@@ -237,6 +237,16 @@ async function GET(request) {
             userId,
             clinicId
         ]);
+        const lowStockInventory = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
+        i.*,
+        i.min_stock as minStock,
+        i.category_id as categoryId,
+        ic.name as category,
+        i.expiry_date as expiryDate
+       FROM inventory i
+       LEFT JOIN item_categories ic ON i.category_id = ic.id
+       WHERE stock <= min_stock AND user_id = ? AND clinic_id = ?
+       ORDER BY i.created_at DESC`, params);
         const salesData = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT DATE(transaction_date) as date, SUM(amount) as revenue
        FROM accounting
        WHERE type = 'Ingreso' AND user_id = ? AND clinic_id = ? ${dateCondition}
@@ -342,7 +352,8 @@ async function GET(request) {
                         reason: apt.reason,
                         date: apt.consultation_date,
                         status: apt.status
-                    }))
+                    })),
+                lowStockInventory: lowStockInventory
             }
         };
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(responseData);
