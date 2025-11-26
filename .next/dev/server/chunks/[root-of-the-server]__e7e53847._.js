@@ -268,9 +268,27 @@ async function POST(request) {
             data.cost || null
         ]);
         const newConsultation = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
-        *
+        consultations.id, 
+        consultations.user_id as userId,
+        consultations.clinic_id as clinicId,
+        consultations.client_id as clientId,
+        consultations.patient_id as patientId,
+        consultations.veterinarian_id as veterinarianId,
+        CONCAT(clients.first_name, ' ', clients.last_name) as clientName,
+        CONCAT(patients.name, ' ', patients.breed) as patientName,
+        reason, 
+        diagnosis, 
+        treatment, 
+        notes, 
+        consultation_date as date, 
+        status, 
+        cost,
+        staff.name as veterinarian
        FROM consultations 
-       WHERE id = ?`, [
+       INNER JOIN patients ON consultations.patient_id = patients.id
+       INNER JOIN clients ON consultations.client_id = clients.id
+       INNER JOIN staff ON consultations.veterinarian_id = staff.id
+       WHERE consultations.id = ?`, [
             result.insertId
         ]);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
@@ -317,19 +335,27 @@ async function PUT(request) {
             data.clinicId
         ]);
         const updated = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["query"])(`SELECT 
-        id, 
-        patient_id as patientId,
-        client_id as clientId,
-        reason, 
-        diagnosis, 
-        treatment, 
-        notes, 
-        consultation_date as date, 
-        veterinarian_id as veterinarianId, 
-        status, 
-        cost 
+        consultations.id, 
+        consultations.user_id as userId,
+        consultations.clinic_id as clinicId,
+        consultations.client_id as clientId,
+        consultations.patient_id as patientId,
+        consultations.veterinarian_id as veterinarianId,
+        CONCAT(clients.first_name, ' ', clients.last_name) as clientName,
+        CONCAT(patients.name, ' (', patients.breed, ')') as patientName,
+        consultations.reason, 
+        consultations.diagnosis, 
+        consultations.treatment, 
+        consultations.notes, 
+        consultations.consultation_date as date, 
+        consultations.status, 
+        consultations.cost,
+        staff.name as veterinarian
        FROM consultations 
-       WHERE id = ? AND user_id = ? AND clinic_id = ?`, [
+       LEFT JOIN patients ON consultations.patient_id = patients.id
+       LEFT JOIN clients ON consultations.client_id = clients.id
+       LEFT JOIN staff ON consultations.veterinarian_id = staff.id
+       WHERE consultations.id = ? AND consultations.user_id = ? AND consultations.clinic_id = ?`, [
             data.id,
             data.userId,
             data.clinicId

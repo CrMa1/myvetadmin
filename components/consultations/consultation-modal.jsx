@@ -21,6 +21,8 @@ export function ConsultationModal({
   onClientSelect,
   onPatientAdded,
   onVetAdded,
+  onRefreshClients,
+  onRefreshStaff,
 }) {
   const [isPatientDialogOpen, setIsPatientDialogOpen] = useState(false)
   const [isVetDialogOpen, setIsVetDialogOpen] = useState(false)
@@ -133,6 +135,9 @@ export function ConsultationModal({
     if (!formData.reason || formData.reason.trim() === "") {
       errors.reason = "Campo requerido"
     }
+    if (!formData.veterinarianId || formData.veterinarianId.trim() === "") {
+      errors.veterinarianId = "Campo requerido"
+    }
 
     setFormErrors(errors)
     return Object.keys(errors).length === 0
@@ -155,18 +160,33 @@ export function ConsultationModal({
     }
   }
 
-  const handlePatientAddedInternal = (newPatient) => {
-    if (onPatientAdded) {
-      onPatientAdded(newPatient)
+  const handlePatientAddedInternal = async (newPatient) => {
+    // Refresh clients in case a new client was added from patient modal
+    if (onRefreshClients) {
+      await onRefreshClients()
     }
-    setFormData({ ...formData, patientId: newPatient.id.toString() })
+
+    if (onPatientAdded) {
+      await onPatientAdded(newPatient)
+    }
+
+    setFormData({
+      ...formData,
+      clientId: newPatient.client_id?.toString() || newPatient.clientId?.toString(),
+      patientId: newPatient.id.toString(),
+    })
     setIsPatientDialogOpen(false)
   }
 
-  const handleVetAddedInternal = (newVet) => {
-    if (onVetAdded) {
-      onVetAdded(newVet)
+  const handleVetAddedInternal = async (newVet) => {
+    if (onRefreshStaff) {
+      await onRefreshStaff()
     }
+
+    if (onVetAdded) {
+      await onVetAdded(newVet)
+    }
+
     setFormData({ ...formData, veterinarianId: newVet.id.toString() })
     setIsVetDialogOpen(false)
   }
@@ -258,14 +278,14 @@ export function ConsultationModal({
                       setFormData({ ...formData, veterinarianId: value })
                     }}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className={formErrors.veterinarianId ? "border-destructive" : ""}>
                       <SelectValue placeholder="Seleccionar veterinario" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="none">Ninguno</SelectItem>
                       {staff.map((vet) => (
                         <SelectItem key={vet.id} value={vet.id.toString()}>
-                          {vet.firstName} {vet.lastName} - {vet.position}
+                          {vet.name} {vet.lastName} - {vet.position}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -279,6 +299,7 @@ export function ConsultationModal({
                     Agregar
                   </Button>
                 </div>
+                {formErrors.veterinarianId && <p className="text-sm text-destructive mt-1">{formErrors.veterinarianId}</p>}
               </div>
 
               <div>
@@ -290,7 +311,6 @@ export function ConsultationModal({
                   value={formData.date}
                   onChange={(e) => handleInputChange("date", e.target.value)}
                   className={formErrors.date ? "border-destructive" : ""}
-                  required
                 />
                 {formErrors.date && <p className="text-sm text-destructive mt-1">{formErrors.date}</p>}
               </div>
@@ -334,7 +354,6 @@ export function ConsultationModal({
                   value={formData.reason}
                   onChange={(e) => handleInputChange("reason", e.target.value)}
                   className={`min-h-[100px] ${formErrors.reason ? "border-destructive" : ""}`}
-                  required
                 />
                 {formErrors.reason && <p className="text-sm text-destructive mt-1">{formErrors.reason}</p>}
               </div>
@@ -394,6 +413,7 @@ export function ConsultationModal({
         onOpenChange={setIsPatientDialogOpen}
         onPatientAdded={handlePatientAddedInternal}
         preSelectedClientId={formData.clientId}
+        onClientAddedInParent={onRefreshClients}
       />
     </>
   )

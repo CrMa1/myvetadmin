@@ -259,7 +259,7 @@ export default function ConsultasPage() {
         const response = await fetch(`/api/consultations/${editingConsultation.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(consultationData),
+          body: JSON.stringify({ ...consultationData, id: editingConsultation.id }),
         })
 
         if (!response.ok) {
@@ -267,8 +267,8 @@ export default function ConsultasPage() {
           throw new Error(error.error || "Error al actualizar la consulta")
         }
 
-        const updated = await response.json()
-        setConsultations(consultations.map((c) => (c.id === editingConsultation.id ? updated : c)))
+        const result = await response.json()
+        setConsultations(consultations.map((c) => (c.id === editingConsultation.id ? result.data : c)))
         showSuccess("Consulta actualizada exitosamente")
       } else {
         const response = await fetch("/api/consultations", {
@@ -282,8 +282,9 @@ export default function ConsultasPage() {
           throw new Error(error.error || "Error al crear la consulta")
         }
 
-        const newConsultation = await response.json()
-        setConsultations([...consultations, newConsultation])
+        const result = await response.json()
+        console.log("[v0] New consultation created:", result.data)
+        setConsultations([result.data, ...consultations])
         showSuccess("Consulta creada exitosamente")
       }
 
@@ -344,7 +345,6 @@ export default function ConsultasPage() {
       status: consultation.status || "Programada",
     })
 
-    // Load the client's patients when editing
     if (clientIdStr) {
       fetchClientPatients(clientIdStr)
     }
@@ -409,28 +409,12 @@ export default function ConsultasPage() {
 
   const handlePatientAdded = async (newPatient) => {
     if (newPatient) {
-      // Refresh clients list in case a new client was added
       await fetchClients()
+      const updatedPatients = await loadClientPatients(newPatient.client_id || newPatient.clientId)
 
-      // Refresh patients list for the client
-      const updatedPatients = await loadClientPatients(newPatient.clientId)
-
-      // Find the client to get owner name
-      // We need to fetch clients first to ensure we have the latest list
-      const response = await fetch(`/api/clients?userId=${getUserId()}&clinicId=${getClinicId()}`)
-      const clientsResult = await response.json()
-      const updatedClients = clientsResult.success ? clientsResult.data : clients
-
-      if (clientsResult.success) {
-        setClients(updatedClients)
-      }
-
-      const client = updatedClients.find((c) => c.id === Number(newPatient.clientId))
-
-      // Update form data with new patient and client
       setFormData((prev) => ({
         ...prev,
-        clientId: newPatient.client_id.toString(),
+        clientId: (newPatient.client_id || newPatient.clientId).toString(),
         patientId: newPatient.id.toString(),
       }))
 
@@ -477,6 +461,14 @@ export default function ConsultasPage() {
       ...prev,
       veterinarianId: newVet.id.toString(),
     }))
+  }
+
+  const handleRefreshClients = async () => {
+    await fetchClients()
+  }
+
+  const handleRefreshStaff = async () => {
+    await fetchStaff()
   }
 
   if (loading) {
@@ -538,6 +530,8 @@ export default function ConsultasPage() {
         onClientSelect={handleClientSelectInModal}
         onPatientAdded={handlePatientAdded}
         onVetAdded={handleVetAdded}
+        onRefreshClients={handleRefreshClients}
+        onRefreshStaff={handleRefreshStaff}
       />
 
       <AddVeterinarianModal open={isVetDialogOpen} onOpenChange={setIsVetDialogOpen} onSuccess={handleVetAdded} />

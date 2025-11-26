@@ -12,7 +12,14 @@ import { Plus } from "lucide-react"
 import { AddClientModal } from "@/components/clients/add-client-modal"
 import { useAlertToast } from "@/components/ui/alert-toast"
 
-export function AddPatientModal({ open, onOpenChange, onSuccess, patient = null, preSelectedClientId = null }) {
+export function AddPatientModal({
+  open,
+  onOpenChange,
+  onSuccess,
+  patient = null,
+  preSelectedClientId = null,
+  onClientAddedInParent,
+}) {
   const { getUserId, getClinicId } = useAuth()
   const { showSuccess, showError, showWarning } = useAlertToast()
   const [clients, setClients] = useState([])
@@ -115,10 +122,15 @@ export function AddPatientModal({ open, onOpenChange, onSuccess, patient = null,
     if (apiError) setApiError("")
   }
 
-  const handleClientAdded = (newClient) => {
+  const handleClientAdded = async (newClient) => {
     setClients((prev) => [...prev, newClient])
     handleInputChange("clientId", newClient.id.toString())
     setIsClientDialogOpen(false)
+
+    // Notify parent (ConsultationModal) to refresh its clients list
+    if (onClientAddedInParent) {
+      await onClientAddedInParent()
+    }
   }
 
   const validateForm = () => {

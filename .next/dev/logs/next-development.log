@@ -6830,3 +6830,411 @@ Import traces:
 [26:24:49.438] Server  LOG     [v0] GET /api/patients - Request received
 [26:24:49.438] Server  LOG     [v0] Params: {}
 [26:24:49.518] Server  LOG     [v0] Patients found: 1
+[26:28:48.905] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[26:28:49.307] Server  LOG     [v0] Found upcoming consultations: 0
+[26:33:48.899] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[26:33:49.300] Server  LOG     [v0] Found upcoming consultations: 0
+[26:38:48.904] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[26:38:49.292] Server  LOG     [v0] Found upcoming consultations: 0
+[26:43:48.897] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[26:43:49.377] Server  LOG     [v0] Found upcoming consultations: 0
+[26:48:48.903] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[26:48:49.316] Server  LOG     [v0] Found upcoming consultations: 0
+[26:53:48.902] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[26:53:49.409] Server  LOG     [v0] Found upcoming consultations: 0
+[26:59:38.908] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[26:59:39.323] Server  LOG     [v0] Found upcoming consultations: 0
+[27:04:38.913] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[27:04:39.345] Server  LOG     [v0] Found upcoming consultations: 0
+[27:09:38.902] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[27:09:39.307] Server  LOG     [v0] Found upcoming consultations: 0
+[27:14:38.907] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[27:14:39.291] Server  LOG     [v0] Found upcoming consultations: 0
+[27:19:38.903] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[27:19:39.330] Server  LOG     [v0] Found upcoming consultations: 0
+[27:24:38.912] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[27:24:39.322] Server  LOG     [v0] Found upcoming consultations: 0
+[27:29:38.914] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[27:29:39.298] Server  LOG     [v0] Found upcoming consultations: 0
+[27:34:38.909] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[27:34:39.314] Server  LOG     [v0] Found upcoming consultations: 0
+[27:39:38.914] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[27:39:39.290] Server  LOG     [v0] Found upcoming consultations: 0
+[27:44:38.917] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[27:44:39.316] Server  LOG     [v0] Found upcoming consultations: 0
+[27:49:38.908] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[27:49:39.300] Server  LOG     [v0] Found upcoming consultations: 0
+[27:54:38.909] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[27:54:39.278] Server  LOG     [v0] Found upcoming consultations: 0
+[27:59:38.920] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[27:59:39.300] Server  LOG     [v0] Found upcoming consultations: 0
+[28:04:38.915] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[28:04:39.306] Server  LOG     [v0] Found upcoming consultations: 0
+[28:09:38.909] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[28:09:39.293] Server  LOG     [v0] Found upcoming consultations: 0
+[28:14:38.910] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[28:14:39.390] Server  LOG     [v0] Found upcoming consultations: 0
+[28:16:17.810] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764185393894}
+[28:16:20.461] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/recuperar-contrasena color: rgb(120, 120, 120) color: inherit {"dp":"/recuperar-contrasena","o":"http://localhost:3000/recuperar-contrasena","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764185396547}
+[28:16:24.890] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764185400967}
+[28:16:26.526] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/comprar color: rgb(120, 120, 120) color: inherit {"dp":"/comprar","o":"http://localhost:3000/comprar","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764185402605}
+[28:16:26.933] Server  LOG     [v0] Fetching subscription plans from database
+[28:16:27.339] Server  LOG     Precios planes {}
+[28:16:27.835] Server  LOG     [v0] Plans found: 3
+[28:16:27.844] Server  LOG     [v0] Fetching subscription plans from database
+[28:16:28.022] Server  LOG     Precios planes {}
+[28:16:28.103] Server  LOG     [v0] Plans found: 3
+[29:20:10.456] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/login color: rgb(120, 120, 120) color: inherit {"dp":"/login","o":"http://localhost:3000/login","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764189226545}
+[29:20:16.890] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/seleccionar-consultorio color: rgb(120, 120, 120) color: inherit {"dp":"/seleccionar-consultorio","o":"http://localhost:3000/seleccionar-consultorio","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764189232978}
+[29:20:18.306] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:20:18.386] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764189234466}
+[29:20:18.692] Server  LOG     [v0] Found upcoming consultations: 1
+[29:20:18.698] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:20:18.777] Server  LOG     [v0] Found upcoming consultations: 1
+[29:20:20.322] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[29:20:20.322] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[29:20:20.322] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[29:20:20.322] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[29:20:20.322] Browser LOG     LowStockInventory data: [{"category":"Alimento","categoryId":2,"category_id":2,"clinic_id":13,"created_at":"2025-11-26T15:47:14.000Z","deleted":0,"description":null,"expiryDate":"2025-12-06T06:00:00.000Z","expiry_date":"2025-12-06T06:00:00.000Z","id":6,"minStock":5,"min_stock":5,"name":"nupec adulto","price":"1500.00","stock":5,"supplier":"No se","updated_at":"2025-11-26T16:29:38.000Z","user_id":13},{"category":"Medicamento","categoryId":1,"category_id":1,"clinic_id":13,"created_at":"2025-11-26T15:45:39.000Z","deleted":0,"description":null,"expiryDate":"2025-11-29T06:00:00.000Z","expiry_date":"2025-11-29T06:00:00.000Z","id":5,"minStock":2,"min_stock":2,"name":"vacuna","price":"250.00","stock":2,"supplier":"farmacia","updated_at":"2025-11-26T15:45:39.000Z","user_id":13},{"category":"Alimento","categoryId":2,"category_id":2,"clinic_id":13,"created_at":"2025-11-17T09:10:05.000Z","deleted":1,"description":"sin coments","expiryDate":"2025-11-13T06:00:00.000Z","expiry_date":"2025-11-13T06:00:00.000Z","id":4,"minStock":111,"min_stock":111,"name":"fa","price":"122.00","stock":111,"supplier":"prov fa","updated_at":"2025-11-26T16:42:21.000Z","user_id":13}]
+[29:20:20.322] Browser LOG     LowStockInventory data: [{"category":"Alimento","categoryId":2,"category_id":2,"clinic_id":13,"created_at":"2025-11-26T15:47:14.000Z","deleted":0,"description":null,"expiryDate":"2025-12-06T06:00:00.000Z","expiry_date":"2025-12-06T06:00:00.000Z","id":6,"minStock":5,"min_stock":5,"name":"nupec adulto","price":"1500.00","stock":5,"supplier":"No se","updated_at":"2025-11-26T16:29:38.000Z","user_id":13},{"category":"Medicamento","categoryId":1,"category_id":1,"clinic_id":13,"created_at":"2025-11-26T15:45:39.000Z","deleted":0,"description":null,"expiryDate":"2025-11-29T06:00:00.000Z","expiry_date":"2025-11-29T06:00:00.000Z","id":5,"minStock":2,"min_stock":2,"name":"vacuna","price":"250.00","stock":2,"supplier":"farmacia","updated_at":"2025-11-26T15:45:39.000Z","user_id":13},{"category":"Alimento","categoryId":2,"category_id":2,"clinic_id":13,"created_at":"2025-11-17T09:10:05.000Z","deleted":1,"description":"sin coments","expiryDate":"2025-11-13T06:00:00.000Z","expiry_date":"2025-11-13T06:00:00.000Z","id":4,"minStock":111,"min_stock":111,"name":"fa","price":"122.00","stock":111,"supplier":"prov fa","updated_at":"2025-11-26T16:42:21.000Z","user_id":13}]
+[29:20:20.950] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:20:21.070] Server  LOG     [v0] GET /api/patients - Request received
+[29:20:21.070] Server  LOG     [v0] Params: {}
+[29:20:21.097] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764189237067}
+[29:20:21.097] Browser LOG     [v0] Fetching patients...
+[29:20:21.097] Browser LOG     [v0] Request params: {"clinicId":13,"userId":13}
+[29:20:21.097] Browser LOG     [v0] Fetching patients...
+[29:20:21.097] Browser LOG     [v0] Request params: {"clinicId":13,"userId":13}
+[29:20:21.376] Server  LOG     [v0] Clients fetched: 7
+[29:20:21.385] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:20:21.466] Server  LOG     [v0] Clients fetched: 7
+[29:20:21.507] Server  LOG     [v0] Patients found: 7
+[29:20:21.521] Server  LOG     [v0] GET /api/patients - Request received
+[29:20:21.521] Server  LOG     [v0] Params: {}
+[29:20:21.612] Browser LOG     [v0] Patients API response: {"data":[{"age":2,"animalType":"Hámster","breed":"zz","client_id":7,"color":"zz","diseases":"as","id":16,"lastVisit":null,"medicalHistory":null,"name":"zz","ownerAddress":"as","ownerEmail":"nuevo@gmail.com","ownerName":"Cliente nuevo","ownerPhone":"1112211212","sex":"Macho","species_id":5,"weight":"2.00"},{"age":2,"animalType":"Hámster","breed":"fa","client_id":4,"color":"fa","diseases":"fafafa","id":15,"lastVisit":null,"medicalHistory":null,"name":"fafa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":5,"weight":"2.00"},{"age":1,"animalType":"Conejo","breed":"Golden","client_id":6,"color":"Negro","diseases":"a","id":14,"lastVisit":null,"medicalHistory":null,"name":"Peek2 22","ownerAddress":"aa","ownerEmail":"mail@12mail.com","ownerName":"cliente nuevo","ownerPhone":"3131231231","sex":"Macho","species_id":4,"weight":"1.00"},{"age":1,"animalType":"Ave","breed":"aaa","client_id":4,"color":null,"diseases":"aa","id":13,"lastVisit":null,"medicalHistory":"aa","name":"aaaaa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":5,"color":null,"diseases":"fa","id":12,"lastVisit":null,"medicalHistory":"fa","name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"20.00"},{"age":1,"animalType":"Ave","breed":"a","client_id":5,"color":"a","diseases":"aa","id":11,"lastVisit":null,"medicalHistory":null,"name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":1,"animalType":"Conejo","breed":"f","client_id":3,"color":"f","diseases":null,"id":10,"lastVisit":null,"medicalHistory":null,"name":"f","ownerAddress":null,"ownerEmail":"cris@12adminvet.com","ownerName":"Cris Cliente 2","ownerPhone":"5512121212","sex":"Hembra","species_id":4,"weight":"1.00"}],"success":true}
+[29:20:21.613] Browser LOG     [v0] Patients loaded successfully: 7
+[29:20:21.673] Server  LOG     [v0] Patients found: 7
+[29:20:21.779] Browser LOG     [v0] Patients API response: {"data":[{"age":2,"animalType":"Hámster","breed":"zz","client_id":7,"color":"zz","diseases":"as","id":16,"lastVisit":null,"medicalHistory":null,"name":"zz","ownerAddress":"as","ownerEmail":"nuevo@gmail.com","ownerName":"Cliente nuevo","ownerPhone":"1112211212","sex":"Macho","species_id":5,"weight":"2.00"},{"age":2,"animalType":"Hámster","breed":"fa","client_id":4,"color":"fa","diseases":"fafafa","id":15,"lastVisit":null,"medicalHistory":null,"name":"fafa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":5,"weight":"2.00"},{"age":1,"animalType":"Conejo","breed":"Golden","client_id":6,"color":"Negro","diseases":"a","id":14,"lastVisit":null,"medicalHistory":null,"name":"Peek2 22","ownerAddress":"aa","ownerEmail":"mail@12mail.com","ownerName":"cliente nuevo","ownerPhone":"3131231231","sex":"Macho","species_id":4,"weight":"1.00"},{"age":1,"animalType":"Ave","breed":"aaa","client_id":4,"color":null,"diseases":"aa","id":13,"lastVisit":null,"medicalHistory":"aa","name":"aaaaa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":5,"color":null,"diseases":"fa","id":12,"lastVisit":null,"medicalHistory":"fa","name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"20.00"},{"age":1,"animalType":"Ave","breed":"a","client_id":5,"color":"a","diseases":"aa","id":11,"lastVisit":null,"medicalHistory":null,"name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":1,"animalType":"Conejo","breed":"f","client_id":3,"color":"f","diseases":null,"id":10,"lastVisit":null,"medicalHistory":null,"name":"f","ownerAddress":null,"ownerEmail":"cris@12adminvet.com","ownerName":"Cris Cliente 2","ownerPhone":"5512121212","sex":"Hembra","species_id":4,"weight":"1.00"}],"success":true}
+[29:20:21.779] Browser LOG     [v0] Patients loaded successfully: 7
+[29:20:22.499] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:20:22.499] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:20:25.431] Server  LOG     [v0] GET /api/patients - Request received
+[29:20:25.432] Server  LOG     [v0] Params: {}
+[29:20:25.586] Server  LOG     [v0] Patients found: 2
+[29:20:29.325] Browser WARN    Select is changing from uncontrolled to controlled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.
+[29:20:45.290] Server  LOG     Creating consultation with data: {}
+[29:20:45.757] Browser WARN    Select is changing from controlled to uncontrolled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.
+[29:20:45.757] Browser ERROR   Each child in a list should have a unique "key" prop.%s%s See https://react.dev/link/warning-keys for more information. 
+
+Check the render method of `ConsultationsTable`. 
+[29:20:45.757] Browser ERROR   Each child in a list should have a unique "key" prop.%s%s See https://react.dev/link/warning-keys for more information. 
+
+Check the render method of `ConsultationsTable`. 
+[29:25:18.896] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:25:19.297] Server  LOG     [v0] Found upcoming consultations: 2
+[29:26:13.457] Server  LOG      ✓ Compiled in 147ms
+[29:26:35.480] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[29:26:35.554] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:26:35.564] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:26:35.581] Server  LOG     [v0] GET /api/patients - Request received
+[29:26:35.581] Server  LOG     [v0] Params: {}
+[29:26:35.702] Server  LOG     [v0] Found upcoming consultations: 2
+[29:26:35.703] Browser LOG     [v0] Fetching patients...
+[29:26:35.703] Browser LOG     [v0] Request params: {"clinicId":13,"userId":13}
+[29:26:35.703] Browser LOG     [v0] Fetching patients...
+[29:26:35.703] Browser LOG     [v0] Request params: {"clinicId":13,"userId":13}
+[29:26:35.703] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[29:26:35.703] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[29:26:35.703] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764189611757}
+[29:26:35.709] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:26:35.798] Server  LOG     [v0] Found upcoming consultations: 2
+[29:26:36.060] Server  LOG     [v0] Patients found: 7
+[29:26:36.067] Server  LOG     [v0] Clients fetched: 7
+[29:26:36.075] Server  LOG     [v0] GET /api/patients - Request received
+[29:26:36.075] Server  LOG     [v0] Params: {}
+[29:26:36.082] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:26:36.176] Browser LOG     [v0] Patients API response: {"data":[{"age":2,"animalType":"Hámster","breed":"zz","client_id":7,"color":"zz","diseases":"as","id":16,"lastVisit":null,"medicalHistory":null,"name":"zz","ownerAddress":"as","ownerEmail":"nuevo@gmail.com","ownerName":"Cliente nuevo","ownerPhone":"1112211212","sex":"Macho","species_id":5,"weight":"2.00"},{"age":2,"animalType":"Hámster","breed":"fa","client_id":4,"color":"fa","diseases":"fafafa","id":15,"lastVisit":null,"medicalHistory":null,"name":"fafa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":5,"weight":"2.00"},{"age":1,"animalType":"Conejo","breed":"Golden","client_id":6,"color":"Negro","diseases":"a","id":14,"lastVisit":null,"medicalHistory":null,"name":"Peek2 22","ownerAddress":"aa","ownerEmail":"mail@12mail.com","ownerName":"cliente nuevo","ownerPhone":"3131231231","sex":"Macho","species_id":4,"weight":"1.00"},{"age":1,"animalType":"Ave","breed":"aaa","client_id":4,"color":null,"diseases":"aa","id":13,"lastVisit":null,"medicalHistory":"aa","name":"aaaaa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":5,"color":null,"diseases":"fa","id":12,"lastVisit":null,"medicalHistory":"fa","name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"20.00"},{"age":1,"animalType":"Ave","breed":"a","client_id":5,"color":"a","diseases":"aa","id":11,"lastVisit":null,"medicalHistory":null,"name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":1,"animalType":"Conejo","breed":"f","client_id":3,"color":"f","diseases":null,"id":10,"lastVisit":null,"medicalHistory":null,"name":"f","ownerAddress":null,"ownerEmail":"cris@12adminvet.com","ownerName":"Cris Cliente 2","ownerPhone":"5512121212","sex":"Hembra","species_id":4,"weight":"1.00"}],"success":true}
+[29:26:36.176] Browser LOG     [v0] Patients loaded successfully: 7
+[29:26:36.265] Server  LOG     [v0] Clients fetched: 7
+[29:26:36.267] Server  LOG     [v0] Patients found: 7
+[29:26:36.374] Browser LOG     [v0] Patients API response: {"data":[{"age":2,"animalType":"Hámster","breed":"zz","client_id":7,"color":"zz","diseases":"as","id":16,"lastVisit":null,"medicalHistory":null,"name":"zz","ownerAddress":"as","ownerEmail":"nuevo@gmail.com","ownerName":"Cliente nuevo","ownerPhone":"1112211212","sex":"Macho","species_id":5,"weight":"2.00"},{"age":2,"animalType":"Hámster","breed":"fa","client_id":4,"color":"fa","diseases":"fafafa","id":15,"lastVisit":null,"medicalHistory":null,"name":"fafa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":5,"weight":"2.00"},{"age":1,"animalType":"Conejo","breed":"Golden","client_id":6,"color":"Negro","diseases":"a","id":14,"lastVisit":null,"medicalHistory":null,"name":"Peek2 22","ownerAddress":"aa","ownerEmail":"mail@12mail.com","ownerName":"cliente nuevo","ownerPhone":"3131231231","sex":"Macho","species_id":4,"weight":"1.00"},{"age":1,"animalType":"Ave","breed":"aaa","client_id":4,"color":null,"diseases":"aa","id":13,"lastVisit":null,"medicalHistory":"aa","name":"aaaaa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":5,"color":null,"diseases":"fa","id":12,"lastVisit":null,"medicalHistory":"fa","name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"20.00"},{"age":1,"animalType":"Ave","breed":"a","client_id":5,"color":"a","diseases":"aa","id":11,"lastVisit":null,"medicalHistory":null,"name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":1,"animalType":"Conejo","breed":"f","client_id":3,"color":"f","diseases":null,"id":10,"lastVisit":null,"medicalHistory":null,"name":"f","ownerAddress":null,"ownerEmail":"cris@12adminvet.com","ownerName":"Cris Cliente 2","ownerPhone":"5512121212","sex":"Hembra","species_id":4,"weight":"1.00"}],"success":true}
+[29:26:36.374] Browser LOG     [v0] Patients loaded successfully: 7
+[29:26:37.649] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:26:37.649] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:26:50.721] Server  LOG     [v0] GET /api/patients - Request received
+[29:26:50.722] Server  LOG     [v0] Params: {}
+[29:26:50.881] Server  LOG     [v0] Patients found: 0
+[29:26:53.166] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:26:53.242] Server  LOG     [v0] Clients fetched: 7
+[29:26:53.277] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:26:53.277] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:27:11.835] Server  LOG     [v0] POST /api/patients - Request received
+[29:27:11.836] Server  LOG     [v0] Request body: {}
+[29:27:11.992] Server  LOG     [v0] Insert result: {}
+[29:27:12.151] Server  LOG     [v0] New patient created: {}
+[29:27:16.141] Server  LOG     [v0] GET /api/patients - Request received
+[29:27:16.141] Server  LOG     [v0] Params: {}
+[29:27:16.218] Server  LOG     [v0] Patients found: 1
+[29:27:17.422] Server  LOG     [v0] GET /api/patients - Request received
+[29:27:17.422] Server  LOG     [v0] Params: {}
+[29:27:17.501] Server  LOG     [v0] Patients found: 1
+[29:27:26.254] Browser WARN    Select is changing from uncontrolled to controlled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.
+[29:27:32.223] Server  LOG     Creating consultation with data: {}
+[29:27:32.673] Browser WARN    Select is changing from controlled to uncontrolled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.
+[29:27:42.441] Server  LOG      ✓ Compiled in 93ms
+[29:27:42.897] Browser ERROR   Each child in a list should have a unique "key" prop.%s%s See https://react.dev/link/warning-keys for more information. 
+
+Check the render method of `ConsultationsTable`. 
+[29:27:42.897] Browser ERROR   Each child in a list should have a unique "key" prop.%s%s See https://react.dev/link/warning-keys for more information. 
+
+Check the render method of `ConsultationsTable`. 
+[29:27:45.606] Server  LOG      ✓ Compiled in 90ms
+[29:28:32.428] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[29:28:32.483] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:28:32.492] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:28:32.509] Server  LOG     [v0] GET /api/patients - Request received
+[29:28:32.509] Server  LOG     [v0] Params: {}
+[29:28:32.600] Server  LOG     [v0] Clients fetched: 7
+[29:28:32.608] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:28:32.608] Browser LOG     [v0] Fetching patients...
+[29:28:32.608] Browser LOG     [v0] Request params: {"clinicId":13,"userId":13}
+[29:28:32.608] Browser LOG     [v0] Fetching patients...
+[29:28:32.608] Browser LOG     [v0] Request params: {"clinicId":13,"userId":13}
+[29:28:32.608] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[29:28:32.608] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[29:28:32.608] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764189728694}
+[29:28:32.676] Server  LOG     [v0] Found upcoming consultations: 3
+[29:28:32.683] Server  LOG     [v0] Patients found: 8
+[29:28:32.689] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:28:32.693] Server  LOG     [v0] Clients fetched: 7
+[29:28:32.702] Server  LOG     [v0] GET /api/patients - Request received
+[29:28:32.702] Server  LOG     [v0] Params: {}
+[29:28:32.770] Server  LOG     [v0] Found upcoming consultations: 3
+[29:28:32.789] Browser LOG     [v0] Patients API response: {"data":[{"age":4,"animalType":"Ave","breed":"Golden","client_id":2,"color":"Negro","diseases":"aa","id":18,"lastVisit":null,"medicalHistory":"aa","name":"Peek cris 2","ownerAddress":"ffaafas","ownerEmail":"cris@a122dminvet.com","ownerName":"Cris 2 cliente up","ownerPhone":"3131313122","sex":"Hembra","species_id":3,"weight":"20.00"},{"age":2,"animalType":"Hámster","breed":"zz","client_id":7,"color":"zz","diseases":"as","id":16,"lastVisit":null,"medicalHistory":null,"name":"zz","ownerAddress":"as","ownerEmail":"nuevo@gmail.com","ownerName":"Cliente nuevo","ownerPhone":"1112211212","sex":"Macho","species_id":5,"weight":"2.00"},{"age":2,"animalType":"Hámster","breed":"fa","client_id":4,"color":"fa","diseases":"fafafa","id":15,"lastVisit":null,"medicalHistory":null,"name":"fafa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":5,"weight":"2.00"},{"age":1,"animalType":"Conejo","breed":"Golden","client_id":6,"color":"Negro","diseases":"a","id":14,"lastVisit":null,"medicalHistory":null,"name":"Peek2 22","ownerAddress":"aa","ownerEmail":"mail@12mail.com","ownerName":"cliente nuevo","ownerPhone":"3131231231","sex":"Macho","species_id":4,"weight":"1.00"},{"age":1,"animalType":"Ave","breed":"aaa","client_id":4,"color":null,"diseases":"aa","id":13,"lastVisit":null,"medicalHistory":"aa","name":"aaaaa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":5,"color":null,"diseases":"fa","id":12,"lastVisit":null,"medicalHistory":"fa","name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"20.00"},{"age":1,"animalType":"Ave","breed":"a","client_id":5,"color":"a","diseases":"aa","id":11,"lastVisit":null,"medicalHistory":null,"name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":1,"animalType":"Conejo","breed":"f","client_id":3,"color":"f","diseases":null,"id":10,"lastVisit":null,"medicalHistory":null,"name":"f","ownerAddress":null,"ownerEmail":"cris@12adminvet.com","ownerName":"Cris Cliente 2","ownerPhone":"5512121212","sex":"Hembra","species_id":4,"weight":"1.00"}],"success":true}
+[29:28:32.789] Browser LOG     [v0] Patients loaded successfully: 8
+[29:28:32.847] Server  LOG     [v0] Patients found: 8
+[29:28:32.952] Browser LOG     [v0] Patients API response: {"data":[{"age":4,"animalType":"Ave","breed":"Golden","client_id":2,"color":"Negro","diseases":"aa","id":18,"lastVisit":null,"medicalHistory":"aa","name":"Peek cris 2","ownerAddress":"ffaafas","ownerEmail":"cris@a122dminvet.com","ownerName":"Cris 2 cliente up","ownerPhone":"3131313122","sex":"Hembra","species_id":3,"weight":"20.00"},{"age":2,"animalType":"Hámster","breed":"zz","client_id":7,"color":"zz","diseases":"as","id":16,"lastVisit":null,"medicalHistory":null,"name":"zz","ownerAddress":"as","ownerEmail":"nuevo@gmail.com","ownerName":"Cliente nuevo","ownerPhone":"1112211212","sex":"Macho","species_id":5,"weight":"2.00"},{"age":2,"animalType":"Hámster","breed":"fa","client_id":4,"color":"fa","diseases":"fafafa","id":15,"lastVisit":null,"medicalHistory":null,"name":"fafa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":5,"weight":"2.00"},{"age":1,"animalType":"Conejo","breed":"Golden","client_id":6,"color":"Negro","diseases":"a","id":14,"lastVisit":null,"medicalHistory":null,"name":"Peek2 22","ownerAddress":"aa","ownerEmail":"mail@12mail.com","ownerName":"cliente nuevo","ownerPhone":"3131231231","sex":"Macho","species_id":4,"weight":"1.00"},{"age":1,"animalType":"Ave","breed":"aaa","client_id":4,"color":null,"diseases":"aa","id":13,"lastVisit":null,"medicalHistory":"aa","name":"aaaaa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":5,"color":null,"diseases":"fa","id":12,"lastVisit":null,"medicalHistory":"fa","name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"20.00"},{"age":1,"animalType":"Ave","breed":"a","client_id":5,"color":"a","diseases":"aa","id":11,"lastVisit":null,"medicalHistory":null,"name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":1,"animalType":"Conejo","breed":"f","client_id":3,"color":"f","diseases":null,"id":10,"lastVisit":null,"medicalHistory":null,"name":"f","ownerAddress":null,"ownerEmail":"cris@12adminvet.com","ownerName":"Cris Cliente 2","ownerPhone":"5512121212","sex":"Hembra","species_id":4,"weight":"1.00"}],"success":true}
+[29:28:32.952] Browser LOG     [v0] Patients loaded successfully: 8
+[29:28:34.246] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:28:34.246] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:28:35.604] Server  LOG     [v0] GET /api/patients - Request received
+[29:28:35.604] Server  LOG     [v0] Params: {}
+[29:28:35.755] Server  LOG     [v0] Patients found: 1
+[29:28:37.471] Browser WARN    Select is changing from uncontrolled to controlled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.
+[29:28:44.670] Server  LOG     Creating consultation with data: {}
+[29:28:45.126] Browser WARN    Select is changing from controlled to uncontrolled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.
+[29:29:54.860] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:29:54.860] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:30:10.299] Server  LOG      ✓ Compiled in 93ms
+[29:30:17.716] Server  LOG      ✓ Compiled in 93ms
+[29:31:29.853] Server  LOG      ✓ Compiled in 120ms
+[29:31:50.908] Server  LOG      ✓ Compiled in 101ms
+[29:31:54.214] Server  LOG     [v0] GET /api/patients - Request received
+[29:31:54.215] Server  LOG     [v0] Params: {}
+[29:31:54.620] Server  LOG     [v0] Patients found: 0
+[29:32:00.839] Server  LOG      ✓ Compiled in 97ms
+[29:32:02.906] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[29:32:02.989] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:32:03.009] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:32:03.027] Server  LOG     [v0] GET /api/patients - Request received
+[29:32:03.027] Server  LOG     [v0] Params: {}
+[29:32:03.096] Browser LOG     [v0] Fetching patients...
+[29:32:03.097] Browser LOG     [v0] Request params: {"clinicId":13,"userId":13}
+[29:32:03.097] Browser LOG     [v0] Fetching patients...
+[29:32:03.097] Browser LOG     [v0] Request params: {"clinicId":13,"userId":13}
+[29:32:03.097] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[29:32:03.097] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[29:32:03.097] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764189939186}
+[29:32:03.159] Server  LOG     [v0] Found upcoming consultations: 4
+[29:32:03.166] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:32:03.241] Server  LOG     [v0] Found upcoming consultations: 4
+[29:32:03.416] Server  LOG     [v0] Patients found: 8
+[29:32:03.418] Server  LOG     [v0] Clients fetched: 7
+[29:32:03.428] Server  LOG     [v0] GET /api/patients - Request received
+[29:32:03.429] Server  LOG     [v0] Params: {}
+[29:32:03.437] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:32:03.545] Browser LOG     [v0] Patients API response: {"data":[{"age":4,"animalType":"Ave","breed":"Golden","client_id":2,"color":"Negro","diseases":"aa","id":18,"lastVisit":null,"medicalHistory":"aa","name":"Peek cris 2","ownerAddress":"ffaafas","ownerEmail":"cris@a122dminvet.com","ownerName":"Cris 2 cliente up","ownerPhone":"3131313122","sex":"Hembra","species_id":3,"weight":"20.00"},{"age":2,"animalType":"Hámster","breed":"zz","client_id":7,"color":"zz","diseases":"as","id":16,"lastVisit":null,"medicalHistory":null,"name":"zz","ownerAddress":"as","ownerEmail":"nuevo@gmail.com","ownerName":"Cliente nuevo","ownerPhone":"1112211212","sex":"Macho","species_id":5,"weight":"2.00"},{"age":2,"animalType":"Hámster","breed":"fa","client_id":4,"color":"fa","diseases":"fafafa","id":15,"lastVisit":null,"medicalHistory":null,"name":"fafa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":5,"weight":"2.00"},{"age":1,"animalType":"Conejo","breed":"Golden","client_id":6,"color":"Negro","diseases":"a","id":14,"lastVisit":null,"medicalHistory":null,"name":"Peek2 22","ownerAddress":"aa","ownerEmail":"mail@12mail.com","ownerName":"cliente nuevo","ownerPhone":"3131231231","sex":"Macho","species_id":4,"weight":"1.00"},{"age":1,"animalType":"Ave","breed":"aaa","client_id":4,"color":null,"diseases":"aa","id":13,"lastVisit":null,"medicalHistory":"aa","name":"aaaaa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":5,"color":null,"diseases":"fa","id":12,"lastVisit":null,"medicalHistory":"fa","name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"20.00"},{"age":1,"animalType":"Ave","breed":"a","client_id":5,"color":"a","diseases":"aa","id":11,"lastVisit":null,"medicalHistory":null,"name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":1,"animalType":"Conejo","breed":"f","client_id":3,"color":"f","diseases":null,"id":10,"lastVisit":null,"medicalHistory":null,"name":"f","ownerAddress":null,"ownerEmail":"cris@12adminvet.com","ownerName":"Cris Cliente 2","ownerPhone":"5512121212","sex":"Hembra","species_id":4,"weight":"1.00"}],"success":true}
+[29:32:03.545] Browser LOG     [v0] Patients loaded successfully: 8
+[29:32:03.591] Server  LOG     [v0] Clients fetched: 7
+[29:32:03.593] Server  LOG     [v0] Patients found: 8
+[29:32:03.729] Browser LOG     [v0] Patients API response: {"data":[{"age":4,"animalType":"Ave","breed":"Golden","client_id":2,"color":"Negro","diseases":"aa","id":18,"lastVisit":null,"medicalHistory":"aa","name":"Peek cris 2","ownerAddress":"ffaafas","ownerEmail":"cris@a122dminvet.com","ownerName":"Cris 2 cliente up","ownerPhone":"3131313122","sex":"Hembra","species_id":3,"weight":"20.00"},{"age":2,"animalType":"Hámster","breed":"zz","client_id":7,"color":"zz","diseases":"as","id":16,"lastVisit":null,"medicalHistory":null,"name":"zz","ownerAddress":"as","ownerEmail":"nuevo@gmail.com","ownerName":"Cliente nuevo","ownerPhone":"1112211212","sex":"Macho","species_id":5,"weight":"2.00"},{"age":2,"animalType":"Hámster","breed":"fa","client_id":4,"color":"fa","diseases":"fafafa","id":15,"lastVisit":null,"medicalHistory":null,"name":"fafa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":5,"weight":"2.00"},{"age":1,"animalType":"Conejo","breed":"Golden","client_id":6,"color":"Negro","diseases":"a","id":14,"lastVisit":null,"medicalHistory":null,"name":"Peek2 22","ownerAddress":"aa","ownerEmail":"mail@12mail.com","ownerName":"cliente nuevo","ownerPhone":"3131231231","sex":"Macho","species_id":4,"weight":"1.00"},{"age":1,"animalType":"Ave","breed":"aaa","client_id":4,"color":null,"diseases":"aa","id":13,"lastVisit":null,"medicalHistory":"aa","name":"aaaaa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":5,"color":null,"diseases":"fa","id":12,"lastVisit":null,"medicalHistory":"fa","name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"20.00"},{"age":1,"animalType":"Ave","breed":"a","client_id":5,"color":"a","diseases":"aa","id":11,"lastVisit":null,"medicalHistory":null,"name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":1,"animalType":"Conejo","breed":"f","client_id":3,"color":"f","diseases":null,"id":10,"lastVisit":null,"medicalHistory":null,"name":"f","ownerAddress":null,"ownerEmail":"cris@12adminvet.com","ownerName":"Cris Cliente 2","ownerPhone":"5512121212","sex":"Hembra","species_id":4,"weight":"1.00"}],"success":true}
+[29:32:03.729] Browser LOG     [v0] Patients loaded successfully: 8
+[29:32:14.547] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:32:14.547] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:32:25.495] Server  LOG     [v0] GET /api/patients - Request received
+[29:32:25.495] Server  LOG     [v0] Params: {}
+[29:32:25.653] Server  LOG     [v0] Patients found: 0
+[29:32:26.443] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:32:26.554] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:32:26.554] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:32:26.647] Server  LOG     [v0] Clients fetched: 7
+[29:32:28.336] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:32:28.336] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:32:50.925] Server  LOG     [v0] Creating client: {}
+[29:32:51.395] Server  LOG     [v0] Client created successfully: 10
+[29:33:23.821] Server  LOG     [v0] POST /api/patients - Request received
+[29:33:23.822] Server  LOG     [v0] Request body: {}
+[29:33:23.990] Server  LOG     [v0] Insert result: {}
+[29:33:24.237] Server  LOG     [v0] New patient created: {}
+[29:33:30.902] Server  LOG     [v0] GET /api/patients - Request received
+[29:33:30.902] Server  LOG     [v0] Params: {}
+[29:33:30.981] Server  LOG     [v0] Patients found: 1
+[29:33:32.339] Server  LOG     [v0] GET /api/patients - Request received
+[29:33:32.340] Server  LOG     [v0] Params: {}
+[29:33:32.416] Server  LOG     [v0] Patients found: 0
+[29:33:33.869] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:33:33.869] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:33:39.813] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[29:33:39.862] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:33:39.877] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:33:39.891] Server  LOG     [v0] GET /api/patients - Request received
+[29:33:39.891] Server  LOG     [v0] Params: {}
+[29:33:39.959] Server  LOG     [v0] Clients fetched: 8
+[29:33:39.968] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:33:40.010] Browser LOG     [v0] Fetching patients...
+[29:33:40.010] Browser LOG     [v0] Request params: {"clinicId":13,"userId":13}
+[29:33:40.010] Browser LOG     [v0] Fetching patients...
+[29:33:40.010] Browser LOG     [v0] Request params: {"clinicId":13,"userId":13}
+[29:33:40.010] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[29:33:40.010] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[29:33:40.010] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764190036072}
+[29:33:40.021] Server  LOG     [v0] Found upcoming consultations: 4
+[29:33:40.029] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:33:40.043] Server  LOG     [v0] Clients fetched: 8
+[29:33:40.056] Server  LOG     [v0] Patients found: 9
+[29:33:40.065] Server  LOG     [v0] GET /api/patients - Request received
+[29:33:40.065] Server  LOG     [v0] Params: {}
+[29:33:40.104] Server  LOG     [v0] Found upcoming consultations: 4
+[29:33:40.194] Browser LOG     [v0] Patients API response: {"data":[{"age":2,"animalType":"Hámster","breed":"raza","client_id":10,"color":"color","diseases":"alergias peek hijo juan","id":19,"lastVisit":null,"medicalHistory":"historial peek hijo juan","name":"el peek juan","ownerAddress":"dir hijo","ownerEmail":"juan@hijo.com","ownerName":"juan hijo pruebas","ownerPhone":"1349809898","sex":"Macho","species_id":5,"weight":"20.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":2,"color":"Negro","diseases":"aa","id":18,"lastVisit":null,"medicalHistory":"aa","name":"Peek cris 2","ownerAddress":"ffaafas","ownerEmail":"cris@a122dminvet.com","ownerName":"Cris 2 cliente up","ownerPhone":"3131313122","sex":"Hembra","species_id":3,"weight":"20.00"},{"age":2,"animalType":"Hámster","breed":"zz","client_id":7,"color":"zz","diseases":"as","id":16,"lastVisit":null,"medicalHistory":null,"name":"zz","ownerAddress":"as","ownerEmail":"nuevo@gmail.com","ownerName":"Cliente nuevo","ownerPhone":"1112211212","sex":"Macho","species_id":5,"weight":"2.00"},{"age":2,"animalType":"Hámster","breed":"fa","client_id":4,"color":"fa","diseases":"fafafa","id":15,"lastVisit":null,"medicalHistory":null,"name":"fafa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":5,"weight":"2.00"},{"age":1,"animalType":"Conejo","breed":"Golden","client_id":6,"color":"Negro","diseases":"a","id":14,"lastVisit":null,"medicalHistory":null,"name":"Peek2 22","ownerAddress":"aa","ownerEmail":"mail@12mail.com","ownerName":"cliente nuevo","ownerPhone":"3131231231","sex":"Macho","species_id":4,"weight":"1.00"},{"age":1,"animalType":"Ave","breed":"aaa","client_id":4,"color":null,"diseases":"aa","id":13,"lastVisit":null,"medicalHistory":"aa","name":"aaaaa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":5,"color":null,"diseases":"fa","id":12,"lastVisit":null,"medicalHistory":"fa","name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"20.00"},{"age":1,"animalType":"Ave","breed":"a","client_id":5,"color":"a","diseases":"aa","id":11,"lastVisit":null,"medicalHistory":null,"name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":1,"animalType":"Conejo","breed":"f","client_id":3,"color":"f","diseases":null,"id":10,"lastVisit":null,"medicalHistory":null,"name":"f","ownerAddress":null,"ownerEmail":"cris@12adminvet.com","ownerName":"Cris Cliente 2","ownerPhone":"5512121212","sex":"Hembra","species_id":4,"weight":"1.00"}],"success":true}
+[29:33:40.194] Browser LOG     [v0] Patients loaded successfully: 9
+[29:33:40.217] Server  LOG     [v0] Patients found: 9
+[29:33:40.322] Browser LOG     [v0] Patients API response: {"data":[{"age":2,"animalType":"Hámster","breed":"raza","client_id":10,"color":"color","diseases":"alergias peek hijo juan","id":19,"lastVisit":null,"medicalHistory":"historial peek hijo juan","name":"el peek juan","ownerAddress":"dir hijo","ownerEmail":"juan@hijo.com","ownerName":"juan hijo pruebas","ownerPhone":"1349809898","sex":"Macho","species_id":5,"weight":"20.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":2,"color":"Negro","diseases":"aa","id":18,"lastVisit":null,"medicalHistory":"aa","name":"Peek cris 2","ownerAddress":"ffaafas","ownerEmail":"cris@a122dminvet.com","ownerName":"Cris 2 cliente up","ownerPhone":"3131313122","sex":"Hembra","species_id":3,"weight":"20.00"},{"age":2,"animalType":"Hámster","breed":"zz","client_id":7,"color":"zz","diseases":"as","id":16,"lastVisit":null,"medicalHistory":null,"name":"zz","ownerAddress":"as","ownerEmail":"nuevo@gmail.com","ownerName":"Cliente nuevo","ownerPhone":"1112211212","sex":"Macho","species_id":5,"weight":"2.00"},{"age":2,"animalType":"Hámster","breed":"fa","client_id":4,"color":"fa","diseases":"fafafa","id":15,"lastVisit":null,"medicalHistory":null,"name":"fafa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":5,"weight":"2.00"},{"age":1,"animalType":"Conejo","breed":"Golden","client_id":6,"color":"Negro","diseases":"a","id":14,"lastVisit":null,"medicalHistory":null,"name":"Peek2 22","ownerAddress":"aa","ownerEmail":"mail@12mail.com","ownerName":"cliente nuevo","ownerPhone":"3131231231","sex":"Macho","species_id":4,"weight":"1.00"},{"age":1,"animalType":"Ave","breed":"aaa","client_id":4,"color":null,"diseases":"aa","id":13,"lastVisit":null,"medicalHistory":"aa","name":"aaaaa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":5,"color":null,"diseases":"fa","id":12,"lastVisit":null,"medicalHistory":"fa","name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"20.00"},{"age":1,"animalType":"Ave","breed":"a","client_id":5,"color":"a","diseases":"aa","id":11,"lastVisit":null,"medicalHistory":null,"name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":1,"animalType":"Conejo","breed":"f","client_id":3,"color":"f","diseases":null,"id":10,"lastVisit":null,"medicalHistory":null,"name":"f","ownerAddress":null,"ownerEmail":"cris@12adminvet.com","ownerName":"Cris Cliente 2","ownerPhone":"5512121212","sex":"Hembra","species_id":4,"weight":"1.00"}],"success":true}
+[29:33:40.322] Browser LOG     [v0] Patients loaded successfully: 9
+[29:33:41.328] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:33:41.328] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:33:43.132] Server  LOG     [v0] GET /api/patients - Request received
+[29:33:43.132] Server  LOG     [v0] Params: {}
+[29:33:43.289] Server  LOG     [v0] Patients found: 1
+[29:34:26.514] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:34:26.592] Server  LOG     [v0] Clients fetched: 8
+[29:34:26.630] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:34:26.630] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:34:33.687] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:34:33.687] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:34:36.770] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:34:36.850] Server  LOG     [v0] Clients fetched: 8
+[29:34:36.884] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:34:36.884] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:34:41.671] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:34:41.749] Server  LOG     [v0] Clients fetched: 8
+[29:34:41.779] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:34:41.779] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:38:39.907] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:38:40.306] Server  LOG     [v0] Found upcoming consultations: 4
+[29:43:39.913] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:43:40.298] Server  LOG     [v0] Found upcoming consultations: 4
+[29:48:39.905] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:48:40.285] Server  LOG     [v0] Found upcoming consultations: 4
+[29:52:00.884] Server  LOG      ✓ Compiled in 114ms
+[29:52:14.137] Server  LOG      ✓ Compiled in 102ms
+[29:52:28.463] Server  LOG      ✓ Compiled in 103ms
+[29:52:36.029] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[29:52:36.091] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:52:36.104] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:52:36.123] Server  LOG     [v0] GET /api/patients - Request received
+[29:52:36.123] Server  LOG     [v0] Params: {}
+[29:52:36.210] Browser LOG     [v0] Fetching patients...
+[29:52:36.210] Browser LOG     [v0] Request params: {"clinicId":13,"userId":13}
+[29:52:36.210] Browser LOG     [v0] Fetching patients...
+[29:52:36.210] Browser LOG     [v0] Request params: {"clinicId":13,"userId":13}
+[29:52:36.210] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[29:52:36.210] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[29:52:36.210] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764191172300}
+[29:52:36.478] Server  LOG     [v0] Found upcoming consultations: 4
+[29:52:36.486] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:52:36.492] Server  LOG     [v0] Clients fetched: 8
+[29:52:36.501] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:52:36.506] Server  LOG     [v0] Patients found: 9
+[29:52:36.522] Server  LOG     [v0] GET /api/patients - Request received
+[29:52:36.522] Server  LOG     [v0] Params: {}
+[29:52:36.563] Server  LOG     [v0] Found upcoming consultations: 4
+[29:52:36.644] Browser LOG     [v0] Patients API response: {"data":[{"age":2,"animalType":"Hámster","breed":"raza","client_id":10,"color":"color","diseases":"alergias peek hijo juan","id":19,"lastVisit":null,"medicalHistory":"historial peek hijo juan","name":"el peek juan","ownerAddress":"dir hijo","ownerEmail":"juan@hijo.com","ownerName":"juan hijo pruebas","ownerPhone":"1349809898","sex":"Macho","species_id":5,"weight":"20.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":2,"color":"Negro","diseases":"aa","id":18,"lastVisit":null,"medicalHistory":"aa","name":"Peek cris 2","ownerAddress":"ffaafas","ownerEmail":"cris@a122dminvet.com","ownerName":"Cris 2 cliente up","ownerPhone":"3131313122","sex":"Hembra","species_id":3,"weight":"20.00"},{"age":2,"animalType":"Hámster","breed":"zz","client_id":7,"color":"zz","diseases":"as","id":16,"lastVisit":null,"medicalHistory":null,"name":"zz","ownerAddress":"as","ownerEmail":"nuevo@gmail.com","ownerName":"Cliente nuevo","ownerPhone":"1112211212","sex":"Macho","species_id":5,"weight":"2.00"},{"age":2,"animalType":"Hámster","breed":"fa","client_id":4,"color":"fa","diseases":"fafafa","id":15,"lastVisit":null,"medicalHistory":null,"name":"fafa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":5,"weight":"2.00"},{"age":1,"animalType":"Conejo","breed":"Golden","client_id":6,"color":"Negro","diseases":"a","id":14,"lastVisit":null,"medicalHistory":null,"name":"Peek2 22","ownerAddress":"aa","ownerEmail":"mail@12mail.com","ownerName":"cliente nuevo","ownerPhone":"3131231231","sex":"Macho","species_id":4,"weight":"1.00"},{"age":1,"animalType":"Ave","breed":"aaa","client_id":4,"color":null,"diseases":"aa","id":13,"lastVisit":null,"medicalHistory":"aa","name":"aaaaa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":5,"color":null,"diseases":"fa","id":12,"lastVisit":null,"medicalHistory":"fa","name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"20.00"},{"age":1,"animalType":"Ave","breed":"a","client_id":5,"color":"a","diseases":"aa","id":11,"lastVisit":null,"medicalHistory":null,"name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":1,"animalType":"Conejo","breed":"f","client_id":3,"color":"f","diseases":null,"id":10,"lastVisit":null,"medicalHistory":null,"name":"f","ownerAddress":null,"ownerEmail":"cris@12adminvet.com","ownerName":"Cris Cliente 2","ownerPhone":"5512121212","sex":"Hembra","species_id":4,"weight":"1.00"}],"success":true}
+[29:52:36.644] Browser LOG     [v0] Patients loaded successfully: 9
+[29:52:36.651] Server  LOG     [v0] Clients fetched: 8
+[29:52:36.673] Server  LOG     [v0] Patients found: 9
+[29:52:36.776] Browser LOG     [v0] Patients API response: {"data":[{"age":2,"animalType":"Hámster","breed":"raza","client_id":10,"color":"color","diseases":"alergias peek hijo juan","id":19,"lastVisit":null,"medicalHistory":"historial peek hijo juan","name":"el peek juan","ownerAddress":"dir hijo","ownerEmail":"juan@hijo.com","ownerName":"juan hijo pruebas","ownerPhone":"1349809898","sex":"Macho","species_id":5,"weight":"20.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":2,"color":"Negro","diseases":"aa","id":18,"lastVisit":null,"medicalHistory":"aa","name":"Peek cris 2","ownerAddress":"ffaafas","ownerEmail":"cris@a122dminvet.com","ownerName":"Cris 2 cliente up","ownerPhone":"3131313122","sex":"Hembra","species_id":3,"weight":"20.00"},{"age":2,"animalType":"Hámster","breed":"zz","client_id":7,"color":"zz","diseases":"as","id":16,"lastVisit":null,"medicalHistory":null,"name":"zz","ownerAddress":"as","ownerEmail":"nuevo@gmail.com","ownerName":"Cliente nuevo","ownerPhone":"1112211212","sex":"Macho","species_id":5,"weight":"2.00"},{"age":2,"animalType":"Hámster","breed":"fa","client_id":4,"color":"fa","diseases":"fafafa","id":15,"lastVisit":null,"medicalHistory":null,"name":"fafa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":5,"weight":"2.00"},{"age":1,"animalType":"Conejo","breed":"Golden","client_id":6,"color":"Negro","diseases":"a","id":14,"lastVisit":null,"medicalHistory":null,"name":"Peek2 22","ownerAddress":"aa","ownerEmail":"mail@12mail.com","ownerName":"cliente nuevo","ownerPhone":"3131231231","sex":"Macho","species_id":4,"weight":"1.00"},{"age":1,"animalType":"Ave","breed":"aaa","client_id":4,"color":null,"diseases":"aa","id":13,"lastVisit":null,"medicalHistory":"aa","name":"aaaaa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":5,"color":null,"diseases":"fa","id":12,"lastVisit":null,"medicalHistory":"fa","name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"20.00"},{"age":1,"animalType":"Ave","breed":"a","client_id":5,"color":"a","diseases":"aa","id":11,"lastVisit":null,"medicalHistory":null,"name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":1,"animalType":"Conejo","breed":"f","client_id":3,"color":"f","diseases":null,"id":10,"lastVisit":null,"medicalHistory":null,"name":"f","ownerAddress":null,"ownerEmail":"cris@12adminvet.com","ownerName":"Cris Cliente 2","ownerPhone":"5512121212","sex":"Hembra","species_id":4,"weight":"1.00"}],"success":true}
+[29:52:36.776] Browser LOG     [v0] Patients loaded successfully: 9
+[29:52:37.893] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:52:37.894] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:52:50.229] Server  LOG      ✓ Compiled in 89ms
+[29:53:14.369] Server  LOG      ✓ Compiled in 94ms
+[29:53:15.787] Server  LOG      ✓ Compiled in 98ms
+[29:53:41.277] Server  LOG      ✓ Compiled in 98ms
+[29:53:46.207] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[29:53:46.283] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:53:46.303] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:53:46.323] Server  LOG     [v0] GET /api/patients - Request received
+[29:53:46.323] Server  LOG     [v0] Params: {}
+[29:53:46.433] Server  LOG     [v0] Found upcoming consultations: 4
+[29:53:46.441] Server  LOG     [v0] Fetching upcoming consultations for notifications: {}
+[29:53:46.446] Browser LOG     [v0] Fetching patients...
+[29:53:46.446] Browser LOG     [v0] Request params: {"clinicId":13,"userId":13}
+[29:53:46.446] Browser LOG     [v0] Fetching patients...
+[29:53:46.446] Browser LOG     [v0] Request params: {"clinicId":13,"userId":13}
+[29:53:46.446] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[29:53:46.446] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/consultas","route":"/consultas"}
+[29:53:46.446] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/consultas color: rgb(120, 120, 120) color: inherit {"dp":"/consultas","o":"http://localhost:3000/consultas","sdkn":"@vercel/analytics/next","sdkv":"1.5.0","sv":"0.1.3","ts":1764191242507}
+[29:53:46.467] Server  LOG     [v0] Clients fetched: 8
+[29:53:46.473] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:53:46.478] Server  LOG     [v0] Patients found: 9
+[29:53:46.486] Server  LOG     [v0] GET /api/patients - Request received
+[29:53:46.487] Server  LOG     [v0] Params: {}
+[29:53:46.516] Server  LOG     [v0] Found upcoming consultations: 4
+[29:53:46.550] Server  LOG     [v0] Clients fetched: 8
+[29:53:46.560] Server  LOG     [v0] Patients found: 9
+[29:53:46.669] Browser LOG     [v0] Patients API response: {"data":[{"age":2,"animalType":"Hámster","breed":"raza","client_id":10,"color":"color","diseases":"alergias peek hijo juan","id":19,"lastVisit":null,"medicalHistory":"historial peek hijo juan","name":"el peek juan","ownerAddress":"dir hijo","ownerEmail":"juan@hijo.com","ownerName":"juan hijo pruebas","ownerPhone":"1349809898","sex":"Macho","species_id":5,"weight":"20.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":2,"color":"Negro","diseases":"aa","id":18,"lastVisit":null,"medicalHistory":"aa","name":"Peek cris 2","ownerAddress":"ffaafas","ownerEmail":"cris@a122dminvet.com","ownerName":"Cris 2 cliente up","ownerPhone":"3131313122","sex":"Hembra","species_id":3,"weight":"20.00"},{"age":2,"animalType":"Hámster","breed":"zz","client_id":7,"color":"zz","diseases":"as","id":16,"lastVisit":null,"medicalHistory":null,"name":"zz","ownerAddress":"as","ownerEmail":"nuevo@gmail.com","ownerName":"Cliente nuevo","ownerPhone":"1112211212","sex":"Macho","species_id":5,"weight":"2.00"},{"age":2,"animalType":"Hámster","breed":"fa","client_id":4,"color":"fa","diseases":"fafafa","id":15,"lastVisit":null,"medicalHistory":null,"name":"fafa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":5,"weight":"2.00"},{"age":1,"animalType":"Conejo","breed":"Golden","client_id":6,"color":"Negro","diseases":"a","id":14,"lastVisit":null,"medicalHistory":null,"name":"Peek2 22","ownerAddress":"aa","ownerEmail":"mail@12mail.com","ownerName":"cliente nuevo","ownerPhone":"3131231231","sex":"Macho","species_id":4,"weight":"1.00"},{"age":1,"animalType":"Ave","breed":"aaa","client_id":4,"color":null,"diseases":"aa","id":13,"lastVisit":null,"medicalHistory":"aa","name":"aaaaa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":5,"color":null,"diseases":"fa","id":12,"lastVisit":null,"medicalHistory":"fa","name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"20.00"},{"age":1,"animalType":"Ave","breed":"a","client_id":5,"color":"a","diseases":"aa","id":11,"lastVisit":null,"medicalHistory":null,"name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":1,"animalType":"Conejo","breed":"f","client_id":3,"color":"f","diseases":null,"id":10,"lastVisit":null,"medicalHistory":null,"name":"f","ownerAddress":null,"ownerEmail":"cris@12adminvet.com","ownerName":"Cris Cliente 2","ownerPhone":"5512121212","sex":"Hembra","species_id":4,"weight":"1.00"}],"success":true}
+[29:53:46.669] Browser LOG     [v0] Patients loaded successfully: 9
+[29:53:46.669] Browser LOG     [v0] Patients API response: {"data":[{"age":2,"animalType":"Hámster","breed":"raza","client_id":10,"color":"color","diseases":"alergias peek hijo juan","id":19,"lastVisit":null,"medicalHistory":"historial peek hijo juan","name":"el peek juan","ownerAddress":"dir hijo","ownerEmail":"juan@hijo.com","ownerName":"juan hijo pruebas","ownerPhone":"1349809898","sex":"Macho","species_id":5,"weight":"20.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":2,"color":"Negro","diseases":"aa","id":18,"lastVisit":null,"medicalHistory":"aa","name":"Peek cris 2","ownerAddress":"ffaafas","ownerEmail":"cris@a122dminvet.com","ownerName":"Cris 2 cliente up","ownerPhone":"3131313122","sex":"Hembra","species_id":3,"weight":"20.00"},{"age":2,"animalType":"Hámster","breed":"zz","client_id":7,"color":"zz","diseases":"as","id":16,"lastVisit":null,"medicalHistory":null,"name":"zz","ownerAddress":"as","ownerEmail":"nuevo@gmail.com","ownerName":"Cliente nuevo","ownerPhone":"1112211212","sex":"Macho","species_id":5,"weight":"2.00"},{"age":2,"animalType":"Hámster","breed":"fa","client_id":4,"color":"fa","diseases":"fafafa","id":15,"lastVisit":null,"medicalHistory":null,"name":"fafa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":5,"weight":"2.00"},{"age":1,"animalType":"Conejo","breed":"Golden","client_id":6,"color":"Negro","diseases":"a","id":14,"lastVisit":null,"medicalHistory":null,"name":"Peek2 22","ownerAddress":"aa","ownerEmail":"mail@12mail.com","ownerName":"cliente nuevo","ownerPhone":"3131231231","sex":"Macho","species_id":4,"weight":"1.00"},{"age":1,"animalType":"Ave","breed":"aaa","client_id":4,"color":null,"diseases":"aa","id":13,"lastVisit":null,"medicalHistory":"aa","name":"aaaaa","ownerAddress":"fa","ownerEmail":"mail@mail.com","ownerName":"fa fa","ownerPhone":"1231312321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":4,"animalType":"Ave","breed":"Golden","client_id":5,"color":null,"diseases":"fa","id":12,"lastVisit":null,"medicalHistory":"fa","name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"20.00"},{"age":1,"animalType":"Ave","breed":"a","client_id":5,"color":"a","diseases":"aa","id":11,"lastVisit":null,"medicalHistory":null,"name":"a","ownerAddress":"fa","ownerEmail":"mail@2mail.com","ownerName":"pruebas pruebas","ownerPhone":"1231321321","sex":"Macho","species_id":3,"weight":"1.00"},{"age":1,"animalType":"Conejo","breed":"f","client_id":3,"color":"f","diseases":null,"id":10,"lastVisit":null,"medicalHistory":null,"name":"f","ownerAddress":null,"ownerEmail":"cris@12adminvet.com","ownerName":"Cris Cliente 2","ownerPhone":"5512121212","sex":"Hembra","species_id":4,"weight":"1.00"}],"success":true}
+[29:53:46.669] Browser LOG     [v0] Patients loaded successfully: 9
+[29:53:47.729] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:53:47.729] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:53:50.688] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:53:50.763] Server  LOG     [v0] Clients fetched: 8
+[29:53:50.952] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:53:50.952] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:53:55.455] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:53:55.455] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:54:41.238] Server  LOG     [v0] Creating client: {}
+[29:54:41.700] Server  LOG     [v0] Client created successfully: 11
+[29:54:41.711] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:54:41.864] Server  LOG     [v0] Clients fetched: 9
+[29:55:02.170] Server  LOG     [v0] POST /api/patients - Request received
+[29:55:02.171] Server  LOG     [v0] Request body: {}
+[29:55:02.342] Server  LOG     [v0] Insert result: {}
+[29:55:02.492] Server  LOG     [v0] New patient created: {}
+[29:55:08.505] Server  LOG     [v0] GET /api/patients - Request received
+[29:55:08.505] Server  LOG     [v0] Params: {}
+[29:55:08.661] Server  LOG     [v0] Patients found: 1
+[29:55:15.097] Server  LOG     [v0] Fetching clients for user: "13" "clinic:" "13"
+[29:55:15.174] Server  LOG     [v0] Clients fetched: 9
+[29:55:15.208] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:55:15.209] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:55:24.526] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:55:24.526] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[29:55:39.392] Browser WARN    Select is changing from uncontrolled to controlled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.
+[29:55:52.821] Server  LOG     Creating consultation with data: {}
+[29:55:53.579] Browser LOG     [v0] New consultation created: {"clientId":11,"clientName":"Cliente alta consultas","clinicId":13,"cost":"1200.00","date":"2025-11-29T06:00:00.000Z","diagnosis":"f","id":10,"notes":"f","patientId":20,"patientName":"peek alta consultas","reason":"f","status":"En Proceso","treatment":"f","userId":13,"veterinarian":"a","veterinarianId":14}
+[29:55:53.579] Browser WARN    Select is changing from controlled to uncontrolled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.
+[29:55:53.579] Browser WARN    Select is changing from uncontrolled to controlled. Components should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled value for the lifetime of the component.

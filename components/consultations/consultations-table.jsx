@@ -45,8 +45,11 @@ export function ConsultationsTable({ consultations, onEdit, onDelete }) {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {consultations.map((consultation) => (
-                <tr key={consultation.id} className="hover:bg-muted/30 transition-colors">
+              {consultations.map((consultation, index) => (
+                <tr
+                  key={`consultation-${consultation.id}-${consultation.date}`}
+                  className="hover:bg-muted/30 transition-colors"
+                >
                   <td className="px-4 py-3 text-sm font-mono text-muted-foreground">{consultation.id}</td>
                   <td className="px-4 py-3">
                     <p className="text-sm">{new Date(consultation.date).toLocaleDateString("es-MX")}</p>
@@ -96,8 +99,11 @@ export function ConsultationsTable({ consultations, onEdit, onDelete }) {
 
       {/* Mobile Card View */}
       <div className="md:hidden space-y-4">
-        {consultations.map((consultation) => (
-          <div key={consultation.id} className="border rounded-lg p-4 space-y-3 bg-card">
+        {consultations.map((consultation, index) => (
+          <div
+            key={`consultation-mobile-${consultation.id}-${consultation.date}`}
+            className="border rounded-lg p-4 space-y-3 bg-card"
+          >
             <div className="flex items-start justify-between">
               <div className="space-y-1">
                 <p className="font-medium">{consultation.patientName}</p>
