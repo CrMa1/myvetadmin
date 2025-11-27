@@ -33,7 +33,7 @@ export function Navbar() {
             <div className="rounded-lg bg-primary p-2">
               <PawPrint className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="text-foreground">VetSystem</span>
+            <span className="text-foreground">MyVetAdmin</span>
           </Link>
 
           {/* Desktop Navigation */}

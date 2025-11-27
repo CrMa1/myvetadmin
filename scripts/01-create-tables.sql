@@ -481,6 +481,27 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- La exportación de datos fue deseleccionada.
 
+-- Tabla para guardar las solicitudes de contacto de la landing page
+CREATE TABLE IF NOT EXISTS `contact_requests` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `subject` varchar(300) NOT NULL,
+  `message` text NOT NULL,
+  `status` enum('Nuevo','En Proceso','Resuelto','Cerrado') DEFAULT 'Nuevo',
+  `notes` text DEFAULT NULL COMMENT 'Notas internas del seguimiento',
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `idx_email` (`email`),
+  KEY `idx_status` (`status`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;

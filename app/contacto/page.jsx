@@ -32,20 +32,32 @@ export default function ContactoPage() {
     setSubmitStatus(null)
 
     try {
-      // Simulate form submission
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      console.log("[v0] Contact form submitted:", formData)
-
-      setSubmitStatus("success")
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: "",
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setSubmitStatus("success")
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+        })
+        setTimeout(() => {
+          setSubmitStatus(null)
+        }, 3000);
+      } else {
+        setSubmitStatus("error")
+      }
     } catch (error) {
-      console.error("[v0] Error submitting form:", error)
       setSubmitStatus("error")
     } finally {
       setIsSubmitting(false)
@@ -54,7 +66,7 @@ export default function ContactoPage() {
 
   const handleWhatsAppClick = () => {
     const phoneNumber = "525512345678" // Número sin espacios ni símbolos
-    const message = encodeURIComponent("Hola, me gustaría obtener más información sobre VetSystem.")
+    const message = encodeURIComponent("Hola, me gustaría obtener más información sobre MyVetAdmin.")
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank")
   }
 
@@ -86,8 +98,8 @@ export default function ContactoPage() {
                   <p className="text-sm text-muted-foreground mb-2">
                     Envíanos un correo para consultas generales o soporte técnico
                   </p>
-                  <a href="mailto:soporte@vetsystem.com" className="text-primary hover:underline font-medium">
-                    soporte@vetsystem.com
+                  <a href="mailto:soporte@myvetadmin.com" className="text-primary hover:underline font-medium">
+                    soporte@myvetadmin.com
                   </a>
                 </div>
               </CardContent>
@@ -151,7 +163,7 @@ export default function ContactoPage() {
                     </p>
                   </div>
                 </div>
-                <Button onClick={handleWhatsAppClick} className="w-full bg-secondary hover:bg-secondary/90" size="lg">
+                <Button onClick={handleWhatsAppClick} className="w-full" size="lg">
                   <MessageCircle className="mr-2 h-5 w-5" />
                   Abrir WhatsApp
                 </Button>
@@ -232,7 +244,7 @@ export default function ContactoPage() {
                   </div>
 
                   {submitStatus === "success" && (
-                    <div className="rounded-lg bg-secondary/10 border border-secondary p-4 text-sm text-secondary">
+                    <div className="rounded-lg bg-primary/10 border border-primary p-4 text-sm text-primary">
                       ¡Mensaje enviado exitosamente! Te responderemos pronto.
                     </div>
                   )}

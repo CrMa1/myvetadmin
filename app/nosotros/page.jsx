@@ -75,7 +75,7 @@ export default function NosotrosPage() {
             Transformando la Gestión Veterinaria
           </h1>
           <p className="text-lg text-muted-foreground text-pretty leading-relaxed mb-8">
-            VetSystem nació de la necesidad real de veterinarios que buscaban una solución integral, moderna y fácil de
+            MyVetAdmin nació de la necesidad real de veterinarios que buscaban una solución integral, moderna y fácil de
             usar para administrar sus clínicas. Hoy somos la plataforma de confianza para cientos de profesionales en
             toda Latinoamérica.
           </p>
@@ -112,7 +112,7 @@ export default function NosotrosPage() {
         {/* Por qué elegirnos */}
         <div className="mb-20">
           <div className="mx-auto max-w-3xl text-center mb-12">
-            <h2 className="text-3xl font-bold text-balance text-foreground mb-4">¿Por Qué Elegir VetSystem?</h2>
+            <h2 className="text-3xl font-bold text-balance text-foreground mb-4">¿Por Qué Elegir MyVetAdmin?</h2>
             <p className="text-lg text-muted-foreground text-pretty">
               No somos solo software, somos tu aliado en el crecimiento de tu clínica veterinaria
             </p>
@@ -137,7 +137,7 @@ export default function NosotrosPage() {
             </div>
             <h2 className="text-3xl font-bold text-balance text-foreground mb-4">Lo Que Dicen Nuestros Clientes</h2>
             <p className="text-lg text-muted-foreground text-pretty">
-              Miles de veterinarios confían en VetSystem para administrar sus clínicas
+              Miles de veterinarios confían en MyVetAdmin para administrar sus clínicas
             </p>
           </div>
 

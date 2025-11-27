@@ -14,7 +14,7 @@ export function Footer() {
               <div className="rounded-lg bg-primary p-2">
                 <PawPrint className="h-5 w-5 text-primary-foreground" />
               </div>
-              <span>VetSystem</span>
+              <span>MyVetAdmin</span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
               La solución completa para la administración de clínicas veterinarias. Gestiona pacientes, consultas,
@@ -122,7 +122,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {currentYear} VetSystem. Todos los derechos reservados.</p>
+          <p>&copy; {currentYear} MyVetAdmin. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>

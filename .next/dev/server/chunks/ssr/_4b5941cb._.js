@@ -78,7 +78,7 @@ function Navbar() {
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     className: "text-foreground",
-                                    children: "VetSystem"
+                                    children: "MyVetAdmin"
                                 }, void 0, false, {
                                     fileName: "[project]/components/landing/navbar.jsx",
                                     lineNumber: 36,
@@ -269,7 +269,7 @@ function Footer() {
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            children: "VetSystem"
+                                            children: "MyVetAdmin"
                                         }, void 0, false, {
                                             fileName: "[project]/components/landing/footer.jsx",
                                             lineNumber: 17,
@@ -623,7 +623,7 @@ function Footer() {
                         children: [
                             "© ",
                             currentYear,
-                            " VetSystem. Todos los derechos reservados."
+                            " MyVetAdmin. Todos los derechos reservados."
                         ]
                     }, void 0, true, {
                         fileName: "[project]/components/landing/footer.jsx",
@@ -1041,7 +1041,7 @@ function NosotrosPage() {
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 className: "text-lg text-muted-foreground text-pretty leading-relaxed mb-8",
-                                children: "VetSystem nació de la necesidad real de veterinarios que buscaban una solución integral, moderna y fácil de usar para administrar sus clínicas. Hoy somos la plataforma de confianza para cientos de profesionales en toda Latinoamérica."
+                                children: "MyVetAdmin nació de la necesidad real de veterinarios que buscaban una solución integral, moderna y fácil de usar para administrar sus clínicas. Hoy somos la plataforma de confianza para cientos de profesionales en toda Latinoamérica."
                             }, void 0, false, {
                                 fileName: "[project]/app/nosotros/page.jsx",
                                 lineNumber: 77,
@@ -1156,7 +1156,7 @@ function NosotrosPage() {
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                                         className: "text-3xl font-bold text-balance text-foreground mb-4",
-                                        children: "¿Por Qué Elegir VetSystem?"
+                                        children: "¿Por Qué Elegir MyVetAdmin?"
                                     }, void 0, false, {
                                         fileName: "[project]/app/nosotros/page.jsx",
                                         lineNumber: 115,
@@ -1246,7 +1246,7 @@ function NosotrosPage() {
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                         className: "text-lg text-muted-foreground text-pretty",
-                                        children: "Miles de veterinarios confían en VetSystem para administrar sus clínicas"
+                                        children: "Miles de veterinarios confían en MyVetAdmin para administrar sus clínicas"
                                     }, void 0, false, {
                                         fileName: "[project]/app/nosotros/page.jsx",
                                         lineNumber: 139,
