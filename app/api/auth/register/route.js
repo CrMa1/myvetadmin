@@ -10,6 +10,7 @@ export async function POST(request) {
       email: body.email,
       phone: body.phone,
       hasClinicData: !!body.clinicName,
+      selectedPlan: body.planId, // Agregar plan seleccionado
     })
 
     if (!body.clinicName || !body.clinicAddress || !body.clinicPhone) {
@@ -31,20 +32,23 @@ export async function POST(request) {
 
     const hashedPassword = await bcrypt.hash(body.password, 10)
 
+    const planId = body.planId || 1 // Default plan básico
+
     const userResult = await query(
-      `INSERT INTO users (name, email, password, role, phone) 
-       VALUES (?, ?, ?, ?, ?)`,
+      `INSERT INTO users (name, email, password, role, plan_id, phone) 
+       VALUES (?, ?, ?, ?, ?, ?)`,
       [
         `${body.firstName || ""} ${body.lastName || ""}`.trim() || body.name,
         body.email,
         hashedPassword,
         body.role || "admin",
+        planId,
         body.phone || "",
       ],
     )
 
     const userId = userResult.insertId
-    console.log("[v0] User created with ID:", userId)
+    console.log("[v0] User created with ID:", userId, "Plan:", planId)
 
     const clinicResult = await query(
       `INSERT INTO clinics (user_id, name, address, phone, email, city, state, postal_code) 
@@ -63,7 +67,15 @@ export async function POST(request) {
 
     console.log("[v0] Clinic created with ID:", clinicResult.insertId)
 
-    const newUsers = await query("SELECT id, name, email, role, phone, created_at FROM users WHERE id = ?", [userId])
+    const planLimits = await query("SELECT * FROM plan_limits WHERE plan_id = ?", [planId])
+    const planFeatures = await query(
+      "SELECT feature_code, feature_name, is_enabled FROM plan_features WHERE plan_id = ?",
+      [planId],
+    )
+
+    const newUsers = await query("SELECT id, name, email, role, plan_id, phone, created_at FROM users WHERE id = ?", [
+      userId,
+    ])
     const newClinics = await query("SELECT * FROM clinics WHERE id = ?", [clinicResult.insertId])
 
     return NextResponse.json({
@@ -71,6 +83,8 @@ export async function POST(request) {
       data: {
         ...newUsers[0],
         clinic: newClinics[0],
+        planLimits: planLimits[0] || null,
+        planFeatures: planFeatures || [],
       },
       message: "Registro exitoso",
     })

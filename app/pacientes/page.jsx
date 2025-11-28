@@ -9,6 +9,7 @@ import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
 import { PatientModal } from "@/components/patients/patient-modal"
+import { PlanLimitModal } from "@/components/modals/plan-limit-modal"
 
 export default function PatientsPage() {
   const { user, selectedClinic, getUserId, getClinicId } = useAuth()
@@ -34,6 +35,8 @@ export default function PatientsPage() {
     allergies: "",
   })
   const [formErrors, setFormErrors] = useState({})
+  const [planLimitInfo, setPlanLimitInfo] = useState(null)
+  const [showPlanLimitModal, setShowPlanLimitModal] = useState(false)
 
   useEffect(() => {
     if (getUserId() && getClinicId()) {
@@ -141,6 +144,20 @@ export default function PatientsPage() {
     setFilteredPatients(filtered)
   }
 
+  const handleFetchPatientsSuccess = async () => {
+    await fetchPatients()
+  }
+
+  const interceptPatientError = (result) => {
+    if (result.limitExceeded) {
+      setPlanLimitInfo(result.limitInfo)
+      setShowPlanLimitModal(true)
+      setIsModalOpen(false)
+    } else {
+      showError(result.error || "Error al guardar el paciente")
+    }
+  }
+
   if (loading) {
     return <LoadingPage message="Cargando pacientes..." />
   }
@@ -167,8 +184,15 @@ export default function PatientsPage() {
       <PatientModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
-        onSuccess={fetchPatients}
+        onSuccess={handleFetchPatientsSuccess}
+        onError={interceptPatientError}
         patient={editingPatient}
+      />
+
+      <PlanLimitModal
+        isOpen={showPlanLimitModal}
+        onClose={() => setShowPlanLimitModal(false)}
+        limitInfo={planLimitInfo}
       />
     </div>
   )

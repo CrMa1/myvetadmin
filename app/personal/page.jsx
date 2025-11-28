@@ -11,6 +11,7 @@ import { useAlertToast } from "@/components/ui/alert-toast"
 import { Users, Stethoscope, UserCheck, DollarSign } from "lucide-react"
 import { formatCurrency } from "@/lib/currency"
 import { StaffModal } from "@/components/staff/staff-modal"
+import { PlanLimitModal } from "@/components/modals/plan-limit-modal"
 
 export default function StaffPage() {
   const { user, selectedClinic, getUserId, getClinicId } = useAuth()
@@ -23,6 +24,8 @@ export default function StaffPage() {
   const [editingStaff, setEditingStaff] = useState(null)
   const [activeFilter, setActiveFilter] = useState(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [planLimitInfo, setPlanLimitInfo] = useState(null)
+  const [showPlanLimitModal, setShowPlanLimitModal] = useState(false)
 
   useEffect(() => {
     if (user && selectedClinic) {
@@ -143,10 +146,16 @@ export default function StaffPage() {
         setEditingStaff(null)
         await fetchStaff()
       } else {
-        if (setApiError) {
-          setApiError(result.error || "Error al guardar el empleado")
+        if (result.limitExceeded) {
+          setPlanLimitInfo(result.limitInfo)
+          setShowPlanLimitModal(true)
+          setIsDialogOpen(false)
         } else {
-          showError(result.error || "Error al guardar el empleado")
+          if (setApiError) {
+            setApiError(result.error || "Error al guardar el empleado")
+          } else {
+            showError(result.error || "Error al guardar el empleado")
+          }
         }
       }
     } catch (error) {
@@ -248,6 +257,12 @@ export default function StaffPage() {
         positions={positions}
         onSubmit={handleSubmit}
         isSubmitting={isSubmitting}
+      />
+
+      <PlanLimitModal
+        isOpen={showPlanLimitModal}
+        onClose={() => setShowPlanLimitModal(false)}
+        limitInfo={planLimitInfo}
       />
     </div>
   )

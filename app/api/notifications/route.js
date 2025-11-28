@@ -24,7 +24,7 @@ export async function GET(request) {
       FROM consultations c
       INNER JOIN patients p ON c.patient_id = p.id
       INNER JOIN clients cl ON p.client_id = cl.id
-      INNER JOIN users u ON c.veterinarian_id = u.id
+      INNER JOIN staff u ON c.veterinarian_id = u.id
       WHERE c.user_id = ? 
         AND c.clinic_id = ?
         AND c.consultation_date >= CURDATE()

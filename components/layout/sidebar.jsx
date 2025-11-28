@@ -1,28 +1,50 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from 'next/navigation'
+import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { clinicConfig } from "@/lib/config"
-import { LayoutDashboard, Dog, Stethoscope, Calculator, Package, Menu, X, ClipboardList, UserCircle, ShoppingCart, Building2, UserCheck } from 'lucide-react'
+import {
+  LayoutDashboard,
+  Dog,
+  Stethoscope,
+  Calculator,
+  Package,
+  Menu,
+  X,
+  ClipboardList,
+  UserCircle,
+  ShoppingCart,
+  Building2,
+  UserCheck,
+  Receipt,
+} from "lucide-react"
 import { useState } from "react"
+import { usePlanFeatures } from "@/hooks/use-plan-features"
+import { MODULES, hasModuleAccess } from "@/lib/plan-manager"
 
 const navigation = [
-  { name: "Dashboard", href: "/", icon: LayoutDashboard },
-  { name: "Vender", href: "/vender", icon: ShoppingCart },
-  { name: "Clientes", href: "/clientes", icon: UserCheck },
-  { name: "Pacientes", href: "/pacientes", icon: Dog },
-  { name: "Consultas", href: "/consultas", icon: ClipboardList },
-  { name: "Personal", href: "/personal", icon: Stethoscope },
-  { name: "Contabilidad", href: "/contabilidad", icon: Calculator },
-  { name: "Inventario", href: "/inventario", icon: Package },
-  { name: "Consultorios", href: "/consultorios", icon: Building2 },
-  { name: "Mi Perfil", href: "/perfil", icon: UserCircle },
+  { name: "Dashboard", href: "/", icon: LayoutDashboard, module: MODULES.DASHBOARD },
+  { name: "Vender", href: "/vender", icon: ShoppingCart, module: MODULES.SELL },
+  { name: "Clientes", href: "/clientes", icon: UserCheck, module: MODULES.CLIENTS },
+  { name: "Pacientes", href: "/pacientes", icon: Dog, module: MODULES.PATIENTS },
+  { name: "Consultas", href: "/consultas", icon: ClipboardList, module: MODULES.CONSULTATIONS },
+  { name: "Personal", href: "/personal", icon: Stethoscope, module: MODULES.STAFF },
+  { name: "Contabilidad", href: "/contabilidad", icon: Calculator, module: MODULES.ACCOUNTING },
+  { name: "Inventario", href: "/inventario", icon: Package, module: MODULES.INVENTORY },
+  { name: "Consultorios", href: "/consultorios", icon: Building2, module: MODULES.CLINICS },
+  { name: "Mis Compras", href: "/compras", icon: Receipt, module: MODULES.PURCHASES },
+  { name: "Mi Perfil", href: "/perfil", icon: UserCircle, module: MODULES.PROFILE },
 ]
 
 export function Sidebar() {
   const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { planFeatures, loading } = usePlanFeatures()
+  const availableNavigation = navigation.filter((item) => {
+    //if (loading || !planFeatures) return true // Show all while loading
+    return hasModuleAccess(planFeatures, item.module)
+  })
 
   return (
     <>
@@ -60,7 +82,7 @@ export function Sidebar() {
 
           {/* Navigation */}
           <nav className="flex-1 p-4 space-y-2">
-            {navigation.map((item) => {
+            {availableNavigation.map((item) => {
               const isActive = pathname === item.href
               return (
                 <Link

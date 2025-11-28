@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
+import { PlanLimitModal } from "@/components/modals/plan-limit-modal"
 
 export default function ClinicsPage() {
   const { user, selectedClinic, selectClinic, getUserId } = useAuth()
@@ -31,6 +32,8 @@ export default function ClinicsPage() {
     postalCode: "",
     description: "",
   })
+  const [planLimitInfo, setPlanLimitInfo] = useState(null)
+  const [showPlanLimitModal, setShowPlanLimitModal] = useState(false)
 
   useEffect(() => {
     const userId = getUserId()
@@ -155,7 +158,13 @@ export default function ClinicsPage() {
         setIsDialogOpen(false)
         await fetchClinics()
       } else {
-        setApiError(result.error || "Error al guardar el consultorio")
+        if (result.limitExceeded) {
+          setPlanLimitInfo(result.limitInfo)
+          setShowPlanLimitModal(true)
+          setIsDialogOpen(false)
+        } else {
+          setApiError(result.error || "Error al guardar el consultorio")
+        }
       }
     } catch (error) {
       console.error("Error saving clinic:", error)
@@ -394,6 +403,12 @@ export default function ClinicsPage() {
           </form>
         </DialogContent>
       </Dialog>
+
+      <PlanLimitModal
+        isOpen={showPlanLimitModal}
+        onClose={() => setShowPlanLimitModal(false)}
+        limitInfo={planLimitInfo}
+      />
     </div>
   )
 }

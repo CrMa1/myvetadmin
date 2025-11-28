@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
+import { checkPlanLimit } from "@/lib/plan-limits-validator"
 
 export async function GET(request) {
   try {
@@ -71,9 +72,24 @@ export async function POST(request) {
 
     if (!body.userId || !body.clinicId || !body.clientId) {
       console.log("[v0] Missing required fields")
+      return NextResponse.json({ success: false, error: "userId, clinicId y clientId son requeridos" }, { status: 400 })
+    }
+
+    const limitCheck = await checkPlanLimit(body.userId, "patients", body.clinicId)
+    if (!limitCheck.allowed) {
       return NextResponse.json(
-        { success: false, error: "userId, clinicId y clientId son requeridos" },
-        { status: 400 },
+        {
+          success: false,
+          error: "Límite de plan alcanzado",
+          limitExceeded: true,
+          limitInfo: {
+            resourceType: "patients",
+            current: limitCheck.current,
+            limit: limitCheck.limit,
+            planName: limitCheck.planName,
+          },
+        },
+        { status: 403 },
       )
     }
 
@@ -137,10 +153,7 @@ export async function PUT(request) {
     const body = await request.json()
 
     if (!body.userId || !body.clinicId || !body.clientId) {
-      return NextResponse.json(
-        { success: false, error: "userId, clinicId y clientId son requeridos" },
-        { status: 400 },
-      )
+      return NextResponse.json({ success: false, error: "userId, clinicId y clientId son requeridos" }, { status: 400 })
     }
 
     await query(

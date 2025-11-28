@@ -11,6 +11,7 @@ import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
 import { Package, AlertTriangle, DollarSign, TrendingUp } from "lucide-react"
 import { formatCurrency } from "@/lib/currency"
+import { PlanLimitModal } from "@/components/modals/plan-limit-modal"
 
 export default function InventoryPage() {
   const { getUserId, getClinicId } = useAuth()
@@ -22,6 +23,8 @@ export default function InventoryPage() {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [editingItem, setEditingItem] = useState(null)
   const [activeFilter, setActiveFilter] = useState(null)
+  const [planLimitInfo, setPlanLimitInfo] = useState(null)
+  const [showPlanLimitModal, setShowPlanLimitModal] = useState(false)
 
   useEffect(() => {
     const userId = getUserId()
@@ -133,7 +136,13 @@ export default function InventoryPage() {
         setEditingItem(null)
         await fetchInventory()
       } else {
-        showError(result.error || "Error al guardar el producto")
+        if (result.limitExceeded) {
+          setPlanLimitInfo(result.limitInfo)
+          setShowPlanLimitModal(true)
+          setIsFormOpen(false)
+        } else {
+          showError(result.error || "Error al guardar el producto")
+        }
       }
     } catch (error) {
       console.error("Error saving item:", error)
@@ -243,6 +252,12 @@ export default function InventoryPage() {
         onSave={handleSave}
         item={editingItem}
         categories={categories}
+      />
+
+      <PlanLimitModal
+        isOpen={showPlanLimitModal}
+        onClose={() => setShowPlanLimitModal(false)}
+        limitInfo={planLimitInfo}
       />
     </div>
   )

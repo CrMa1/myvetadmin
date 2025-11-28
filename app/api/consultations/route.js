@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
+import { checkPlanLimit } from "@/lib/plan-limits-validator"
 
 export async function GET(request) {
   try {
@@ -52,6 +53,25 @@ export async function POST(request) {
     if (!data.userId || !data.clinicId) {
       return NextResponse.json({ success: false, error: "userId y clinicId son requeridos" }, { status: 400 })
     }
+
+    const limitCheck = await checkPlanLimit(data.userId, "consultations", data.clinicId)
+    if (!limitCheck.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Límite de plan alcanzado",
+          limitExceeded: true,
+          limitInfo: {
+            resourceType: "consultations",
+            current: limitCheck.current,
+            limit: limitCheck.limit,
+            planName: limitCheck.planName,
+          },
+        },
+        { status: 403 },
+      )
+    }
+
     console.log("Creating consultation with data:", data)
     const result = await query(
       `INSERT INTO consultations 

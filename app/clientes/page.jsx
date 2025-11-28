@@ -9,6 +9,7 @@ import { ClientModal } from "@/components/clients/client-modal"
 import { useAuth } from "@/contexts/auth-context"
 import { LoadingPage } from "@/components/ui/loader"
 import { useAlertToast } from "@/components/ui/alert-toast"
+import { PlanLimitModal } from "@/components/modals/plan-limit-modal"
 
 export default function ClientsPage() {
   const { user, selectedClinic, getUserId, getClinicId } = useAuth()
@@ -21,6 +22,8 @@ export default function ClientsPage() {
   const [editingClient, setEditingClient] = useState(null)
   const [activeFilter, setActiveFilter] = useState(null)
   const [apiError, setApiError] = useState(null)
+  const [planLimitInfo, setPlanLimitInfo] = useState(null)
+  const [showPlanLimitModal, setShowPlanLimitModal] = useState(false)
 
   useEffect(() => {
     if (getUserId() && getClinicId()) {
@@ -121,7 +124,13 @@ export default function ClientsPage() {
         setIsDialogOpen(false)
         await fetchClients()
       } else {
-        setApiError(result.error || "Error al guardar el cliente")
+        if (result.limitExceeded) {
+          setPlanLimitInfo(result.limitInfo)
+          setShowPlanLimitModal(true)
+          setIsDialogOpen(false)
+        } else {
+          setApiError(result.error || "Error al guardar el cliente")
+        }
       }
     } catch (error) {
       console.error("Error saving client:", error)
@@ -179,6 +188,12 @@ export default function ClientsPage() {
         editingClient={editingClient}
         clientStatuses={clientStatuses}
         apiError={apiError}
+      />
+
+      <PlanLimitModal
+        isOpen={showPlanLimitModal}
+        onClose={() => setShowPlanLimitModal(false)}
+        limitInfo={planLimitInfo}
       />
     </div>
   )

@@ -23,6 +23,7 @@ import { AddPatientModal } from "@/components/patients/add-patient-modal"
 import { parseCurrency } from "@/lib/currency"
 import { ConsultationsTable } from "@/components/consultations/consultations-table"
 import { ConsultationModal } from "@/components/consultations/consultation-modal"
+import { PlanLimitModal } from "@/components/modals/plan-limit-modal"
 
 export default function ConsultasPage() {
   const { user, selectedClinic, getUserId, getClinicId } = useAuth()
@@ -57,6 +58,8 @@ export default function ConsultasPage() {
   const [species, setSpecies] = useState([])
   const [formErrors, setFormErrors] = useState({})
   const [formApiError, setFormApiError] = useState("")
+  const [planLimitInfo, setPlanLimitInfo] = useState(null)
+  const [showPlanLimitModal, setShowPlanLimitModal] = useState(false)
 
   useEffect(() => {
     if (user && selectedClinic) {
@@ -277,12 +280,18 @@ export default function ConsultasPage() {
           body: JSON.stringify(consultationData),
         })
 
+        const result = await response.json()
+
         if (!response.ok) {
-          const error = await response.json()
-          throw new Error(error.error || "Error al crear la consulta")
+          if (result.limitExceeded) {
+            setPlanLimitInfo(result.limitInfo)
+            setShowPlanLimitModal(true)
+            setIsDialogOpen(false)
+            return
+          }
+          throw new Error(result.error || "Error al crear la consulta")
         }
 
-        const result = await response.json()
         console.log("[v0] New consultation created:", result.data)
         setConsultations([result.data, ...consultations])
         showSuccess("Consulta creada exitosamente")
@@ -562,6 +571,12 @@ export default function ConsultasPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <PlanLimitModal
+        isOpen={showPlanLimitModal}
+        onClose={() => setShowPlanLimitModal(false)}
+        limitInfo={planLimitInfo}
+      />
     </div>
   )
 }

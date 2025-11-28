@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
+import { checkPlanLimit } from "@/lib/plan-limits-validator"
 
 export async function GET(request) {
   try {
@@ -30,6 +31,24 @@ export async function POST(request) {
       return NextResponse.json({ success: false, error: "Datos incompletos" }, { status: 400 })
     }
 
+    const limitCheck = await checkPlanLimit(body.userId, "clinics")
+    if (!limitCheck.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Límite de plan alcanzado",
+          limitExceeded: true,
+          limitInfo: {
+            resourceType: "clinics",
+            current: limitCheck.current,
+            limit: limitCheck.limit,
+            planName: limitCheck.planName,
+          },
+        },
+        { status: 403 },
+      )
+    }
+
     const result = await query(
       `INSERT INTO clinics (user_id, name, address, phone, email, city, state, postal_code, description) 
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -41,7 +60,7 @@ export async function POST(request) {
         body.email || "",
         body.city || "",
         body.state || "",
-        body.postalCode ? body.postalCode.replace(/-/g, "") : "", // Convertir postalCode a snake_case
+        body.postalCode ? body.postalCode.replace(/-/g, "") : "",
         body.description || "",
       ],
     )
@@ -78,7 +97,7 @@ export async function PUT(request) {
         body.email || "",
         body.city || "",
         body.state || "",
-        body.postalCode ? body.postalCode.replace(/-/g, "") : "", // Convertir postalCode a snake_case
+        body.postalCode ? body.postalCode.replace(/-/g, "") : "",
         body.description || "",
         body.id,
         body.userId,

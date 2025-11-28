@@ -1,4 +1,5 @@
 import { query } from "@/lib/db"
+import { checkPlanLimit } from "@/lib/plan-limits-validator"
 
 export async function GET(request) {
   try {
@@ -45,11 +46,26 @@ export async function POST(request) {
       return Response.json({ success: false, error: "Campos requeridos faltantes" }, { status: 400 })
     }
 
+    const limitCheck = await checkPlanLimit(userId, "clients", clinicId)
+    if (!limitCheck.allowed) {
+      return Response.json(
+        {
+          success: false,
+          error: "Límite de plan alcanzado",
+          limitExceeded: true,
+          limitInfo: {
+            resourceType: "clients",
+            current: limitCheck.current,
+            limit: limitCheck.limit,
+            planName: limitCheck.planName,
+          },
+        },
+        { status: 403 },
+      )
+    }
+
     // Verificar si el teléfono ya existe en este consultorio
-    const existingPhone = await query(
-      "SELECT id FROM clients WHERE phone = ? AND clinic_id = ?",
-      [phone, clinicId]
-    )
+    const existingPhone = await query("SELECT id FROM clients WHERE phone = ? AND clinic_id = ?", [phone, clinicId])
 
     if (existingPhone.length > 0) {
       return Response.json({ success: false, error: "El teléfono ya está registrado" }, { status: 400 })
@@ -57,10 +73,7 @@ export async function POST(request) {
 
     // Si se proporciona email, verificar que no exista
     if (email) {
-      const existingEmail = await query(
-        "SELECT id FROM clients WHERE email = ? AND clinic_id = ?",
-        [email, clinicId]
-      )
+      const existingEmail = await query("SELECT id FROM clients WHERE email = ? AND clinic_id = ?", [email, clinicId])
 
       if (existingEmail.length > 0) {
         return Response.json({ success: false, error: "El email ya está registrado" }, { status: 400 })
@@ -104,21 +117,26 @@ export async function PUT(request) {
     }
 
     // Verificar que el teléfono no esté en uso por otro cliente
-    const existingPhone = await query(
-      "SELECT id FROM clients WHERE phone = ? AND clinic_id = ? AND id != ?",
-      [phone, clinicId, id]
-    )
+    const existingPhone = await query("SELECT id FROM clients WHERE phone = ? AND clinic_id = ? AND id != ?", [
+      phone,
+      clinicId,
+      id,
+    ])
 
     if (existingPhone.length > 0) {
-      return Response.json({ success: false, error: "El teléfono ya está registrado por otro cliente" }, { status: 400 })
+      return Response.json(
+        { success: false, error: "El teléfono ya está registrado por otro cliente" },
+        { status: 400 },
+      )
     }
 
     // Si se proporciona email, verificar que no esté en uso
     if (email) {
-      const existingEmail = await query(
-        "SELECT id FROM clients WHERE email = ? AND clinic_id = ? AND id != ?",
-        [email, clinicId, id]
-      )
+      const existingEmail = await query("SELECT id FROM clients WHERE email = ? AND clinic_id = ? AND id != ?", [
+        email,
+        clinicId,
+        id,
+      ])
 
       if (existingEmail.length > 0) {
         return Response.json({ success: false, error: "El email ya está registrado por otro cliente" }, { status: 400 })
@@ -131,17 +149,7 @@ export async function PUT(request) {
       WHERE id = ? AND user_id = ? AND clinic_id = ?
     `
 
-    await query(sql, [
-      firstName,
-      lastName,
-      phone,
-      email || null,
-      address || null,
-      statusId,
-      id,
-      userId,
-      clinicId,
-    ])
+    await query(sql, [firstName, lastName, phone, email || null, address || null, statusId, id, userId, clinicId])
 
     console.log("[v0] Client updated successfully")
 

@@ -38,8 +38,15 @@ export function AuthProvider({ children }) {
       const result = await response.json()
 
       if (result.success) {
-        setUser(result.data)
-        localStorage.setItem("user", JSON.stringify(result.data))
+        const userData = {
+          ...result.data,
+          planId: result.data.plan_id || result.data.planId,
+          planName: result.planInfo?.plan_name || result.data.planName,
+          sessionToken: result.sessionToken,
+        }
+
+        setUser(userData)
+        localStorage.setItem("user", JSON.stringify(userData))
 
         if (result.data.clinics && result.data.clinics.length > 0) {
           if (result.data.clinics.length === 1) {
@@ -60,6 +67,7 @@ export function AuthProvider({ children }) {
         return { success: false, error: result.error }
       }
     } catch (error) {
+      console.error("[v0] Login error:", error)
       return { success: false, error: "Error al iniciar sesión" }
     }
   }
@@ -75,8 +83,14 @@ export function AuthProvider({ children }) {
       const result = await response.json()
 
       if (result.success) {
-        setUser(result.data)
-        localStorage.setItem("user", JSON.stringify(result.data))
+        const userWithPlan = {
+          ...result.data,
+          planId: result.data.plan_id || result.data.planId,
+          planName: result.data.plan_name || result.data.planName,
+        }
+
+        setUser(userWithPlan)
+        localStorage.setItem("user", JSON.stringify(userWithPlan))
 
         if (result.data.clinic) {
           setSelectedClinic(result.data.clinic)
@@ -89,6 +103,7 @@ export function AuthProvider({ children }) {
         return { success: false, error: result.error }
       }
     } catch (error) {
+      console.error("[v0] Register error:", error)
       return { success: false, error: "Error al registrar usuario" }
     }
   }
@@ -101,7 +116,11 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      await fetch("/api/auth/logout", { method: "POST" })
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user?.id, sessionToken: user?.sessionToken }),
+      })
       setUser(null)
       setSelectedClinic(null)
       localStorage.removeItem("user")
@@ -115,6 +134,33 @@ export function AuthProvider({ children }) {
   const getUserId = () => user?.id || null
   const getClinicId = () => selectedClinic?.id || null
 
+  const refreshUser = async () => {
+    try {
+      if (!user?.id) return
+
+      const response = await fetch("/api/auth/me", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        if (result.success && result.data) {
+          const updatedUser = {
+            ...user,
+            ...result.data,
+            planId: result.data.plan_id || result.data.planId,
+            planName: result.data.plan_name || result.data.planName,
+          }
+          setUser(updatedUser)
+          localStorage.setItem("user", JSON.stringify(updatedUser))
+        }
+      }
+    } catch (error) {
+      console.error("[v0] Error refreshing user:", error)
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -127,6 +173,7 @@ export function AuthProvider({ children }) {
         selectClinic,
         getUserId,
         getClinicId,
+        refreshUser, // Export refreshUser function
       }}
     >
       {children}

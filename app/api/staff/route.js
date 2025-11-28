@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { query } from "@/lib/db"
+import { checkPlanLimit } from "@/lib/plan-limits-validator"
 
 export async function GET(request) {
   try {
@@ -46,11 +47,29 @@ export async function POST(request) {
       return NextResponse.json({ success: false, error: "userId y clinicId son requeridos" }, { status: 400 })
     }
 
-     // Verificar si el teléfono ya existe en este consultorio
-    const existingPhone = await query(
-      "SELECT id FROM staff WHERE phone = ? AND clinic_id = ?",
-      [body.phone, body.clinicId]
-    )
+    const limitCheck = await checkPlanLimit(body.userId, "staff", body.clinicId)
+    if (!limitCheck.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Límite de plan alcanzado",
+          limitExceeded: true,
+          limitInfo: {
+            resourceType: "staff",
+            current: limitCheck.current,
+            limit: limitCheck.limit,
+            planName: limitCheck.planName,
+          },
+        },
+        { status: 403 },
+      )
+    }
+
+    // Verificar si el teléfono ya existe en este consultorio
+    const existingPhone = await query("SELECT id FROM staff WHERE phone = ? AND clinic_id = ?", [
+      body.phone,
+      body.clinicId,
+    ])
 
     if (existingPhone.length > 0) {
       return Response.json({ success: false, error: "El teléfono ya está registrado" }, { status: 400 })
@@ -58,10 +77,10 @@ export async function POST(request) {
 
     // Si se proporciona email, verificar que no exista
     if (body.email) {
-      const existingEmail = await query(
-        "SELECT id FROM staff WHERE email = ? AND clinic_id = ?",
-        [body.email, body.clinicId]
-      )
+      const existingEmail = await query("SELECT id FROM staff WHERE email = ? AND clinic_id = ?", [
+        body.email,
+        body.clinicId,
+      ])
 
       if (existingEmail.length > 0) {
         return Response.json({ success: false, error: "El email ya está registrado" }, { status: 400 })
